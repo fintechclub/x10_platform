@@ -153,7 +153,7 @@
                 this.loginForm.error = '';
                 this.loginForm.busy = true;
                 axios.post('/auth/check-credentials', this.loginForm).then(response => {
-                    let status = response.status;
+                    let status = response.data.status;
                     if (status === 'success') {
                         window.location = '/dashboard';
                     } else {
