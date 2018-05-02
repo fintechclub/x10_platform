@@ -183,6 +183,9 @@ class AuthController extends Controller
             $user->token = '';
             $user->save();
 
+            // login user
+            Auth::login($user);
+
             return response()->json([
                 'status' => 'success',
                 'msg' => ''

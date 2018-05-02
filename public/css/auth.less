@@ -78,6 +78,17 @@ body {
     max-width: 250px;
     border-radius: 20px;
     text-transform: uppercase !important;
+    &.busy{
+      position: relative;
+      &:after {
+        content: '';
+        .loader;
+        display: inline-block;
+        position: absolute;
+        top: 9px;
+        right: 7px;
+      }
+    }
   }
 
   .btn-restore{
@@ -156,4 +167,37 @@ body {
 
 .recovery-block{
   border-right: 1px solid #373839;
+}
+
+.loader {
+  border: 2px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 2px solid #3498db;
+  width: 20px;
+  height: 20px;
+  -webkit-animation: spin 0.5s linear infinite; /* Safari */
+  animation: spin 0.5s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+[v-cloak] {
+  display: none;
 }

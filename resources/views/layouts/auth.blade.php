@@ -35,7 +35,7 @@
             </div>
             <a href="" class="btn-restore" @click.prevent="screen='restore'">Забыли пароль?</a> <br/>
             <button class="btn btn-primary mt-2 btn-block ml-auto mr-auto" @click="doLogin()"
-                    :disabled="!checkLoginForm() || loginForm.busy">Войти
+                    :disabled="!checkLoginForm() || loginForm.busy" :class="{busy: loginForm.busy}">Войти
             </button>
         </div>
 
@@ -53,7 +53,7 @@
 
             <a href="" class="btn-restore" @click.prevent="screen='login'">Уже вспомнили?</a> <br/>
             <button class="btn btn-primary mt-2 btn-block ml-auto mr-auto"
-                    @click="doRestore()"
+                    @click="doRestore()" :class="{busy: restoreForm.busy}"
                     :disabled="restoreForm.email.length==0 || restoreForm.busy"
             >Сбросить пароль
             </button>
@@ -83,7 +83,7 @@
                                placeholder="Повторите пароль" required="">
                     </div>
                     <button class="btn btn-primary mt-3 btn-block ml-auto mr-auto"
-                            @click="doActivate()"
+                            @click="doActivate()" :class="{busy: activateForm.busy}"
                             :disabled="!checkActivateForm() || activateForm.busy"
                     >Сохранить
                     </button>

@@ -8,8 +8,10 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
+          integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/styles.css?v={{env('APP_VER',time())}}"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&amp;subset=cyrillic" rel="stylesheet">
 
     <title>x10.fund dashboard</title>
 </head>
@@ -18,18 +20,18 @@
 <div>
     <div class="sidebar">
         <a href="/" class="logo">
-            <span>x10</span>.fund
+            <strong>x10</strong>.<span class="t-hide">fund</span>
         </a>
 
-        <ul class="list-unstyled">
+        <ul class="list-unstyled menu">
             <li class="{{Request::is('dashboard') ? 'active' : ''}}">
-                <a href=""><i class="fas fa-home"></i> Dashboard</a>
+                <a href="/dashboard"><i class="fas fa-home"></i> <span class="t-hide">Dashboard</span></a>
             </li>
             <li>
-                <a href=""><i class="fas fa-chart-bar"></i> Portfolio</a>
+                <a href="#"><i class="fas fa-chart-bar"></i> <span class="t-hide">Portfolio</span></a>
             </li>
             <li>
-                <a href=""><i class="fas fa-question"></i> FAQ</a>
+                <a href="#"><i class="fas fa-question"></i> <span class="t-hide">FAQ</span></a>
             </li>
         </ul>
     </div>
@@ -62,8 +64,28 @@
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
 @yield('scripts')
 
+<script>
+    $(function () {
+
+        if (Cookies.get('toggled') === 'true') {
+            $('.sidebar').addClass('toggled');
+            $('.page-container').addClass('main-toggled');
+        }
+
+        $('.sidebar-toggle').click(function () {
+            $('.sidebar').toggleClass('toggled');
+            $('.page-container').toggleClass('main-toggled');
+            if ($('.sidebar').hasClass('toggled')) {
+                Cookies.set('toggled', 'true');
+            } else {
+                Cookies.set('toggled', 'false');
+            }
+        });
+    })
+</script>
 </body>
 </html>

@@ -43,6 +43,9 @@ Route::group(['middleware' => []], function () {
     /* User */
     Route::get('/user/settings', 'UserController@getSettings');
     Route::post('/user/settings/personal/save', 'UserController@postSavePersonal');
+    /* Security section*/
+    Route::post('/user/settings/security/check-password', 'UserController@postCheckPassword');
+    Route::post('/user/settings/security/save-password', 'UserController@postSavePassword');
 });
 
 

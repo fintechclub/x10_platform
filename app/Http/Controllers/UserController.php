@@ -35,5 +35,37 @@ class UserController extends Controller
 
     }
 
+    /**
+     * Check current password
+     */
+    public function postCheckPassword(Request $request)
+    {
+
+        $credentials = [
+            'email' => \Auth::user()->email,
+            'password' => $request->password
+        ];
+
+        return response()->json([
+            'status' => \Auth::attempt($credentials) ? 'success' : 'fail'
+        ]);
+
+    }
+
+    /**
+     * Update user password
+     */
+    public function postSavePassword(Request $request)
+    {
+
+        $user = \Auth::user();
+
+        $user->password = \Hash::make($request->password);
+
+        return response()->json([
+            'status' => $user->save() ? 'success' : 'fail'
+        ]);
+
+    }
 
 }
