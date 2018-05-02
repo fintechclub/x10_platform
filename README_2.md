@@ -1,1 +1,0 @@
-# x10_platform
