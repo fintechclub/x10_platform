@@ -12,7 +12,6 @@
 */
 
 
-
 Route::get('/', function () {
 
     // check auth
@@ -31,6 +30,11 @@ Route::group(['middleware' => []], function () {
 
     /* Auth */
     Route::get('/auth', 'AuthController@getIndex')->name('login');
+    Route::get('/auth/logout', function () {
+        Auth::logout();
+        return redirect('/dashboard');
+    });
+
     Route::get('/auth/activate/{id}/{token}', 'AuthController@getIndex');
     Route::post('auth/check-credentials', 'AuthController@postCheckCredentials');
     Route::post('auth/restore-password', 'AuthController@postRestorePasswordRequest');
