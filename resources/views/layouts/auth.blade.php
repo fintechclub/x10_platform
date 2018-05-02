@@ -155,7 +155,7 @@
                 axios.post('/auth/check-credentials', this.loginForm).then(response => {
                     let status = response.status;
                     if (status === 'success') {
-                        window.location.href = '/dashboard';
+                        window.location = '/dashboard';
                     } else {
                         this.loginForm.error = response.data.msg;
                     }
@@ -187,7 +187,7 @@
                         this.screen = 'activate-success';
 
                         setTimeout(function () {
-                            window.location.href = '/dashboard';
+                            window.location = '/dashboard';
                         }, 3000);
 
                     }
