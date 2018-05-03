@@ -117,7 +117,7 @@ class AuthController extends Controller
             // return failed by default
             return response()->json([
                 'status' => 'failed',
-                'msg' => 'Wrong username/password'
+                'msg' => 'Логин либо пароль не верные'
             ]);
 
         }

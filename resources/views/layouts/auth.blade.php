@@ -8,29 +8,39 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&amp;subset=cyrillic" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/auth.css?v={{env('APP_VER',time())}}"/>
     <title>x10.fund</title>
 </head>
 <body>
 
+<div class="blur"></div>
+<div class="bg"></div>
+<div class="image"></div>
+<div class="back">
+    <div></div>
+</div>
+
 <div class="auth-form" id="auth">
-    <h1 class="text-center mb-4">
-        <span>X10</span>.fund</h1>
+    <div class="logo"></div>
     <div class="form-signin">
 
-        <div id="auth" v-if="screen=='login'">
+        <div id="auth" v-if="screen=='login'" :class="{error: loginForm.error.length>0}">
             <h2 class="mb-4 mt-2">Вход в личный кабинет</h2>
 
-            <p class="text-danger" v-if="loginForm.error.length>0">@{{ loginForm.error }}</p>
-            <div class="email">
-                <input type="email" v-model="loginForm.email" id="inputEmail" class="form-control mb-2"
+            <p class="text-danger error-msg" v-if="loginForm.error.length>0">@{{ loginForm.error }}</p>
+            <div class="email mb-2">
+                <input type="email" v-model="loginForm.email" id="inputEmail" class="form-control"
                        placeholder="Электронная почта"
                        required=""
+                       @keyup.enter="doLogin()"
                        autofocus="">
             </div>
             <div class="password">
-                <input type="password" v-model="loginForm.password" id="inputPassword" class="form-control"
+                <input type="password"
+                       v-model="loginForm.password"
+                       @keyup.enter="doLogin()"
+                       id="inputPassword" class="form-control"
                        placeholder="Пароль" required="">
             </div>
             <a href="" class="btn-restore" @click.prevent="screen='restore'">Забыли пароль?</a> <br/>
@@ -47,6 +57,7 @@
             <div class="email">
                 <input type="email" id="inputEmail" class="form-control mb-2" placeholder="Электронная почта"
                        required=""
+                       @keyup.enter="doRestore()"
                        v-model="restoreForm.email"
                        autofocus="">
             </div>
@@ -75,11 +86,17 @@
             <div class="row">
                 <div class="col-sm-6 recovery-block">
                     <div class="input-layer">
-                        <input type="password" v-model="activateForm.password" class="form-control"
+                        <input type="password"
+                               v-model="activateForm.password"
+                               @keyup.enter="doActivate()"
+                               class="form-control"
                                placeholder="Новый пароль" required="">
                     </div>
                     <div class="input-layer mt-3">
-                        <input type="password" v-model="activateForm.confirm" class="form-control"
+                        <input type="password"
+                               v-model="activateForm.confirm"
+                               @keyup.enter="doActivate()"
+                               class="form-control"
                                placeholder="Повторите пароль" required="">
                     </div>
                     <button class="btn btn-primary mt-3 btn-block ml-auto mr-auto"
@@ -150,6 +167,11 @@
         methods: {
             // login user with credentials
             doLogin() {
+
+                if (!this.checkLoginForm()) {
+                    return false;
+                }
+
                 this.loginForm.error = '';
                 this.loginForm.busy = true;
                 axios.post('/auth/check-credentials', this.loginForm).then(response => {
@@ -175,6 +197,10 @@
             },
             // activate new password
             doActivate(){
+
+                if (!this.checkActivateForm()) {
+                    return false;
+                }
 
                 this.activateForm.busy = true;
                 axios.post('/auth/activate-password', this.activateForm).then(response => {
