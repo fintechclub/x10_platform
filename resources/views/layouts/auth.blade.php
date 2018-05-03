@@ -14,12 +14,6 @@
 </head>
 <body>
 
-<div class="blur"></div>
-<div class="bg"></div>
-<div class="image"></div>
-<div class="back">
-    <div></div>
-</div>
 
 <div class="auth-form" id="auth">
     <div class="logo"></div>

@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Настройки</h1>
-
-    <div class="row" id="settings">
+    <div class="row settings" id="settings">
         <div class="col-sm-3">
             <div class="card">
                 <h5 class="card-header">Персональные данные</h5>
@@ -25,33 +23,43 @@
                     <div class="edit" v-if="editPersonal">
 
                         <div class="form-group">
+                            <label>Имя</label>
                             <input type="text" class="form-control" v-model="personal.name" placeholder="Имя"/>
                         </div>
 
                         <div class="form-group">
+                            <label>Фамилия</label>
                             <input type="text" class="form-control" v-model="personal.sname" placeholder="Фамилия"/>
                         </div>
 
                         <div class="form-group">
+                            <label>Дата рождения</label>
                             <input type="text" class="form-control" v-model="personal.date_birth"
                                    placeholder="Дата рождения"/>
                         </div>
 
                         <div class="form-group">
+                            <label>Телефон</label>
                             <input type="text" class="form-control" v-model="personal.phone" placeholder="Телефон"/>
                         </div>
 
                         <div class="form-group">
+                            <label>Email</label>
                             <input type="text" class="form-control" v-model="personal.email" placeholder="Email"/>
                         </div>
 
-                        <button class="btn btn-sm btn-default" @click="editPersonal=false">Отмена</button>
-                        <button class="btn btn-sm btn-primary" @click="savePersonal()">Сохранить</button>
+                        <div class="text-right">
+                            <button class="btn btn-sm btn-default" @click="editPersonal=false">Отмена</button>
+                            <button class="btn btn-sm btn-primary" @click="savePersonal()">Сохранить</button>
+                        </div>
 
                     </div>
 
-                    <a href="#" class="btn btn-default btn-sm" @click="editPersonal=true"
-                       v-if="!editPersonal">Изменить</a>
+                    <div class="text-right">
+                        <button href="#" class="btn btn-default btn-sm" @click="editPersonal=true"
+                                v-if="!editPersonal">Изменить
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -69,11 +77,14 @@
                         <div class="alert alert-warning" v-if="step1failed">
                             Неверный пароль
                         </div>
-                        <button class="btn btn-sm btn-default" @click="editSecurity=false">Отмена</button>
-                        <button class="btn btn-sm btn-primary"
-                                :class="{busy: security.busyStep1}"
-                                @click="checkCurrentPassword()">Далее
-                        </button>
+
+                        <div class="text-right">
+                            <button class="btn btn-sm btn-default" @click="editSecurity=false">Отмена</button>
+                            <button class="btn btn-sm btn-primary"
+                                    :class="{busy: security.busyStep1}"
+                                    @click="checkCurrentPassword()">Далее
+                            </button>
+                        </div>
                     </div>
 
                     <div class="step-1" v-if="editSecurity && step2">
@@ -96,19 +107,23 @@
                             <li :class="security.rules[0] ? 'success' : 'warning'">Пароли должны совпадать</li>
                         </ul>
 
-                        <button class="btn btn-sm btn-default" @click="editSecurity=false">Отмена</button>
-                        <button class="btn btn-sm btn-primary"
-                                :disabled="!checkPasswordForm()"
-                                :class="{busy: security.busyStep2}"
-                                @click="savePassword()">Сохранить
-                        </button>
+                        <div class="text-right">
+                            <button class="btn btn-sm btn-default" @click="editSecurity=false">Отмена</button>
+                            <button class="btn btn-sm btn-primary"
+                                    :disabled="!checkPasswordForm()"
+                                    :class="{busy: security.busyStep2}"
+                                    @click="savePassword()">Сохранить
+                            </button>
+                        </div>
                     </div>
 
                     <div class="step-2"></div>
 
-                    <button class="btn btn-sm btn-default" @click="editSecurity=true" v-if="!editSecurity">Изменить
-                        пароль
-                    </button>
+                    <div class="text-right">
+                        <button class="btn btn-sm btn-default" @click="editSecurity=true" v-if="!editSecurity">Изменить
+                            пароль
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -129,6 +144,7 @@
             </div>
         </div>
     </div>
+
 @endsection
 
 @section('scripts')
@@ -163,7 +179,9 @@
                 savePersonal(){
                     axios.post('/user/settings/personal/save', this.personal).then(response => {
                         this.editPersonal = false;
+                        this.notify('Персональные данные обновлены');
                     });
+
                 },
                 checkCurrentPassword(){
 
@@ -197,6 +215,7 @@
                             this.security.new_password = '';
                             this.security.confirm = '';
                             this.security.password = '';
+                            this.notify('Пароль успешно изменен');
                         }
 
                         this.security.busyStep2 = false;
@@ -252,6 +271,12 @@
                     this.step2 = false;
                     this.security.password = '';
 
+                },
+                notify(text){
+                    $.notify(text, {
+                        className: 'success',
+                        position: "right bottom"
+                    });
                 }
 
             }

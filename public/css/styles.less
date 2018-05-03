@@ -17,7 +17,7 @@
   color: @text-green;
 }
 
-body{
+body {
   font-family: 'Roboto', sans-serif;
 }
 
@@ -30,7 +30,9 @@ body{
   transition: all 0.1s ease-in;
   &.toggled {
     .logo {
-      padding: 10px 0;
+      width: 50px;
+      background-size: 94px;
+      background-position: left;
     }
     text-align: center;
     width: 80px;
@@ -84,16 +86,32 @@ body{
     }
   }
   .logo {
-    font-size: 22px;
-    font-weight: 500;
-    strong {
-      font-weight: 900;
-    }
-    padding: 10px 20px;
-    color: #fff;
+    width: 127px;
+    height: 50px;
+    background-image: url('/img/logo.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    margin: 0 auto;
     display: block;
-    text-align: center;
-    text-decoration: none;
+    background-size: contain;
+  }
+}
+
+.mobile-navbar{
+
+  .btn-link{
+    color: @white;
+  }
+
+  .logo {
+    height: 40px;
+    width: 95px;
+    background-image: url('/img/logo.png');
+    background-repeat: no-repeat;
+    margin: 0 auto;
+    display: block;
+    background-size: 94px;
+    background-position: left;
   }
 }
 
@@ -104,9 +122,18 @@ body {
 .page-container {
   transition: all 0.1s ease-in;
   padding-left: 230px;
+
+  @media only screen and (max-width: 450px) {
+    padding-left: 0 !important;
+    .main-content{
+      padding-left: 0 !important;
+    }
+  }
+
   &.main-toggled {
     padding-left: 80px;
   }
+
 }
 
 .header {
@@ -198,11 +225,69 @@ body {
   border-radius: 100%;
 }
 
-dt{
+dt {
   font-size: 12px;
   font-weight: 300;
 }
-dd{
+
+dd {
   font-size: 16px;
   font-weight: 500;
+}
+
+@bubble-success: #8BC24A;
+
+.bubble {
+  position: fixed;
+  bottom: 20px;
+  right: 40px;
+  &.success {
+    background: @bubble-success;
+    border-radius: 4px;
+    color: @white;
+    font-size: 14px;
+    padding: 15px 30px;
+    &:after {
+      border-top: 15px solid @bubble-success;
+    }
+  }
+  &:after {
+    position: absolute;
+    bottom: -10px;
+    right: 10px;
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+  }
+}
+
+.notifyjs-bootstrap-success {
+  background-image: none !important;
+  background: @bubble-success !important;
+  border-radius: 4px !important;
+  color: @white !important;
+  font-size: 14px !important;
+  padding: 15px 30px !important;
+  font-weight: 300 !important;
+  &:after {
+    border-top: 15px solid @bubble-success !important;
+    position: absolute;
+    bottom: -10px;
+    right: 10px;
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+  }
+}
+
+.settings {
+  .card {
+    margin-bottom: 15px;
+  }
 }
