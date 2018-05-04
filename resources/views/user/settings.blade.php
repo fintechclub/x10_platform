@@ -26,42 +26,40 @@
                             <div class="form-group">
                                 <label>Имя</label>
                                 <input type="text" class="form-control" v-model="personal.name" placeholder="Имя"
-                                       required/>
+                                       required maxlength="200"/>
                             </div>
 
                             <div class="form-group">
                                 <label>Фамилия</label>
                                 <input type="text"
                                        class="form-control" v-model="personal.sname" placeholder="Фамилия"
-                                       required/>
+                                       required  maxlength="200"/>
                             </div>
 
                             <div class="form-group">
                                 <label>Дата рождения</label>
-                                <input type="date" class="form-control" v-model="personal.date_birth"
+                                <input type="date" max="{{date('Y-m-d')}}" class="form-control" v-model="personal.date_birth"
                                        placeholder="Дата рождения"/>
                             </div>
 
                             <div class="form-group">
                                 <label>Телефон</label>
-                                <input type="text" class="form-control" v-model="personal.phone" placeholder="Телефон"/>
+                                <input type="text"  maxlength="12" class="form-control" v-model="personal.phone" placeholder="Телефон"/>
                             </div>
-
                             <div class="form-group">
                                 <label>Email</label>
-                                <input type="email"
+                                <input type="email"  maxlength="200"
                                        class="form-control" v-model="personal.email" placeholder="Email"
                                        required/>
                             </div>
 
                             <div class="text-right">
-                                <button class="btn btn-sm btn-default" @click.prevent="cancelEditPersonal()"
+                                <button class="btn btn-sm btn-cancel" @click.prevent="cancelEditPersonal()"
                                         type="button">Отмена
                                 </button>
-                                <button class="btn btn-sm btn-primary"
+                                <button class="btn btn-sm btn-bordered"
                                         type="submit"
-                                        :disabled="!checkPersonalSettingsForm()"
-                                        @click="savePersonal()">Сохранить
+                                        :disabled="!checkPersonalSettingsForm()">Сохранить
                                 </button>
                             </div>
                         </form>
@@ -69,7 +67,7 @@
                     </div>
 
                     <div class="text-right">
-                        <button class="btn btn-default btn-sm" @click="enableEditPersonal()"
+                        <button class="btn btn-bordered btn-sm" @click="enableEditPersonal()"
                                 v-if="!editPersonal">Изменить
                         </button>
                     </div>
@@ -93,8 +91,8 @@
                         </div>
 
                         <div class="text-right">
-                            <button class="btn btn-sm btn-default" @click="editSecurity=false">Отмена</button>
-                            <button class="btn btn-sm btn-primary"
+                            <button class="btn btn-sm btn-cancel" @click="editSecurity=false">Отмена</button>
+                            <button class="btn btn-sm btn-bordered"
                                     :class="{busy: security.busyStep1}"
                                     @click="checkCurrentPassword()">Далее
                             </button>
@@ -126,8 +124,8 @@
                         </ul>
 
                         <div class="text-right">
-                            <button class="btn btn-sm btn-default" @click="editSecurity=false">Отмена</button>
-                            <button class="btn btn-sm btn-primary"
+                            <button class="btn btn-sm btn-cancel" @click="editSecurity=false">Отмена</button>
+                            <button class="btn btn-sm btn-bordered"
                                     :disabled="!checkPasswordForm()"
                                     :class="{busy: security.busyStep2}"
                                     @click="savePassword()">Сохранить
@@ -138,7 +136,7 @@
                     <div class="step-2"></div>
 
                     <div class="text-right">
-                        <button class="btn btn-sm btn-default" @click="editSecurity=true" v-if="!editSecurity">Изменить
+                        <button class="btn btn-sm btn-bordered" @click="editSecurity=true" v-if="!editSecurity">Изменить
                             пароль
                         </button>
                     </div>
