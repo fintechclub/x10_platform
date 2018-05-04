@@ -195,7 +195,7 @@
                     if (status === 'success') {
                         this.screen = 'restore-success';
                     } else {
-                        this.restorF.error = response.data.msg;
+                        this.restoreForm.error = response.data.msg;
                     }
 
                     this.restoreForm.busy = false;
