@@ -40,12 +40,6 @@ Route::group(['middleware' => []], function () {
     Route::post('auth/restore-password', 'AuthController@postRestorePasswordRequest');
     Route::post('auth/activate-password', 'AuthController@postActivatePassword');
 
-    /* User */
-    Route::get('/user/settings', 'UserController@getSettings');
-    Route::post('/user/settings/personal/save', 'UserController@postSavePersonal');
-    /* Security section*/
-    Route::post('/user/settings/security/check-password', 'UserController@postCheckPassword');
-    Route::post('/user/settings/security/save-password', 'UserController@postSavePassword');
 });
 
 
@@ -60,5 +54,13 @@ Route::get('/mailable', function () {
 Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/dashboard', 'DashboardController@getIndex');
+
+    /* User */
+    Route::get('/user/settings', 'UserController@getSettings');
+    Route::post('/user/settings/personal/save', 'UserController@postSavePersonal');
+
+    /* Security section*/
+    Route::post('/user/settings/security/check-password', 'UserController@postCheckPassword');
+    Route::post('/user/settings/security/save-password', 'UserController@postSavePassword');
 
 });

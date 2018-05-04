@@ -117,7 +117,7 @@ class AuthController extends Controller
             // return failed by default
             return response()->json([
                 'status' => 'failed',
-                'msg' => 'Логин либо пароль не верные'
+                'msg' => 'Логин либо пароль неверные'
             ]);
 
         }
@@ -146,12 +146,21 @@ class AuthController extends Controller
             // send email
             \Mail::to($user)->send(new PasswordRecovery($user));
 
+            return response()->json([
+                'status' => 'success',
+                'msg' => ''
+            ]);
+
+        } else{
+
+            return response()->json([
+                'status' => 'failed',
+                'msg' => 'Пользователь не найден'
+            ]);
+
         }
 
-        return response()->json([
-            'status' => 'success',
-            'msg' => ''
-        ]);
+
 
     }
 

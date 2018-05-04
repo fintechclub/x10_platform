@@ -1,7 +1,7 @@
 @body-bg: #848b93;
-@form-bg: #474d52;
+@form-bg: rgba(0, 0, 0, 0.6);
 @blue: #2f80ed;
-@input-bg: #3f4345;
+@input-bg: rgba(55, 55, 55, 0.55);
 @white: #fff;
 @logo-color: #BDBDBD;
 @text-green: #68bb8c;
@@ -16,7 +16,7 @@
   color: @text-danger;
 }
 
-.error-msg{
+.error-msg {
   font-size: 12px;
 }
 
@@ -46,7 +46,7 @@ body {
   background-image: url('/img/bg.jpg');
   background-position: center bottom;
   background-size: cover;
-  background-repeat:no-repeat;
+  background-repeat: no-repeat;
 }
 
 .blur {
@@ -94,10 +94,10 @@ body {
 
 .btn-primary {
   background-color: @blue;
-  &:disabled{
+  &:disabled {
     background: transparent;
-    border:1px solid #333333;
-    color: #333333;
+    border: 1px solid #333333;
+    color: #292929;
     text-transform: uppercase;
   }
 }
@@ -119,8 +119,9 @@ body {
 
   .form-signin {
     text-align: center;
-    @media only screen and (min-width: 450px)  {
+    @media only screen and (min-width: 450px) {
       background-color: @form-bg;
+      //background: rgba(0,0,0,0.44);
     }
 
     padding: 45px 35px;
@@ -135,6 +136,10 @@ body {
     line-height: 28px;
     font-weight: normal;
     color: @logo-color;
+    + .caption {
+      font-size: 12px;
+      color: #BDBDBD;
+    }
   }
 
   .btn {
@@ -168,7 +173,7 @@ body {
   }
 
   .input-layer {
-    border-radius: 20px;
+    border-radius: 50px;
     background-color: @input-bg;
     padding: 0 0 0 50px;
     max-width: 250px;
@@ -181,13 +186,14 @@ body {
     &:before {
       position: absolute;
       left: 18px;
-      top: 17px;
-      width: 20px;
+      top: 15px;
+      width: 14px;
       height: 14px;
-      background-image: url('/img/email-icon.png');
+      background-image: url('/img/email-icon.png?v=1');
       background-size: contain;
+      background-repeat: no-repeat;
       display: block;
-      content:'';
+      content: '';
       z-index: 2;
     }
   }
@@ -198,14 +204,14 @@ body {
     &:before {
       position: absolute;
       left: 22px;
-      top: 16px;
+      top: 14px;
       width: 14px;
       height: 14px;
       background-image: url('/img/password-icon.png');
       background-size: contain;
       display: block;
       z-index: 2;
-      content:'';
+      content: '';
     }
   }
 
@@ -214,16 +220,18 @@ body {
 .form-signin .checkbox {
   font-weight: 400;
 }
-.error{
-  .email, .password{
+
+.error {
+  .email, .password {
     border-color: @text-danger;
   }
 }
+
 .form-signin .form-control {
   position: relative;
   box-sizing: border-box;
   height: auto;
-  padding: 10px 10px 10px 0px;
+  padding: 8px 10px 8px 0px;
   font-size: 16px;
   background: none;
   color: @white;
@@ -285,9 +293,9 @@ body {
   height: 32px;
   background-image: url('/img/logo.png');
   background-position: center center;
-  background-repeat:no-repeat;
+  background-repeat: no-repeat;
   margin: 10px auto 50px auto;
-  @media only screen and (max-width: 450px)  {
+  @media only screen and (max-width: 450px) {
     margin: 10px auto 0px auto;
   }
 

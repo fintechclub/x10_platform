@@ -22,41 +22,54 @@
                     </div>
                     <div class="edit" v-if="editPersonal">
 
-                        <div class="form-group">
-                            <label>Имя</label>
-                            <input type="text" class="form-control" v-model="personal.name" placeholder="Имя"/>
-                        </div>
+                        <form @submit.prevent="savePersonal" a>
+                            <div class="form-group">
+                                <label>Имя</label>
+                                <input type="text" class="form-control" v-model="personal.name" placeholder="Имя"
+                                       required/>
+                            </div>
 
-                        <div class="form-group">
-                            <label>Фамилия</label>
-                            <input type="text" class="form-control" v-model="personal.sname" placeholder="Фамилия"/>
-                        </div>
+                            <div class="form-group">
+                                <label>Фамилия</label>
+                                <input type="text"
+                                       class="form-control" v-model="personal.sname" placeholder="Фамилия"
+                                       required/>
+                            </div>
 
-                        <div class="form-group">
-                            <label>Дата рождения</label>
-                            <input type="text" class="form-control" v-model="personal.date_birth"
-                                   placeholder="Дата рождения"/>
-                        </div>
+                            <div class="form-group">
+                                <label>Дата рождения</label>
+                                <input type="date" class="form-control" v-model="personal.date_birth"
+                                       placeholder="Дата рождения"/>
+                            </div>
 
-                        <div class="form-group">
-                            <label>Телефон</label>
-                            <input type="text" class="form-control" v-model="personal.phone" placeholder="Телефон"/>
-                        </div>
+                            <div class="form-group">
+                                <label>Телефон</label>
+                                <input type="text" class="form-control" v-model="personal.phone" placeholder="Телефон"/>
+                            </div>
 
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="text" class="form-control" v-model="personal.email" placeholder="Email"/>
-                        </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email"
+                                       class="form-control" v-model="personal.email" placeholder="Email"
+                                       required/>
+                            </div>
 
-                        <div class="text-right">
-                            <button class="btn btn-sm btn-default" @click="editPersonal=false">Отмена</button>
-                            <button class="btn btn-sm btn-primary" @click="savePersonal()">Сохранить</button>
-                        </div>
+                            <div class="text-right">
+                                <button class="btn btn-sm btn-default" @click.prevent="cancelEditPersonal()"
+                                        type="button">Отмена
+                                </button>
+                                <button class="btn btn-sm btn-primary"
+                                        type="submit"
+                                        :disabled="!checkPersonalSettingsForm()"
+                                        @click="savePersonal()">Сохранить
+                                </button>
+                            </div>
+                        </form>
 
                     </div>
 
                     <div class="text-right">
-                        <button href="#" class="btn btn-default btn-sm" @click="editPersonal=true"
+                        <button class="btn btn-default btn-sm" @click="enableEditPersonal()"
                                 v-if="!editPersonal">Изменить
                         </button>
                     </div>
@@ -72,6 +85,7 @@
                         <div class="form-group">
                             <label>Текущий пароль</label>
                             <input type="password" class="form-control" v-model="security.password"
+                                   @keyup.enter="checkCurrentPassword()"
                                    placeholder="Пароль"/>
                         </div>
                         <div class="alert alert-warning" v-if="step1failed">
@@ -90,12 +104,16 @@
                     <div class="step-1" v-if="editSecurity && step2">
                         <div class="form-group">
                             <label>Новый пароль</label>
-                            <input type="password" class="form-control" v-model="security.new_password"
+                            <input type="password"
+                                   @keyup.enter="savePassword()"
+                                   class="form-control" v-model="security.new_password"
                                    placeholder="Пароль"/>
                         </div>
                         <div class="form-group">
                             <label>Новый пароль</label>
-                            <input type="password" class="form-control" v-model="security.confirm"
+                            <input type="password"
+                                   @keyup.enter="savePassword()"
+                                   class="form-control" v-model="security.confirm"
                                    placeholder="Подтверждение"/>
                         </div>
 
@@ -157,6 +175,7 @@
                 step1failed: false,
                 step1: false,
                 step2: false,
+                personalBackup: {},
                 personal: {
                     name: '{{Auth::user()->name}}',
                     sname: '{{Auth::user()->sname}}',
@@ -175,12 +194,43 @@
                     ]
                 }
             },
+            mounted: function () {
+
+            },
             methods: {
+                enableEditPersonal(){
+                    Object.assign(this.personalBackup, this.personal);
+                    this.editPersonal = true;
+                },
+                cancelEditPersonal(){
+                    Object.assign(this.personal, this.personalBackup);
+                    this.editPersonal = false;
+                },
                 savePersonal(){
+
+                    // validate form
+                    if (!this.checkPersonalSettingsForm()) {
+                        return false;
+                    }
+
                     axios.post('/user/settings/personal/save', this.personal).then(response => {
                         this.editPersonal = false;
+                        // add notification
                         this.notify('Персональные данные обновлены');
                     });
+
+                },
+                // personal settings form validation
+                checkPersonalSettingsForm(){
+
+                    let pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    let email = String(this.personal.email).toLowerCase()
+
+                    if (!pattern.test(email) || email === '' || this.personal.name === '' || this.personal.sname === '') {
+                        return false;
+                    }
+
+                    return true;
 
                 },
                 checkCurrentPassword(){
@@ -204,6 +254,11 @@
                     });
                 },
                 savePassword(){
+
+                    // check password form firstly
+                    if(!this.checkPasswordForm()){
+                        return false;
+                    }
 
                     this.security.busyStep2 = true;
                     axios.post('/user/settings/security/save-password', {password: this.security.new_password}).then(response => {

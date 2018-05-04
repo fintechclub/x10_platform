@@ -8,7 +8,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&amp;subset=cyrillic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&amp;subset=cyrillic"
+          rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/auth.css?v={{env('APP_VER',time())}}"/>
     <title>x10.fund</title>
 </head>
@@ -45,11 +46,13 @@
 
         {{-- Password restore request --}}
         <div id="auth" v-if="screen=='restore'">
-            <h2 class="mb-4 mt-2">Восстановление пароля</h2>
-            <p>На вашу почту будет отправлено письмо с инструкцией</p>
+            <h2 class="mt-2">Восстановление пароля</h2>
+            <p class="caption mb-5">На вашу почту будет отправлено письмо с инструкцией</p>
+
+            <p class="text-danger error-msg" v-if="restoreForm.error.length>0">@{{ restoreForm.error }}</p>
 
             <div class="email">
-                <input type="email" id="inputEmail" class="form-control mb-2" placeholder="Электронная почта"
+                <input type="email" id="inputEmail" class="form-control" placeholder="Электронная почта"
                        required=""
                        @keyup.enter="doRestore()"
                        v-model="restoreForm.email"
@@ -59,7 +62,7 @@
             <a href="" class="btn-restore" @click.prevent="screen='login'">Уже вспомнили?</a> <br/>
             <button class="btn btn-primary mt-2 btn-block ml-auto mr-auto"
                     @click="doRestore()" :class="{busy: restoreForm.busy}"
-                    :disabled="restoreForm.email.length==0 || restoreForm.busy"
+                    :disabled="restoreForm.email.length==0 || restoreForm.busy || !checkRestoreForm()"
             >Сбросить пароль
             </button>
         </div>
@@ -182,10 +185,21 @@
             doRestore(){
 
                 this.restoreForm.busy = true;
-                // send email with new password activation link
+                this.restoreForm.error = '';
+
+                // send email with new password activation link if such user exists
                 axios.post('/auth/restore-password', this.restoreForm).then(response => {
-                    this.screen = 'restore-success';
+
+                    let status = response.data.status;
+
+                    if (status === 'success') {
+                        this.screen = 'restore-success';
+                    } else {
+                        this.restorF.error = response.data.msg;
+                    }
+
                     this.restoreForm.busy = false;
+
                 });
 
             },
@@ -222,6 +236,11 @@
 
                 return true;
 
+            },
+            checkRestoreForm(){
+                let pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                let email = String(this.restoreForm.email).toLowerCase()
+                return pattern.test(email);
             },
             checkActivateForm(){
 
