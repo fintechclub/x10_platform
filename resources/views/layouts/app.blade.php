@@ -27,11 +27,11 @@
             <li class="{{Request::is('dashboard') ? 'active' : ''}}">
                 <a href="/dashboard"><i class="fas fa-home"></i> <span class="t-hide">Dashboard</span></a>
             </li>
-            <li>
-                <a href="#"><i class="fas fa-chart-bar"></i> <span class="t-hide">Portfolio</span></a>
+            <li class="{{Request::is('portfolio') ? 'active' : ''}}">
+                <a href="/portfolio"><i class="fas fa-chart-bar"></i> <span class="t-hide">Portfolio</span></a>
             </li>
             <li>
-                <a href="#"><i class="fas fa-question"></i> <span class="t-hide">FAQ</span></a>
+                <a href="/faq"><i class="fas fa-question"></i> <span class="t-hide">FAQ</span></a>
             </li>
         </ul>
     </div>

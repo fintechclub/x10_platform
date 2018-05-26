@@ -27,6 +27,14 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    /**
+     * Portfolios
+     */
+    public function portfolios()
+    {
+        return $this->hasMany('App\Portfolio');
+    }
+
 
     /**
      * Update personal settings
