@@ -31,7 +31,7 @@ class IndexController extends Controller
     public function postCreatePortfolio(Request $request)
     {
 
-        $user = User::find($request->user_id);
+        $user = User::find($request->customer_id);
         $user->portfolios()->create();
 
         return $user->portfolios;
