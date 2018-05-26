@@ -69,6 +69,10 @@ class Portfolio extends Model
             ->orderBy('created_at', 'desc')
             ->first();
 
+        if (!$snapshot) {
+            return [];
+        }
+
         $items = $snapshot->assets;
 
         return [

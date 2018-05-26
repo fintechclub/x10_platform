@@ -8,42 +8,42 @@
                 Обновить
             </button>
 
-            <span class="text-muted small">Показаны данные на @{{ current.current_date.date }}</span>
+            <span class="text-muted small" v-if="current.current_date">Показаны данные на @{{ current.current_date.date }}</span>
 
         </div>
 
         <div class="col-sm-2">
             <div class="card">
                 <h3 class="card-header">Баланс BTC</h3>
-                <div class="card-body">@{{ current.stats.balance_btc }}</div>
+                <div class="card-body" v-if="current.stats">@{{ current.stats.balance_btc }}</div>
             </div>
         </div>
 
         <div class="col-sm-2">
             <div class="card">
                 <h3 class="card-header">Баланс USD</h3>
-                <div class="card-body">@{{ current.stats.balance_usd }}</div>
+                <div class="card-body" v-if="current.stats">@{{ current.stats.balance_usd }}</div>
             </div>
         </div>
 
         <div class="col-sm-2">
             <div class="card">
                 <h3 class="card-header">Баланс RUB</h3>
-                <div class="card-body">@{{ current.stats.balance_rub }}</div>
+                <div class="card-body" v-if="current.stats">@{{ current.stats.balance_rub }}</div>
             </div>
         </div>
 
         <div class="col-sm-2">
             <div class="card">
                 <h3 class="card-header">BTC/USD</h3>
-                <div class="card-body">@{{ current.rates.btc_usd }}</div>
+                <div class="card-body" v-if="current.stats">@{{ current.rates.btc_usd }}</div>
             </div>
         </div>
 
         <div class="col-sm-2">
             <div class="card">
                 <h3 class="card-header">BTC/RUB</h3>
-                <div class="card-body">@{{ current.rates.btc_rub }}</div>
+                <div class="card-body" v-if="current.stats">@{{ current.rates.btc_rub }}</div>
             </div>
         </div>
 
