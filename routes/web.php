@@ -83,7 +83,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 Route::group(['middleware' => ['auth']], function () {
 
-    Route::post('/api/portfolio/create', 'Admin\IndexController@postCreatePortfolio');
+
 
     /* Transactions */
     Route::post('/api/transactions/add', 'Api\TransactionsController@postCreate');
@@ -91,6 +91,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/api/transactions/delete', 'Api\TransactionsController@postDelete');
 
     /* Portfolio */
+    Route::post('/api/portfolio/create', 'Api\PortfolioController@postCreatePortfolio');
     // get current state with assets/shares/etc
     Route::get('/api/portfolio/current/{portfolio}', 'Api\PortfolioController@getCurrentState');
     Route::get('/api/portfolio/update/{portfolio}', 'Api\PortfolioController@getUpdate');

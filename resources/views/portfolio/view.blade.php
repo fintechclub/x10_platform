@@ -8,7 +8,8 @@
                 Обновить
             </button>
 
-            <span class="text-muted small" v-if="current.current_date">Показаны данные на @{{ current.current_date.date }}</span>
+            <span class="text-muted small"
+                  v-if="current.current_date">Показаны данные на @{{ current.current_date.date }}</span>
 
         </div>
 
@@ -141,38 +142,24 @@
                             <td>Актив</td>
                             <td>Дата</td>
                             <td>Кол-во</td>
-                            <td>Сумма, btc</td>
-                            <td>Сумма, usd</td>
+                            <td>Курс, btc</td>
+                            <td>Курс, usd</td>
                             <td>Операция</td>
                             <td>Комментарий</td>
                             <td></td>
                         </tr>
 
-                        <tr v-for="t in transactions">
-                            <td>
-                                @{{ t.id }}
-                            </td>
-                            <td>
-                            <span v-if="t.asset">
-                                @{{ t.asset.title }}
-                                </span>
-                            </td>
-                            <td>@{{ t.when }}</td>
-                            <td>@{{ t.amount }}</td>
-                            <td>@{{ t.price_btc }}</td>
-                            <td>@{{ t.price_usd }}</td>
-                            <td>@{{ t.type }}</td>
-                            <td>@{{ t.comment }}</td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-light" @click="editTransaction(t)">
-                                    <i class="far fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm btn-light" @click="removeTransaction(t)">
-                                    <i class="fas fa-times"></i>
-                                </button>
+                        <tr>
+                            <td colspan="9">
+                                <strong>Добавление / Редактирование транзакций</strong> <br/>
+                                <p class="text-muted mt-2">
+                                    Чтобы добавить новую транзакцию выберите тикер, введите цену закупки/продажи в BTC и
+                                    USD, укажите количество и тип операции. Далее нажмите Save. <br/>
+                                    Для редактирования - используйте иконку карандашик <i class="fa fa-edit"></i>
+                                    напротив транзакции, ее данные занесутся в форму.
+                                </p>
                             </td>
                         </tr>
-
                         <tr class="form-td-row">
                             <td>
                                 <button class="btn btn-sm btn-primary" @click="saveTransaction()">
@@ -181,6 +168,7 @@
                             </td>
                             <td>
                                 <select name="ticker" class="form-control" v-model="tr.asset_id">
+                                    <option value="">Select ticker</option>
                                     @foreach(App\Asset::tickers() as $ticker)
                                         <option value="{{$ticker['value']}}">{{$ticker['label']}}</option>
                                     @endforeach
@@ -208,6 +196,38 @@
                                 <input type="text" placeholder="Comment" class="form-control" v-model="tr.comment"/>
                             </td>
                         </tr>
+
+                        <tr>
+                            <td colspan="9">
+                                <strong>История транзакций</strong>
+                            </td>
+                        </tr>
+
+                        <tr v-for="t in transactions">
+                            <td>
+                                @{{ t.id }}
+                            </td>
+                            <td>
+                            <span v-if="t.asset">
+                                @{{ t.asset.title }}
+                                </span>
+                            </td>
+                            <td>@{{ t.when }}</td>
+                            <td>@{{ t.amount }}</td>
+                            <td>@{{ t.price_btc }}</td>
+                            <td>@{{ t.price_usd }}</td>
+                            <td>@{{ t.type }}</td>
+                            <td>@{{ t.comment }}</td>
+                            <td class="text-center">
+                                <button class="btn btn-sm btn-light" @click="editTransaction(t)">
+                                    <i class="far fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-light" @click="removeTransaction(t)">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+
 
                     </table>
                 </div>

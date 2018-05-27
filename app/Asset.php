@@ -35,7 +35,7 @@ class Asset extends Model
     public static function tickers()
     {
 
-        $tickers = Asset::get();
+        $tickers = Asset::orderBy('ticker', 'asc')->get();
 
         $options = [];
 

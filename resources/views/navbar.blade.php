@@ -43,6 +43,7 @@
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="/user/settings">Настройки</a>
+                <a class="dropdown-item" href="/admin">Admin</a>
                 <a class="dropdown-item" href="/auth/logout">Выйти</a>
             </div>
 

@@ -13,6 +13,19 @@ class PortfolioController extends Controller
 {
 
     /**
+     * Create new portfolio for customer
+     */
+    public function postCreatePortfolio(Request $request)
+    {
+
+        $user = User::find($request->customer_id);
+        $user->portfolios()->create();
+
+        return back();
+
+    }
+
+    /**
      * Get current portfolio state
      */
     public function getCurrentState(Portfolio $portfolio)
