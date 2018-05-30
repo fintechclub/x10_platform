@@ -16,35 +16,35 @@
         <div class="col-sm-2">
             <div class="card">
                 <h3 class="card-header">Баланс BTC</h3>
-                <div class="card-body" v-if="current.stats">@{{ current.stats.balance_btc }}</div>
+                <div class="card-body" v-if="current.stats">@{{  current.stats.balance_btc | formatNumber }}</div>
             </div>
         </div>
 
         <div class="col-sm-2">
             <div class="card">
                 <h3 class="card-header">Баланс USD</h3>
-                <div class="card-body" v-if="current.stats">@{{ current.stats.balance_usd }}</div>
+                <div class="card-body" v-if="current.stats">@{{ current.stats.balance_usd  | formatNumber}}</div>
             </div>
         </div>
 
         <div class="col-sm-2">
             <div class="card">
                 <h3 class="card-header">Баланс RUB</h3>
-                <div class="card-body" v-if="current.stats">@{{ current.stats.balance_rub }}</div>
+                <div class="card-body" v-if="current.stats">@{{ current.stats.balance_rub  | formatNumber}}</div>
             </div>
         </div>
 
         <div class="col-sm-2">
             <div class="card">
                 <h3 class="card-header">BTC/USD</h3>
-                <div class="card-body" v-if="current.stats">@{{ current.rates.btc_usd }}</div>
+                <div class="card-body" v-if="current.stats">@{{ current.rates.btc_usd  | formatNumber}}</div>
             </div>
         </div>
 
         <div class="col-sm-2">
             <div class="card">
                 <h3 class="card-header">BTC/RUB</h3>
-                <div class="card-body" v-if="current.stats">@{{ current.rates.btc_rub }}</div>
+                <div class="card-body" v-if="current.stats">@{{ current.rates.btc_rub  | formatNumber}}</div>
             </div>
         </div>
 
@@ -71,11 +71,11 @@
                             <td>@{{ item.asset.ticker }}</td>
                             <td>@{{ item.asset.title }}</td>
                             <td>@{{ item.amount }}</td>
-                            <td>@{{ item.btc }}</td>
+                            <td>@{{ item.btc  | formatNumber }}</td>
                             <td>@{{ item.usd }}</td>
                             <td>@{{ item.rub }}</td>
                             <td></td>
-                            <td>@{{ item.rate_btc }}</td>
+                            <td>@{{ item.rate_btc  | formatNumber }}</td>
                             <td>@{{ item.usd/item.amount }}</td>
                         </tr>
 
@@ -118,7 +118,7 @@
                             <td>@{{ s.stats.balance_rub }}</td>
                             <td>@{{ getDifference(s, index, 'balance_usd') }}</td>
                             <td></td>
-                            <td>@{{ getDifference(s, index, 'balance_btc') }}</td>
+                            <td>@{{ getDifference(s, index, 'balance_btc')  | formatNumber}}</td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -214,7 +214,7 @@
                             </td>
                             <td>@{{ t.when }}</td>
                             <td>@{{ t.amount }}</td>
-                            <td>@{{ t.price_btc }}</td>
+                            <td>@{{ t.price_btc  | formatNumber}}</td>
                             <td>@{{ t.price_usd }}</td>
                             <td>@{{ t.type }}</td>
                             <td>@{{ t.comment }}</td>
@@ -227,8 +227,6 @@
                                 </button>
                             </td>
                         </tr>
-
-
                     </table>
                 </div>
             </div>
@@ -238,9 +236,15 @@
 
 @section('scripts')
 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
     <script src="https://unpkg.com/vue-select@latest"></script>
 
     <script>
+
+        Vue.filter("formatNumber", function (value) {
+            return numeral(value).format("0.00000000");
+        });
+
         var portfolio = new Vue({
             el: '#portfolio',
             data: {
