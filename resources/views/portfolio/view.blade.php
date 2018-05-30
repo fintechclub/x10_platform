@@ -210,6 +210,7 @@
                             <td>
                             <span v-if="t.asset">
                                 @{{ t.asset.title }}
+                                <small>@{{ t.asset_id }}</small>
                                 </span>
                             </td>
                             <td>@{{ t.when }}</td>
