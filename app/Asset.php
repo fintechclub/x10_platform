@@ -105,7 +105,7 @@ class Asset extends Model
         foreach ($tickers as $ticker) {
 
             $options[] = [
-                'label' => $ticker->ticker,
+                'label' => $ticker->ticker.'('.$ticker->title.')',
                 'value' => $ticker->id
             ];
 
