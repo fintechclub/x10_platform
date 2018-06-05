@@ -41,6 +41,18 @@ class PortfolioController extends Controller
     public function getUpdate(Portfolio $portfolio)
     {
 
+        // reload rates for usd,btc, rub
+        $url = 'https://api.coingecko.com/api/v3/exchange_rates';
+        $data = json_decode(file_get_contents($url));
+
+        $usd = ExchangeRate::where('title', '=', 'btc_usd')->first();
+        $usd->price = $data->rates->usd->value;
+        $usd->save();
+
+        $rub = ExchangeRate::where('title', '=', 'btc_rub')->first();
+        $rub->price = $data->rates->rub->value;
+        $rub->save();
+
         // update rates for portfolio
         $rates = [
             'btc_usd' => ExchangeRate::where('title', '=', 'btc_usd')->first()->price,

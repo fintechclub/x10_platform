@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Asset;
 use App\Http\Controllers\Controller;
 use App\Portfolio;
 use App\Transaction;
@@ -33,8 +34,19 @@ class TransactionsController extends Controller
                 'price_btc' => $request->price_btc,
                 'price_usd' => $request->price_usd,
                 'comment' => $request->comment,
-                'when' => $request->when
+                'when' => $request->when,
+                'deduct_btc' => $request->deduct_btc,
+                'source_id' => $request->source_id
             ]);
+
+        // check the transaction, and if after that
+        // transaction this position will be closed, close it
+        if ($request->source_id) {
+
+            $source = Transaction::find($request->source_id);
+            $source->checkAndClose();
+
+        }
 
         // return this transaction
         $tr = Transaction::where('id', '=', $tr->id)->with(['asset'])->first();
@@ -69,6 +81,26 @@ class TransactionsController extends Controller
         }
 
         return response()->json('ok');
+
+    }
+
+    /**
+     * Get opened transactions for specified asset
+     */
+    public function getOpened(Asset $asset, Portfolio $portfolio)
+    {
+
+        // get transactions with BUY type and which still opened
+        // flag closed appers when we sell all items
+        // when it happens, we set closed=1 to initial transaction
+
+        $trs = Transaction::where('asset_id', '=', $asset->id)
+            ->where('portfolio_id', '=', $portfolio->id)
+            ->where('type', '=', 'buy')
+            ->where('closed', '=', null)
+            ->get();
+
+        return $trs;
 
     }
 }

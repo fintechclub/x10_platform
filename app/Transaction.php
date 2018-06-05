@@ -15,7 +15,10 @@ class Transaction extends Model
         'price_btc',
         'price_usd',
         'amount',
-        'comment'
+        'comment',
+        'source_id',
+        'closed',
+        'deduct_btc'
     ];
 
     /**
@@ -44,5 +47,43 @@ class Transaction extends Model
         return $this->belongsTo('App\Operation');
     }
 
+    /**
+     * Sell transactions
+     */
+    public function childs()
+    {
+        return $this->hasMany('App\Transaction', 'source_id');
+    }
 
+    /**
+     * Calc the amount for that transaction
+     */
+    public function getAmount()
+    {
+
+        $amount = $this->amount;
+
+        // go throught all SELL transactions and deduct it
+        foreach ($this->childs as $child) {
+            $amount -= $child->amount;
+        }
+
+        return $amount;
+
+    }
+
+    /**
+     * Close position
+     */
+    public function checkAndClose()
+    {
+
+        if ($this->getAmount() == 0) {
+
+            $this->closed = 1;
+            $this->save();
+
+        }
+
+    }
 }

@@ -30,7 +30,7 @@ class Asset extends Model
 
             $data = @file_get_contents($url);
 
-            if($data===false){
+            if ($data === false) {
                 continue;
             }
 
@@ -90,6 +90,9 @@ class Asset extends Model
         $rate->source = $source;
 
         $rate->save();
+
+        return $rate;
+
     }
 
     /**
@@ -105,7 +108,7 @@ class Asset extends Model
         foreach ($tickers as $ticker) {
 
             $options[] = [
-                'label' => $ticker->ticker.'('.$ticker->title.')',
+                'label' => $ticker->ticker . '(' . $ticker->title . ')',
                 'value' => $ticker->id
             ];
 
@@ -115,4 +118,20 @@ class Asset extends Model
 
     }
 
+    /**
+     * Current rate for this asset
+     */
+    public function getRate()
+    {
+
+        $rate = AssetRate::where('asset_id', '=', $this->id)->orderBy('created_at', 'desc')->first();
+
+        if (!$rate) {
+            //update it
+            return $this->reloadRate();
+        }
+
+        return $rate;
+
+    }
 }

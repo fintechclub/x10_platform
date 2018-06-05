@@ -89,6 +89,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/api/transactions/add', 'Api\TransactionsController@postCreate');
     Route::get('/api/transactions/get/{portfolio}', 'Api\TransactionsController@getHistory');
     Route::post('/api/transactions/delete', 'Api\TransactionsController@postDelete');
+    Route::get('/api/transactions/opened/{asset}/{portfolio}', 'Api\TransactionsController@getOpened');
 
     /* Portfolio */
     Route::post('/api/portfolio/create', 'Api\PortfolioController@postCreatePortfolio');
@@ -96,4 +97,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/api/portfolio/current/{portfolio}', 'Api\PortfolioController@getCurrentState');
     Route::get('/api/portfolio/update/{portfolio}', 'Api\PortfolioController@getUpdate');
     Route::get('/api/portfolio/snapshots/{portfolio}', 'Api\PortfolioController@getSnapshots');
+
+    /* Asset */
+    Route::get('/api/assets/{asset}/price', 'Api\AssetsController@getPrice');
 });

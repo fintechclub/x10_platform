@@ -93,6 +93,18 @@ class Portfolio extends Model
     public function generateSnapshot($rates)
     {
 
+        $buyBtc = Transaction::where('asset_id', '=', 1)
+            ->where('type', '=', 'buy')
+            ->where('portfolio_id', '=', $this->id)
+            ->sum('amount');
+
+        $sellBtc = Transaction::where('asset_id', '=', 1)
+            ->where('type', '=', 'sell')
+            ->where('portfolio_id', '=', $this->id)
+            ->sum('amount');
+
+        $totalBtc = $buyBtc - $sellBtc;
+
         $snapshot = new Snapshot();
         $snapshot->save();
 
@@ -113,14 +125,19 @@ class Portfolio extends Model
                 $assets[$t->asset_id] += $t->amount;
 
                 // reduce btc
+                if ($t->deduct_btc === 1) {
+                    $totalBtc -= $t->amount * $t->price_btc;
+                }
 
             }
 
             if ($t->type == 'sell') {
                 $assets[$t->asset_id] -= $t->amount;
 
-                // add btc back to btc heap
-
+                // add btc back to btc
+                if ($t->deduct_btc === 1) {
+                    $totalBtc += $t->amount * $t->price_btc;
+                }
             }
 
         }
@@ -168,6 +185,7 @@ class Portfolio extends Model
         }
 
         $stats = [
+            'total_btc' => $totalBtc,
             'balance_btc' => $btc,
             'balance_usd' => $usd,
             'balance_rub' => $rub
