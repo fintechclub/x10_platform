@@ -74,24 +74,24 @@
                             <td>Символ</td>
                             <td>Наименование</td>
                             <td>Баланс</td>
-                            <td>Стоимость BTC</td>
-                            <td>Стоимость USD</td>
-                            <td>Стоимость RUB</td>
+                            <td>ср.взв.Цена BTC buy</td>
+                            <td>ср.взв.Цена BTC sell</td>
+                            <td>Цена RUB</td>
                             <td>Доля актива в портфеле %</td>
-                            <td>Цена актива, BTC</td>
-                            <td>Цена актива, USD</td>
+                            <td>Стоимость, BTC</td>
+                            <td>Стоимость, USD</td>
                         </tr>
 
                         <tr v-for="item in current.items">
                             <td>@{{ item.asset.ticker }}</td>
                             <td>@{{ item.asset.title }}</td>
                             <td>@{{ item.amount }}</td>
-                            <td>@{{ item.btc  | formatBtc }}</td>
-                            <td>@{{ item.usd | formatUsd}}</td>
-                            <td>@{{ item.rub | formatUsd}}</td>
+                            <td>@{{ item.avg_buy_price_btc }}</td>
+                            <td>@{{item.avg_sell_price_btc }}</td>
+                            <td>@{{ }}</td>
                             <td></td>
-                            <td>@{{ item.rate_btc  | formatBtc }}</td>
-                            <td>@{{ item.usd/item.amount | formatUsd }}</td>
+                            <td>@{{  }}</td>
+                            <td>@{{  }}</td>
                         </tr>
 
                     </table>
@@ -164,14 +164,29 @@
                 });
 
                 // get current state for portfolio
-                axios.get('/api/portfolio/snapshots/' + this.portfolio.id).then(response => {
-                    this.snapshots = response.data;
-                });
+                /*               axios.get('/api/portfolio/snapshots/' + this.portfolio.id).then(response => {
+                 this.snapshots = response.data;
+                 });*/
 
             },
             methods: {
 
+                reloadDashboard(){
+
+                    // get current state for portfolio
+                    axios.get('/api/portfolio/current/' + this.portfolio.id).then(response => {
+                        this.current = response.data;
+                    });
+
+                    // get current state for portfolio
+                    /*               axios.get('/api/portfolio/snapshots/' + this.portfolio.id).then(response => {
+                     this.snapshots = response.data;
+                     });*/
+
+                },
+
                 openTransactionDialog(){
+                    this.tr = {};
                     this.tr = sample;
                     $(this.$refs.transactionDialog).modal('show');
                 },
@@ -222,6 +237,8 @@
 
                         this.dialogbusy = false;
 
+                        this.reloadDashboard();
+
                     });
                 },
 
@@ -251,9 +268,13 @@
                             if (index !== -1) {
                                 this.transactions.splice(index, 1);
                             }
+
+                            this.reloadDashboard();
+
                         });
 
                     }
+
 
                 },
                 isDisabled(){

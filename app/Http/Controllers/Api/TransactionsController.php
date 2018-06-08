@@ -39,14 +39,8 @@ class TransactionsController extends Controller
                 'source_id' => $request->source_id
             ]);
 
-        // check the transaction, and if after that
-        // transaction this position will be closed, close it
-        if ($request->source_id) {
-
-            $source = Transaction::find($request->source_id);
-            $source->checkAndClose();
-
-        }
+        // consider this in portfolio
+        $portfolio->processTransaction($tr);
 
         // return this transaction
         $tr = Transaction::where('id', '=', $tr->id)->with(['asset'])->first();
@@ -75,6 +69,9 @@ class TransactionsController extends Controller
     {
 
         $tr = Transaction::find($request->id);
+
+        // delete transaction from portfolio assets
+        $tr->portfolio->rollbackTransaction($tr);
 
         if ($tr) {
             $tr->delete();

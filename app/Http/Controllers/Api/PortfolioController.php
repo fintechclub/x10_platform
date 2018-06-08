@@ -31,7 +31,11 @@ class PortfolioController extends Controller
     public function getCurrentState(Portfolio $portfolio)
     {
 
-        return $portfolio->getCurrentState();
+        $items = $portfolio->assets;
+
+        return [
+            'items' => $items
+        ];
 
     }
 

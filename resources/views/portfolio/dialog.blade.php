@@ -44,6 +44,11 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
+                                <label>Дата</label>
+                                <input type="date" placeholder="Дата" class="form-control" v-model="tr.when"/>
+                            </div>
+
+                            <div class="form-group">
                                 <label>Тип операции</label>
                                 <select class="form-control" v-model="tr.type">
                                     <option value="sell">SELL</option>
