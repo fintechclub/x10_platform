@@ -73,10 +73,11 @@ class TransactionsController extends Controller
 
         if ($tr) {
 
+            $tr->delete();
+
             // delete transaction from portfolio assets
             $tr->portfolio->rollbackTransaction($tr);
 
-            $tr->delete();
         }
 
         return response()->json('ok');
