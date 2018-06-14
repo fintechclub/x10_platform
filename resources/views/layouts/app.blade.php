@@ -15,6 +15,14 @@
           rel="stylesheet">
 
     <title>x10.fund dashboard</title>
+    {{--@todo: remove debug classes--}}
+    <style>
+        .trashed{
+            text-decoration: line-through;
+            opacity: 0.4;
+        }
+    </style>
+
 </head>
 <body>
 

@@ -9,14 +9,15 @@
                     <td>Дата</td>
                     <td>Источник</td>
                     <td>Кол-во</td>
-                    <td>Курс, btc</td>
-                    <td>Курс, usd</td>
+                    <td>Стоимость, BTC</td>
+                    <td>Цена, btc</td>
+                    <td>Цена, usd</td>
                     <td>Операция</td>
                     <td>Комментарий</td>
                     <td></td>
                 </tr>
 
-                <tr v-for="t in transactions">
+                <tr v-for="t in transactions" :class="{trashed: t.deleted_at}">
                     <td>
                         @{{ t.id }}
                     </td>
@@ -31,6 +32,7 @@
                     <td>@{{ t.when }}</td>
                     <td>#@{{ t.source_id }}</td>
                     <td>@{{ t.amount }}</td>
+                    <td>@{{ t.amount * t.price_btc | formatBtc}}</td>
                     <td>@{{ t.price_btc  | formatBtc}}</td>
                     <td>@{{ t.price_usd | formatUsd }}</td>
                     <td>

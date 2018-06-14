@@ -56,7 +56,8 @@ class TransactionsController extends Controller
 
         $transactions = Transaction::where('portfolio_id', '=', $portfolio->id)
             ->with('asset')
-            ->orderBy('when', 'desc')
+            ->orderBy('created_at', 'asc')
+            ->withTrashed()
             ->get();
         return $transactions;
 
@@ -70,10 +71,11 @@ class TransactionsController extends Controller
 
         $tr = Transaction::find($request->id);
 
-        // delete transaction from portfolio assets
-        $tr->portfolio->rollbackTransaction($tr);
-
         if ($tr) {
+
+            // delete transaction from portfolio assets
+            $tr->portfolio->rollbackTransaction($tr);
+
             $tr->delete();
         }
 

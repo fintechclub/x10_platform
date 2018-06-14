@@ -10,7 +10,7 @@
                 <i class="fas fa-plus"></i>
             </button>
 
-            <button class="btn btn-primary btn-sm" :class="{busy: busy}" @click="updatePortfolio()">
+            <button class="btn btn-primary btn-sm d-none" :class="{busy: busy}" @click="updatePortfolio()">
                 Обновить
             </button>
 
