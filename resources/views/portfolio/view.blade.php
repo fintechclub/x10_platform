@@ -127,7 +127,7 @@
         });
 
         Vue.filter("formatBtc", function (value) {
-            return numeral(value).format("0.0000000");
+            return numeral(value).format("0.00000000");
         });
 
         let sample = {
