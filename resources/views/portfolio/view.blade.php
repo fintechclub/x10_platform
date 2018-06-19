@@ -10,7 +10,7 @@
                 <i class="fas fa-plus"></i>
             </button>
 
-            <button class="btn btn-primary btn-sm d-none" :class="{busy: busy}" @click="updatePortfolio()">
+            <button class="btn btn-primary btn-sm" :class="{busy: busy}" @click="updatePortfolio()">
                 Обновить
             </button>
 
@@ -19,7 +19,7 @@
 
         </div>
 
-        <div class="col-sm-2">
+        <div class="col-sm-2 d-none">
             <div class="card">
                 <h3 class="card-header">BTC</h3>
                 <div class="card-body" v-if="current.stats">
@@ -102,7 +102,7 @@
 
         </div>
 
-        {{--@include('portfolio.history')--}}
+        @include('portfolio.history')
 
         @include('portfolio.transactions')
 
@@ -115,6 +115,9 @@
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
     <script src="https://unpkg.com/vue-select@latest"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script src="https://unpkg.com/vue-chartjs/dist/vue-chartjs.min.js"></script>
 
     <script>
 
@@ -137,6 +140,59 @@
             deduct_btc: '',
             source_id: ''
         }
+
+        Vue.component('line-chart-usd', {
+            extends: VueChartJs.Line,
+            mounted () {
+
+                axios.get('/api/portfolio/charts/{{$portfolio->id}}/usd').then(response => {
+                    let labels = response.data.labels;
+                    let data = response.data.usd;
+
+                    console.log(labels);
+
+                    this.renderChart({
+                            labels: labels,
+                            datasets: [
+                                {
+                                    label: 'USD',
+                                    data: data
+                                }
+                            ]
+                        }, {
+                            responsive: true, maintainAspectRatio: false
+                        }
+                    )
+
+                });
+            }
+        });
+
+        Vue.component('line-chart-btc', {
+            extends: VueChartJs.Line,
+            mounted () {
+
+                axios.get('/api/portfolio/charts/{{$portfolio->id}}/btc').then(response => {
+                    let labels = response.data.labels;
+                    let data = response.data.btc;
+
+                    this.renderChart({
+                            labels: labels,
+                            datasets: [
+                                {
+                                    label: 'BTC',
+                                    backgroundColor: '#f87979',
+                                    data: data
+                                }
+                            ]
+                        }, {
+                            responsive: true, maintainAspectRatio: false
+                        }
+                    )
+
+                });
+            }
+        });
 
         var portfolio = new Vue({
             el: '#portfolio',
@@ -164,9 +220,9 @@
                 });
 
                 // get current state for portfolio
-                /*               axios.get('/api/portfolio/snapshots/' + this.portfolio.id).then(response => {
-                 this.snapshots = response.data;
-                 });*/
+                axios.get('/api/portfolio/snapshots/' + this.portfolio.id).then(response => {
+                    this.snapshots = response.data;
+                });
 
             },
             methods: {
@@ -179,9 +235,9 @@
                     });
 
                     // get current state for portfolio
-                    /*               axios.get('/api/portfolio/snapshots/' + this.portfolio.id).then(response => {
-                     this.snapshots = response.data;
-                     });*/
+                    axios.get('/api/portfolio/snapshots/' + this.portfolio.id).then(response => {
+                        this.snapshots = response.data;
+                    });
 
                 },
 
@@ -210,7 +266,7 @@
 
                     this.busy = true;
                     axios.get('/api/portfolio/update/' + this.portfolio.id).then(response => {
-                        this.current = response.data;
+                        this.snapshots = response.data;
                         this.busy = false;
                     });
 

@@ -38,6 +38,13 @@ class Portfolio extends Model
         return $this->hasMany('App\Transaction');
     }
 
+    /**
+     * Snapshots
+     */
+    public function snapshots()
+    {
+        return $this->hasMany('App\Snapshot')->orderBy('created_at', 'desc');
+    }
 
     /**
      * Push asset
@@ -135,6 +142,13 @@ class Portfolio extends Model
     public function withdraw(Asset $asset, $amount, $price)
     {
 
+        $portfolioAsset = $this->getPortfolioAsset($asset);
+
+        // add amount
+        $portfolioAsset->amount -= $amount;
+
+        // save
+        $portfolioAsset->save();
 
     }
 
@@ -174,6 +188,10 @@ class Portfolio extends Model
 
         if ($t->type == 'sell') {
             $this->sell($t->asset, $t->amount, $t->price_btc, $t->deduct_btc);
+        }
+
+        if ($t->type == 'withdraw') {
+            $this->withdraw($t->asset, $t->amount, $t->price_btc);
         }
 
     }
@@ -225,5 +243,92 @@ class Portfolio extends Model
         $pAsset->updateWeightedAvgPrices();
 
     }
+
+    /**
+     * Generate a snapshot for current date
+     * this function called by Command each day
+     *
+     */
+    public function generateSnapshot($rates = [])
+    {
+
+        $snapshot = new Snapshot();
+
+        // go throught each asset and create a summary
+        $btc = 0;
+        $usd = 0;
+        $rub = 0;
+
+        // update exchange rates and generate new snapshot
+
+        foreach ($this->assets as $item) {
+
+            $rate = $item->asset->getRate();
+
+            $btc += $item->amount * $rate->btc;
+            $usd += $item->amount * $rate->usd;
+            $rub += $item->amount * $rate->rub;
+
+        }
+
+        $stats = [
+            'balance_btc' => $btc,
+            'balance_usd' => $usd,
+            'balance_rub' => $rub
+        ];
+
+        // calc the profit
+        $profit = [
+            'usd' => '',
+            'btc' => ''
+        ];
+
+        // save to snapshot
+
+        $snapshot->portfolio_id = $this->id;
+        $snapshot->stats = $stats;
+        $snapshot->rates = $rates;
+        $snapshot->profit = $profit;
+
+        $snapshot->save();
+
+        return $snapshot;
+
+    }
+
+    /**
+     * Get current state with assets
+     */
+    public function getCurrentState()
+    {
+
+        // return the last snapshot
+        // get last snapshot
+        $snapshot = Snapshot::where('portfolio_id', '=', $this->id)
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        if (!$snapshot) {
+            $snapshot = $this->generateSnapshot();
+        }
+
+        return [
+            'stats' => $snapshot->stats,
+            'current_date' => $snapshot->created_at
+        ];
+
+    }
+
+    /**
+     * Get balance usd
+     */
+    public function getBalanceUsd()
+    {
+
+        return $this->getCurrentState()['stats']['balance_usd'];
+
+
+    }
+
 
 }

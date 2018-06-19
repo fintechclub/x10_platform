@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\ExchangeRate;
 use App\Http\Controllers\Controller;
 use App\Portfolio;
+use App\Snapshot;
 use App\Transaction;
 use App\User;
 use Illuminate\Http\Request;
@@ -34,7 +35,9 @@ class PortfolioController extends Controller
         $items = $portfolio->assets;
 
         return [
-            'items' => $items
+            'items' => $items,
+            'stats' => $portfolio->snapshots[0]->stats,
+            'rates' => $portfolio->snapshots[0]->rates
         ];
 
     }
@@ -63,14 +66,11 @@ class PortfolioController extends Controller
             'btc_rub' => ExchangeRate::where('title', '=', 'btc_rub')->first()->price
         ];
 
-        // update prices for portoflio assets
-        $portfolio->updateAssetsRates();
-
         // create snapshot
         $portfolio->generateSnapshot($rates);
 
         // return new current state
-        return $portfolio->getCurrentState();
+        return $portfolio->snapshots;
 
 
     }
@@ -82,4 +82,33 @@ class PortfolioController extends Controller
     {
         return $portfolio->snapshots;
     }
+
+    /**
+     * Get charts
+     */
+    public function getCharts(Portfolio $portfolio, $type)
+    {
+
+        $labels = [];
+        $dataUsd = [];
+        $dataBtc = [];
+
+        $snapshots = Snapshot::where('portfolio_id', $portfolio->id)->orderBy('created_at', 'asc')->get();
+
+        foreach ($snapshots as $s) {
+
+            $labels[] = $s->created_at->format('Y-m-d');
+            $dataUsd[] = $s->stats['balance_usd'];
+            $dataBtc[] = $s->stats['balance_btc'];
+
+        }
+
+        return response()->json([
+            'labels' => $labels,
+            'usd' => $dataUsd,
+            'btc' => $dataBtc
+        ]);
+
+    }
+
 }

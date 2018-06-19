@@ -53,6 +53,7 @@
                                 <select class="form-control" v-model="tr.type">
                                     <option value="sell">SELL</option>
                                     <option value="buy">BUY</option>
+                                    <option value="withdraw">Withdraw</option>
                                 </select>
                             </div>
 

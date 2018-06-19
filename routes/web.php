@@ -97,6 +97,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/api/portfolio/current/{portfolio}', 'Api\PortfolioController@getCurrentState');
     Route::get('/api/portfolio/update/{portfolio}', 'Api\PortfolioController@getUpdate');
     Route::get('/api/portfolio/snapshots/{portfolio}', 'Api\PortfolioController@getSnapshots');
+    Route::get('/api/portfolio/charts/{portfolio}/{type}', 'Api\PortfolioController@getCharts');
 
     /* Asset */
     Route::get('/api/assets/{asset}/price', 'Api\AssetsController@getPrice');
