@@ -36,8 +36,8 @@ class PortfolioController extends Controller
 
         return [
             'items' => $items,
-            'stats' => $portfolio->snapshots[0]->stats,
-            'rates' => $portfolio->snapshots[0]->rates
+            'stats' => $portfolio->getCurrentState()['stats'],
+            'rates' => $portfolio->getCurrentState()['rates']
         ];
 
     }
