@@ -52,14 +52,14 @@
         <div class="col-sm-2">
             <div class="card">
                 <h3 class="card-header">BTC/USD</h3>
-                <div class="card-body" v-if="current.stats">@{{ current.rates.btc_usd  | formatUsd}}</div>
+                {{--<div class="card-body" v-if="current.stats">@{{ current.rates.btc_usd  | formatUsd}}</div>--}}
             </div>
         </div>
 
         <div class="col-sm-2">
             <div class="card">
                 <h3 class="card-header">BTC/RUB</h3>
-                <div class="card-body" v-if="current.stats">@{{ current.rates.btc_rub  | formatUsd}}</div>
+                {{--<div class="card-body" v-if="current.stats">@{{ current.rates.btc_rub  | formatUsd}}</div>--}}
             </div>
         </div>
 
