@@ -74,20 +74,22 @@
                             <td>Символ</td>
                             <td>Наименование</td>
                             <td>Баланс</td>
-                            <td>ср.взв.Цена BTC buy</td>
-                            <td>ср.взв.Цена BTC sell</td>
+                            <td>Средняя цена покупки, BTC</td>
+                            <td>Средняя цена покупки, USD</td>
+                            <td>Средняя цена продажи, BTC</td>
                             <td>Цена RUB</td>
                             <td>Доля актива в портфеле %</td>
                             <td>Стоимость, BTC</td>
                             <td>Стоимость, USD</td>
                         </tr>
 
-                        <tr v-for="item in current.items">
+                        <tr v-for="item in current.items" v-if="item.amount>0">
                             <td>@{{ item.asset.ticker }}</td>
                             <td>@{{ item.asset.title }}</td>
                             <td>@{{ item.amount }}</td>
-                            <td>@{{ item.avg_buy_price_btc }}</td>
-                            <td>@{{item.avg_sell_price_btc }}</td>
+                            <td>@{{ item.avg_buy_price_btc |  formatBtc}}</td>
+                            <td>@{{ item.avg_buy_price_usd | formatUsd}}</td>
+                            <td>@{{item.avg_sell_price_btc | formatBtc}}</td>
                             <td>@{{ }}</td>
                             <td></td>
                             <td>@{{  }}</td>

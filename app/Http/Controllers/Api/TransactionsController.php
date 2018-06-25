@@ -21,6 +21,12 @@ class TransactionsController extends Controller
         $user = User::find($request->user_id);
         $portfolio = Portfolio::find($request->portfolio_id);
 
+        // if it's update, rollback previous transaction and then update
+        if ($request->id) {
+            $tr = Transaction::find($request->id);
+            $portfolio->rollbackTransaction($tr);
+        }
+
         // create new transaction for specified portfolio
         $tr = $portfolio->transactions()->updateOrCreate(
             [
@@ -39,7 +45,7 @@ class TransactionsController extends Controller
                 'source_id' => $request->source_id
             ]);
 
-        // consider this in portfolio
+        // add it to portfolio
         $portfolio->processTransaction($tr);
 
         // return this transaction

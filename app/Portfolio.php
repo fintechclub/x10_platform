@@ -60,7 +60,6 @@ class Portfolio extends Model
         // if such asset not created, add the new one
         if (!$portfolioAsset) {
 
-
             $portfolioAsset = new PortfolioAsset();
 
             $portfolioAsset->asset_id = $asset->id;
@@ -92,8 +91,8 @@ class Portfolio extends Model
         $portfolioAsset->amount += doubleval($amount);
         $portfolioAsset->save();
 
-        // deduct from btc account
-        if ($useInteralBtcAccount == 1) {
+        // deduct from btc account only if it's not a btc
+        if ($useInteralBtcAccount == 1 && $asset->ticker != 'BTC') {
 
             $btcTotal = $amount * $priceBtc;
             $this->updateBtcAccount($btcTotal, 'sub');
@@ -125,7 +124,7 @@ class Portfolio extends Model
         $portfolioAsset->save();
 
         // deduct from btc account
-        if ($useInteralBtcAccount == 1) {
+        if ($useInteralBtcAccount == 1 && $asset->ticker != 'BTC') {
             $btcTotal = $amount * $priceBtc;
             $this->updateBtcAccount($btcTotal, 'add');
         }
@@ -149,6 +148,9 @@ class Portfolio extends Model
 
         // save
         $portfolioAsset->save();
+
+        // update prices
+        $portfolioAsset->updateWeightedAvgPrices();
 
     }
 
@@ -221,7 +223,7 @@ class Portfolio extends Model
 
             $pAsset->amount -= $amount;
 
-            if ($updateBtcAccount == 1) {
+            if ($updateBtcAccount == 1 && $asset->ticker != 'BTC') {
                 $btcTotal = $amount * $priceBtc;
                 $this->updateBtcAccount($btcTotal, 'add');
             }
@@ -232,7 +234,7 @@ class Portfolio extends Model
 
             $pAsset->amount += $amount;
 
-            if ($updateBtcAccount == 1) {
+            if ($updateBtcAccount == 1 && $asset->ticker != 'BTC') {
                 $btcTotal = $amount * $priceBtc;
                 $this->updateBtcAccount($btcTotal, 'sub');
             }
