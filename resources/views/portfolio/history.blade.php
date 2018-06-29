@@ -6,7 +6,7 @@
 
             <table class="table table-bordered">
                 <tr class="dark">
-                    <td colspan="3">Баланс портфеля на</td>
+                    <td colspan="4">Баланс портфеля на</td>
                     <td colspan="2">Изменение USD %</td>
                     <td colspan="2">Изменение BTC %</td>
                     {{--<td colspan="2">Цена BTC</td>--}}
@@ -15,6 +15,7 @@
                     <td>Дата</td>
                     <td>USD</td>
                     <td>RUB</td>
+                    <td>BTC</td>
                     <td>С прошлой записи</td>
                     <td>С начала создания</td>
                     <td>С прошлой записи</td>
@@ -27,9 +28,10 @@
                     <td>@{{ s.created_at }}</td>
                     <td>@{{ s.stats.balance_usd| formatUsd }}</td>
                     <td>@{{ s.stats.balance_rub | formatUsd}}</td>
-                    <td>@{{ getDifference(s, index, 'balance_usd') }}</td>
+                    <td>@{{ s.stats.balance_btc| formatBtc}}</td>
+                    <td>@{{ getDifference(s, index, 'balance_usd') | formatPercent}}%</td>
                     <td></td>
-                    <td>@{{ getDifference(s, index, 'balance_btc')  | formatBtc}}</td>
+                    <td>@{{ getDifference(s, index, 'balance_btc')  | formatPercent}}%</td>
                     <td></td>
                 </tr>
 

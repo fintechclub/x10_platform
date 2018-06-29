@@ -52,14 +52,14 @@
         <div class="col-sm-2">
             <div class="card">
                 <h3 class="card-header">BTC/USD</h3>
-                {{--<div class="card-body" v-if="current.stats">@{{ current.rates.btc_usd  | formatUsd}}</div>--}}
+                <div class="card-body" v-if="rates.btc_usd">@{{ rates.btc_usd  | formatUsd}}</div>
             </div>
         </div>
 
         <div class="col-sm-2">
             <div class="card">
                 <h3 class="card-header">BTC/RUB</h3>
-                {{--<div class="card-body" v-if="current.stats">@{{ current.rates.btc_rub  | formatUsd}}</div>--}}
+                <div class="card-body" v-if="rates.btc_rub">@{{ rates.btc_rub  | formatUsd}}</div>
             </div>
         </div>
 
@@ -77,7 +77,6 @@
                             <td>Средняя цена покупки, BTC</td>
                             <td>Средняя цена покупки, USD</td>
                             <td>Средняя цена продажи, BTC</td>
-                            <td>Цена RUB</td>
                             <td>Доля актива в портфеле %</td>
                             <td>Стоимость, BTC</td>
                             <td>Стоимость, USD</td>
@@ -90,10 +89,11 @@
                             <td>@{{ item.avg_buy_price_btc |  formatBtc}}</td>
                             <td>@{{ item.avg_buy_price_usd | formatUsd}}</td>
                             <td>@{{item.avg_sell_price_btc | formatBtc}}</td>
-                            <td>@{{ }}</td>
-                            <td></td>
-                            <td>@{{  }}</td>
-                            <td>@{{  }}</td>
+                            <td>
+                                @{{ item.amount * item.avg_buy_price_btc / current.stats.balance_btc * 100 | formatPercent }} %
+                            </td>
+                            <td>@{{ item.amount * item.avg_buy_price_btc | formatBtc }}</td>
+                            <td>@{{ item.amount * item.avg_buy_price_usd | formatUsd}}</td>
                         </tr>
 
                     </table>
@@ -129,6 +129,10 @@
 
         Vue.filter("formatUsd", function (value) {
             return numeral(value).format("0.00");
+        });
+
+        Vue.filter("formatPercent", function (value) {
+            return numeral(value).format("0.0");
         });
 
         Vue.filter("formatBtc", function (value) {
@@ -207,7 +211,11 @@
                 tr: sample,
                 sources: [],
                 busy: false,
-                dialogbusy: false
+                dialogbusy: false,
+                rates: {
+                    btc_usd: '',
+                    btc_rub: ''
+                }
             },
             mounted: function () {
 
@@ -219,12 +227,14 @@
                 // get current state for portfolio
                 axios.get('/api/portfolio/current/' + this.portfolio.id).then(response => {
                     this.current = response.data;
+                    this.rates = response.data.rates;
                 });
 
                 // get current state for portfolio
                 axios.get('/api/portfolio/snapshots/' + this.portfolio.id).then(response => {
                     this.snapshots = response.data;
                 });
+
 
             },
             methods: {
@@ -234,6 +244,7 @@
                     // get current state for portfolio
                     axios.get('/api/portfolio/current/' + this.portfolio.id).then(response => {
                         this.current = response.data;
+                        this.rates = response.data.rates;
                     });
 
                     // get current state for portfolio

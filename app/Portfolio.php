@@ -327,10 +327,20 @@ class Portfolio extends Model
     public function getBalanceUsd()
     {
 
-        return $this->getCurrentState()['stats']['balance_usd'];
+        $val = $this->getCurrentState()['stats']['balance_usd'];
 
+        return number_format($val, 2);
 
     }
 
+    /**
+     * Get last change
+     */
+    public function getLastChange()
+    {
+
+        return 0;
+
+    }
 
 }

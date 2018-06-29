@@ -78,17 +78,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label>Транзакция</label>
-                                <select name="tr_id" v-model="tr.source_id" class="form-control">
-                                    <option v-for="s in sources" v-bind:value="s.id">
-                                        #@{{ s.id }} / [@{{ s.amount }}] / @{{ s.comment }} / @{{ s.created_at }}
-                                    </option>
-                                </select>
-                            </div>
                         </div>
                     </div>
-
 
                 </div>
 
