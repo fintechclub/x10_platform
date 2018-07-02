@@ -267,9 +267,13 @@ class Portfolio extends Model
 
             $rate = $item->asset->getRate();
 
-            $btc += $item->amount * $rate->btc;
-            $usd += $item->amount * $rate->usd;
-            $rub += $item->amount * $rate->rub;
+            if ($rate) {
+
+                $btc += $item->amount * $rate->btc;
+                $usd += $item->amount * $rate->usd;
+                $rub += $item->amount * $rate->rub;
+
+            }
 
         }
 
