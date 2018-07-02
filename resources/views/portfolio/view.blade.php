@@ -88,7 +88,7 @@
                         <tr v-for="item in sortArrays(current.items)" v-if="item.amount>min_amount">
                             <td>@{{ item.asset.ticker }}</td>
                             <td>@{{ item.asset.title }}</td>
-                            <td class="text-right">@{{ item.amount }}</td>
+                            <td class="text-right">@{{ item.amount | format5 }}</td>
                             <td class="text-right">@{{ item.avg_buy_price_btc |  format5}}</td>
                             <td class="text-right">@{{ item.avg_buy_price_usd | format5}}</td>
                             <td class="text-right">
