@@ -25,7 +25,7 @@
                 </tr>
 
                 <tr v-for="(s,index) in snapshots">
-                    <td>@{{ s.created_at }}</td>
+                    <td>@{{ s.created_at | formatDate }}</td>
                     <td>@{{ s.stats.balance_usd| formatUsd }}</td>
                     <td>@{{ s.stats.balance_rub | formatUsd}}</td>
                     <td>@{{ s.stats.balance_btc| formatBtc}}</td>

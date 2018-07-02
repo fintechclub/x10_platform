@@ -28,43 +28,46 @@
             </div>
         </div>
 
-        <div class="col-sm-2">
+        <div class="col-sm-6">
             <div class="card">
-                <h3 class="card-header">Баланс BTC</h3>
-                <div class="card-body" v-if="current.stats">@{{  current.stats.balance_btc | formatBtc }}</div>
+                <h3 class="card-header">Баланс</h3>
+                <div class="card-body" v-if="current.stats">
+                    <table class="table text-center">
+                        <tr class="dark">
+                            <td>BTC</td>
+                            <td>USD</td>
+                            <td>RUB</td>
+                        </tr>
+                        <tr>
+                            <td>@{{  current.stats.balance_btc | format5 }}</td>
+                            <td>@{{ current.stats.balance_usd  | formatUsd}}</td>
+                            <td>@{{ current.stats.balance_rub  | formatUsd}}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <div class="col-sm-2">
+        <div class="col-sm-4">
             <div class="card">
-                <h3 class="card-header">Баланс USD</h3>
-                <div class="card-body" v-if="current.stats">@{{ current.stats.balance_usd  | formatUsd}}</div>
-            </div>
-        </div>
+                <h3 class="card-header">Курс</h3>
 
-        <div class="col-sm-2">
-            <div class="card">
-                <h3 class="card-header">Баланс RUB</h3>
-                <div class="card-body" v-if="current.stats">@{{ current.stats.balance_rub  | formatUsd}}</div>
-            </div>
-        </div>
-
-        <div class="col-sm-2">
-            <div class="card">
-                <h3 class="card-header">BTC/USD</h3>
-                <div class="card-body" v-if="rates.btc_usd">@{{ rates.btc_usd  | formatUsd}}</div>
-            </div>
-        </div>
-
-        <div class="col-sm-2">
-            <div class="card">
-                <h3 class="card-header">BTC/RUB</h3>
-                <div class="card-body" v-if="rates.btc_rub">@{{ rates.btc_rub  | formatUsd}}</div>
+                <div class="card-body">
+                    <table class="table text-center">
+                        <tr class="dark">
+                            <td>BTC/USD</td>
+                            <td>BTC/RUB</td>
+                        </tr>
+                        <tr>
+                            <td><span v-if="rates.btc_usd">@{{ rates.btc_usd  | formatUsd}}</span></td>
+                            <td><span v-if="rates.btc_rub">@{{ rates.btc_rub  | formatUsd}}</span></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
 
         <div class="col-sm-12 mt-4">
-
             <div class="card">
                 <h5 class="card-header">Состав портфеля #{{$portfolio->id}}</h5>
                 <div class="card-body">
@@ -82,18 +85,23 @@
                             <td>Стоимость, USD</td>
                         </tr>
 
-                        <tr v-for="item in current.items" v-if="item.amount>0">
+                        <tr v-for="item in sortArrays(current.items)" v-if="item.amount>min_amount">
                             <td>@{{ item.asset.ticker }}</td>
                             <td>@{{ item.asset.title }}</td>
-                            <td>@{{ item.amount }}</td>
-                            <td>@{{ item.avg_buy_price_btc |  formatBtc}}</td>
-                            <td>@{{ item.avg_buy_price_usd | formatUsd}}</td>
-                            <td>@{{item.avg_sell_price_btc | formatBtc}}</td>
-                            <td>
-                                @{{ item.amount * item.avg_buy_price_btc / current.stats.balance_btc * 100 | formatPercent }} %
+                            <td class="text-right">@{{ item.amount }}</td>
+                            <td class="text-right">@{{ item.avg_buy_price_btc |  format5}}</td>
+                            <td class="text-right">@{{ item.avg_buy_price_usd | format5}}</td>
+                            <td class="text-right">
+                                <span v-if="item.avg_sell_price_btc>0">
+                                @{{item.avg_sell_price_btc | format5}}
+                                </span>
                             </td>
-                            <td>@{{ item.amount * item.avg_buy_price_btc | formatBtc }}</td>
-                            <td>@{{ item.amount * item.avg_buy_price_usd | formatUsd}}</td>
+                            <td class="text-right">
+                                @{{ item.amount * item.avg_buy_price_btc / current.stats.balance_btc * 100 | formatPercent }}
+                                %
+                            </td>
+                            <td class="text-right">@{{ item.amount * item.avg_buy_price_btc | format5 }}</td>
+                            <td class="text-right">@{{ item.amount * item.avg_buy_price_usd | format5}}</td>
                         </tr>
 
                     </table>
@@ -121,22 +129,35 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
     <script src="https://unpkg.com/vue-chartjs/dist/vue-chartjs.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+
     <script>
 
+        Vue.filter('formatDate', function(value) {
+            if (value) {
+                return moment(String(value)).format('MM/DD/YYYY')
+            }
+        });
+
+        Vue.filter("format5", function (value) {
+            return numeral(value).format("0,0.00000");
+        });
+
         Vue.filter("formatNumber", function (value) {
-            return numeral(value).format("0.00000000");
+            return numeral(value).format("0,0.00000000");
         });
 
         Vue.filter("formatUsd", function (value) {
-            return numeral(value).format("0.00");
+            return numeral(value).format("0,0.00");
         });
 
         Vue.filter("formatPercent", function (value) {
-            return numeral(value).format("0.0");
+            return numeral(value).format("0,0.0");
         });
 
         Vue.filter("formatBtc", function (value) {
-            return numeral(value).format("0.00000000");
+            return numeral(value).format("0,0.00000000");
         });
 
         let sample = {
@@ -203,6 +224,7 @@
         var portfolio = new Vue({
             el: '#portfolio',
             data: {
+                min_amount: 0.000000000000001,
                 portfolio: {!! $portfolio !!},
                 transactions: [],
                 current: [],
@@ -245,11 +267,13 @@
                     axios.get('/api/portfolio/current/' + this.portfolio.id).then(response => {
                         this.current = response.data;
                         this.rates = response.data.rates;
+                        this.busy = false;
                     });
 
                     // get current state for portfolio
                     axios.get('/api/portfolio/snapshots/' + this.portfolio.id).then(response => {
                         this.snapshots = response.data;
+                        this.busy = false;
                     });
 
                 },
@@ -279,8 +303,9 @@
 
                     this.busy = true;
                     axios.get('/api/portfolio/update/' + this.portfolio.id).then(response => {
-                        this.snapshots = response.data;
-                        this.busy = false;
+                        //this.snapshots = response.data;
+                        //this.busy = false;
+                        this.reloadDashboard();
                     });
 
                 },
@@ -367,6 +392,9 @@
 
                     return -1;
 
+                },
+                sortArrays(arrays) {
+                    return _.orderBy(arrays, 'asset.ticker', 'asc');
                 }
             },
             computed: {}

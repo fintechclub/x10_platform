@@ -17,7 +17,7 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Инструмент</label>
+                                <label>Актив</label>
                                 <select name="ticker" class="form-control" v-model="tr.asset_id"
                                         @change="loadSourceTransactions(tr.asset_id)">
                                     <option value="">Select ticker</option>
@@ -33,12 +33,12 @@
                             </div>
 
                             <div class="form-group">
-                                <label>Стоимость в BTC</label>
+                                <label>Цена актива, BTC</label>
                                 <input type="text" placeholder="Price BTC" class="form-control" v-model="tr.price_btc"/>
                             </div>
 
                             <div class="form-group">
-                                <label>Стоимость в USD</label>
+                                <label>Цена актива, USD</label>
                                 <input type="text" placeholder="Price USD" class="form-control" v-model="tr.price_usd"/>
                             </div>
                         </div>

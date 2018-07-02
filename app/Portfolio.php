@@ -26,7 +26,7 @@ class Portfolio extends Model
      */
     public function assets()
     {
-        return $this->hasMany('App\PortfolioAsset')->with(['asset']);
+        return $this->hasMany('App\PortfolioAsset')->with(['asset'])->orderBy('asset_id','asc');
     }
 
 
