@@ -62,7 +62,7 @@ class TransactionsController extends Controller
 
         $transactions = Transaction::where('portfolio_id', '=', $portfolio->id)
             ->with('asset')
-            ->orderBy('created_at', 'asc')
+            ->orderBy('id', 'desc')
             ->withTrashed()
             ->get();
         return $transactions;

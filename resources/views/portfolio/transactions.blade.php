@@ -5,13 +5,12 @@
             <table class="table table-bordered">
                 <tr class="dark">
                     <td>№</td>
-                    <td>Актив</td>
                     <td>Дата</td>
-                    <td>Источник</td>
+                    <td>Актив</td>
                     <td>Кол-во</td>
-                    <td>Стоимость, BTC</td>
                     <td>Цена, btc</td>
                     <td>Цена, usd</td>
+                    <td>Стоимость, BTC</td>
                     <td>Операция</td>
                     <td>Комментарий</td>
                     <td></td>
@@ -21,25 +20,30 @@
                     <td>
                         @{{ t.id }}
                     </td>
+                    <td>@{{ t.when | formatDate }}</td>
                     <td>
                             <span v-if="t.asset">
                                 @{{ t.asset.title }}
-                                <small>@{{ t.asset_id }}</small>
+                                {{--<small>@{{ t.asset_id }}</small>--}}
                                 </span>
                         <span class="badge badge-primary" v-if="t.closed==1">closed</span>
 
                     </td>
-                    <td>@{{ t.when }}</td>
-                    <td>#@{{ t.source_id }}</td>
-                    <td>@{{ t.amount }}</td>
-                    <td>@{{ t.amount * t.price_btc | formatBtc}}</td>
+                    <td>@{{ t.amount}}</td>
                     <td>@{{ t.price_btc  | formatBtc}}</td>
                     <td>@{{ t.price_usd | formatUsd }}</td>
-                    <td>
-                                <span
-                                        class="badge"
-                                        :class="t.type=='sell' ? 'badge-danger' : 'badge-success'"
-                                >
+                    <td>@{{ t.amount * t.price_btc | formatBtc}}</td>
+
+                    <td class="op-type">
+                                <span class="badge badge-danger" v-if="t.type=='sell'">
+                                @{{ t.type }}
+                                </span>
+
+                        <span class="badge badge-success" v-if="t.type=='buy'">
+                                @{{ t.type }}
+                                </span>
+
+                        <span class="badge badge-warning" v-if="t.type=='withdraw'">
                                 @{{ t.type }}
                                 </span>
                     </td>
