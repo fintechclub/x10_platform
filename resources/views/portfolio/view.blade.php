@@ -343,7 +343,8 @@
                     // get sources for element firstly
                     axios.get('/api/transactions/opened/' + t.asset_id + '/' + this.portfolio.id).then(response => {
                         this.sources = response.data;
-                        this.tr = t;
+                        //copy transaction
+                        this.tr = Object.assign({}, t);
                         $(this.$refs.transactionDialog).modal('show');
                     });
 
