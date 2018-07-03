@@ -136,9 +136,10 @@
 
         Vue.filter('formatDate', function(value) {
             if (value) {
-                return moment(String(value)).format('MM/DD/YYYY')
+                return moment(String(value)).format('DD/MM/YYYY')
             }
         });
+
 
         Vue.filter("format5", function (value) {
             return numeral(value).format("0,0.00000");
@@ -395,6 +396,9 @@
                 },
                 sortArrays(arrays) {
                     return _.orderBy(arrays, 'asset.ticker', 'asc');
+                },
+                sortByParam(arrays, param, type) {
+                    return _.orderBy(arrays, param, type);
                 }
             },
             computed: {}
