@@ -69,7 +69,7 @@
 
         <div class="col-sm-12 mt-4">
             <div class="card">
-                <h5 class="card-header">Состав портфеля #{{$portfolio->id}}</h5>
+                <h5 class="card-header">Состав портфеля</h5>
                 <div class="card-body">
 
                     <table class="table table-bordered">
@@ -136,7 +136,7 @@
 
         Vue.filter('formatDate', function(value) {
             if (value) {
-                return moment(String(value)).format('DD/MM/YYYY')
+                return moment(String(value)).format('DD-MM-YYYY')
             }
         });
 

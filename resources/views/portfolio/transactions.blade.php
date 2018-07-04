@@ -6,10 +6,10 @@
                 <tr class="dark">
 {{--                    <td>№</td>--}}
                     <td>Дата</td>
-                    <td>Актив</td>
-                    <td>Кол-во</td>
-                    <td>Цена, btc</td>
-                    <td>Цена, usd</td>
+                    <td colspan="2">Актив</td>
+                    <td>Количество</td>
+                    <td>Цена, BTC</td>
+                    <td>Цена, USD</td>
                     <td>Стоимость, BTC</td>
                     <td>Операция</td>
                     <td>Комментарий</td>
@@ -22,17 +22,18 @@
                     </td>--}}
                     <td>@{{ t.when | formatDate }}</td>
                     <td>
+                        @{{ t.asset.ticker }}
+                    </td>
+                    <td>
                             <span v-if="t.asset">
                                 @{{ t.asset.title }}
                                 {{--<small>@{{ t.asset_id }}</small>--}}
                                 </span>
-                        <span class="badge badge-primary" v-if="t.closed==1">closed</span>
-
                     </td>
-                    <td>@{{ t.amount}}</td>
-                    <td>@{{ t.price_btc  | formatBtc}}</td>
-                    <td>@{{ t.price_usd | formatUsd }}</td>
-                    <td>@{{ t.amount * t.price_btc | formatBtc}}</td>
+                    <td class="text-right">@{{ t.amount}}</td>
+                    <td class="text-right">@{{ t.price_btc  | formatBtc}}</td>
+                    <td class="text-right">@{{ t.price_usd | formatUsd }}</td>
+                    <td class="text-right">@{{ t.amount * t.price_btc | formatBtc}}</td>
 
                     <td class="op-type">
                                 <span class="badge badge-danger" v-if="t.type=='sell'">
@@ -48,7 +49,7 @@
                                 </span>
                     </td>
                     <td>@{{ t.comment }}</td>
-                    <td class="text-center">
+                    <td class="text-center text-nowrap">
                         <button class="btn btn-sm btn-light" @click="editTransaction(t)">
                             <i class="far fa-edit"></i>
                         </button>

@@ -6,7 +6,7 @@
 
             <table class="table table-bordered">
                 <tr class="dark">
-                    <td colspan="4">Баланс портфеля на</td>
+                    <td colspan="4">Баланс портфеля</td>
                     <td colspan="2">Изменение USD %</td>
                     <td colspan="2">Изменение BTC %</td>
                     {{--<td colspan="2">Цена BTC</td>--}}
@@ -26,13 +26,13 @@
 
                 <tr v-for="(s,index) in snapshots">
                     <td>@{{ s.created_at | formatDate }}</td>
-                    <td>@{{ s.stats.balance_usd| formatUsd }}</td>
-                    <td>@{{ s.stats.balance_rub | formatUsd}}</td>
-                    <td>@{{ s.stats.balance_btc| formatBtc}}</td>
-                    <td>@{{ getDifference(s, index, 'balance_usd') | formatPercent}}%</td>
-                    <td></td>
-                    <td>@{{ getDifference(s, index, 'balance_btc')  | formatPercent}}%</td>
-                    <td></td>
+                    <td class="text-right">@{{ s.stats.balance_usd| formatUsd }}</td>
+                    <td class="text-right">@{{ s.stats.balance_rub | formatUsd}}</td>
+                    <td class="text-right">@{{ s.stats.balance_btc| formatBtc}}</td>
+                    <td class="text-right">@{{ getDifference(s, index, 'balance_usd') | formatPercent}}%</td>
+                    <td class="text-right"></td>
+                    <td class="text-right">@{{ getDifference(s, index, 'balance_btc')  | formatPercent}}%</td>
+                    <td class="text-right"></td>
                 </tr>
 
             </table>
