@@ -28,7 +28,7 @@
                     <td>@{{ s.created_at | formatDate }}</td>
                     <td class="text-right">@{{ s.stats.balance_usd| formatUsd }}</td>
                     <td class="text-right">@{{ s.stats.balance_rub | formatUsd}}</td>
-                    <td class="text-right">@{{ s.stats.balance_btc| formatBtc}}</td>
+                    <td class="text-right">@{{ s.stats.balance_btc| format5}}</td>
                     <td class="text-right">@{{ getDifference(s, index, 'balance_usd') | formatPercent}}%</td>
                     <td class="text-right"></td>
                     <td class="text-right">@{{ getDifference(s, index, 'balance_btc')  | formatPercent}}%</td>

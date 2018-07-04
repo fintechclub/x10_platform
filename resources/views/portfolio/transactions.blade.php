@@ -31,9 +31,9 @@
                                 </span>
                     </td>
                     <td class="text-right">@{{ t.amount}}</td>
-                    <td class="text-right">@{{ t.price_btc  | formatBtc}}</td>
+                    <td class="text-right">@{{ t.price_btc  | format5}}</td>
                     <td class="text-right">@{{ t.price_usd | formatUsd }}</td>
-                    <td class="text-right">@{{ t.amount * t.price_btc | formatBtc}}</td>
+                    <td class="text-right">@{{ t.amount * t.price_btc | format5}}</td>
 
                     <td class="op-type">
                                 <span class="badge badge-danger" v-if="t.type=='sell'">
