@@ -154,12 +154,16 @@ Route::get('/upgrade-2/{id?}', function ($id = null) {
 
     foreach ($snapshots as $snapshot) {
 
-        $changeFromStart = $snapshot->portfolio->getChangeFromTheFirstSnapshot($snapshot->btc, $snapshot->usd);
+        if ($snapshot->portfolio) {
 
-        $snapshot->btc_from_start = $changeFromStart['btc'];
-        $snapshot->usd_from_start = $changeFromStart['usd'];
+            $changeFromStart = $snapshot->portfolio->getChangeFromTheFirstSnapshot($snapshot->btc, $snapshot->usd);
 
-        $snapshot->save();
+            $snapshot->btc_from_start = $changeFromStart['btc'];
+            $snapshot->usd_from_start = $changeFromStart['usd'];
+
+            $snapshot->save();
+
+        }
 
     }
 
