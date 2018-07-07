@@ -113,7 +113,7 @@ Route::get('/test/{id}', function ($id) {
 
 });
 
-Route::get('/upgrade-1/{id}', function ($id = null) {
+Route::get('/upgrade-1/{id?}', function ($id = null) {
 
     if (!$id) {
         $snapshots = \App\Snapshot::all();
