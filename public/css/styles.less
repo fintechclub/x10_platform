@@ -317,7 +317,7 @@ dd {
 }
 
 #portfolio {
-  .table {
+  .table, .darken-table {
     tr {
       &.dark {
         td {
@@ -423,15 +423,204 @@ dd {
     right: 20px;
   }
 
-  .text-bigger{
+  .text-bigger {
     font-size: 24px;
     display: block;
   }
 }
 
-.op-type{
+.op-type {
   text-align: center;
   span {
-    font-size:12px;
+    font-size: 12px;
   }
+}
+
+.p-item {
+
+  margin-bottom: 15px;
+
+  .card-body {
+    padding: 0;
+  }
+  table {
+    td {
+      border: none;
+      small {
+        font-size: 12px;
+        color: #4F4F4F;
+      }
+      strong {
+        display: block;
+        font-size: 18px;
+        color: #4F4F4F;
+      }
+    }
+    td:first-child {
+      border-right: 1px solid #dee2e6;
+    }
+    tr:first-child td {
+      border-bottom: 1px solid #dee2e6;
+    }
+  }
+}
+
+.colored-card {
+  margin-bottom: 15px;
+  padding: 15px 25px;
+  color: #fff;
+  .card-body {
+    padding: 0;
+  }
+  h3 {
+    font-size: 12px;
+    font-weight: normal;
+  }
+
+  .icon {
+    position: absolute;
+    top: 30px;
+    right: 15px;
+  }
+
+  .icon-flat {
+    position: absolute;
+    bottom: 13px;
+    right: 15px;
+    &.icon-increase {
+      bottom: 11px;
+      right: 14px;
+    }
+    &.icon-clock{
+      bottom: 15px;
+      right: 11px;
+    }
+  }
+
+  strong {
+    display: block;
+    font-weight: normal;
+    font-size: 18px;
+  }
+  &.act {
+    background: #9676E0;
+  }
+
+  &.depo {
+    background: #2FB0DA;
+  }
+
+  &.prof {
+    background: #8BC24A;
+  }
+
+  &.grow {
+    background: #373737;
+
+  }
+
+}
+
+.icon-portfolio-white {
+  width: 48px;
+  height: 43px;
+  background-image: url(/img/portfolio_white.png);
+  background-size: 70%;
+  background-repeat: no-repeat;
+}
+
+.icon-deposit {
+  width: 48px;
+  height: 43px;
+  background-image: url(/img/coins.png);
+  background-size: 70%;
+  background-repeat: no-repeat;
+}
+
+.icon-profit {
+  width: 48px;
+  height: 43px;
+  background-image: url(/img/money-bag.png);
+  background-size: 70%;
+  background-repeat: no-repeat;
+}
+
+.icon-growth {
+  width: 48px;
+  height: 43px;
+  background-image: url(/img/growth.png);
+  background-size: 70%;
+  background-repeat: no-repeat;
+}
+
+.icon-presentation {
+  width: 90px;
+  height: 100px;
+  background-image: url(/img/presentation.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.centered-block {
+  .icon-presentation {
+    margin: 15px auto;
+    display: block;
+  }
+  margin-top: 10%;
+  text-align: center;
+}
+
+.darken-table {
+  tr {
+    &.dark {
+      td {
+        background: #E0E0E0;
+        border-color: #fff;
+        color: #4F4F4F;
+      }
+    }
+    &.light {
+      td {
+        background: #e0e0e0;
+        border-color: #fff;
+      }
+    }
+  }
+  td {
+    font-size: 12px;
+    background: #f8f8f8;
+    border-color: #fff;
+  }
+}
+
+.icon-wallet {
+  width: 50px;
+  height: 46px;
+  background-image: url(/img/wallet.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.icon-case {
+  width: 50px;
+  height: 46px;
+  background-image: url(/img/case.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.icon-increase {
+  width: 50px;
+  height: 46px;
+  background-image: url(/img/increase.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.icon-clock {
+  width: 50px;
+  height: 46px;
+  background-image: url(/img/clock.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
 }

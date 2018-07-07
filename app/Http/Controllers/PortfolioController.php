@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Portfolio;
 use App\User;
+use Artesaos\SEOTools\Traits\SEOTools;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -13,17 +14,22 @@ use Illuminate\Support\Facades\Auth;
 class PortfolioController extends Controller
 {
 
+    use SEOTools;
+
     /**
      * Portfolio main page
      */
     public function getIndex(Portfolio $portfolio)
     {
 
+        $this->seo()->setTitle('Portfolio');
 
         $user = Auth::user();
 
         // if portfolio is here, show portfolio details
-        if($portfolio->id){
+        if ($portfolio->id) {
+
+            $this->seo()->setTitle('Просмотр портфеля');
 
             $data['portfolio'] = $portfolio;
             $data['user'] = $user;

@@ -4,7 +4,6 @@
         <div class="card-body">
             <table class="table table-bordered">
                 <tr class="dark">
-{{--                    <td>№</td>--}}
                     <td>Дата</td>
                     <td colspan="2">Актив</td>
                     <td>Количество</td>
@@ -17,9 +16,6 @@
                 </tr>
 
                 <tr v-for="t in sortByParam(transactions,'when', 'desc')" :class="{trashed: t.deleted_at}">
-{{--                    <td>
-                        @{{ t.id }}
-                    </td>--}}
                     <td>@{{ t.when | formatDate }}</td>
                     <td>
                         @{{ t.asset.ticker }}
@@ -27,7 +23,6 @@
                     <td>
                             <span v-if="t.asset">
                                 @{{ t.asset.title }}
-                                {{--<small>@{{ t.asset_id }}</small>--}}
                                 </span>
                     </td>
                     <td class="text-right">@{{ t.amount}}</td>

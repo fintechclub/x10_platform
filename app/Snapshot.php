@@ -32,4 +32,12 @@ class Snapshot extends Model
         return $this->hasMany('App\SnapshotAsset')->with('asset');
     }
 
+    /**
+     * Portfolio
+     */
+    public function portfolio()
+    {
+        return $this->belongsTo('App\Portfolio');
+    }
+
 }

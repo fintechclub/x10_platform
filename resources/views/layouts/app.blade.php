@@ -14,7 +14,8 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&amp;subset=cyrillic"
           rel="stylesheet">
 
-    <title>x10.fund dashboard</title>
+    {!! SEO::generate(true) !!}
+
     {{--@todo: remove debug classes--}}
     <style>
         .trashed{
@@ -35,7 +36,7 @@
             <li class="{{Request::is('dashboard') ? 'active' : ''}}">
                 <a href="/dashboard"><i class="fas fa-home"></i> <span class="t-hide">Dashboard</span></a>
             </li>
-            <li class="{{Request::is('portfolio') ? 'active' : ''}}">
+            <li class="{{Request::is('portfolio') || Request::is('portfolio/*') ? 'active' : ''}}">
                 <a href="/portfolio"><i class="fas fa-chart-bar"></i> <span class="t-hide">Portfolio</span></a>
             </li>
             <li>

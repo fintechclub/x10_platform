@@ -225,7 +225,7 @@
         var portfolio = new Vue({
             el: '#portfolio',
             data: {
-                min_amount: {{env('min_amount', 0.00000000000001)}},
+                min_amount: {{env('min_amount', 0.000001)}},
                 portfolio: {!! $portfolio !!},
                 transactions: [],
                 current: [],

@@ -84,7 +84,6 @@ Route::group(['middleware' => ['auth']], function () {
 Route::group(['middleware' => ['auth']], function () {
 
 
-
     /* Transactions */
     Route::post('/api/transactions/add', 'Api\TransactionsController@postCreate');
     Route::get('/api/transactions/get/{portfolio}', 'Api\TransactionsController@getHistory');
@@ -101,4 +100,69 @@ Route::group(['middleware' => ['auth']], function () {
 
     /* Asset */
     Route::get('/api/assets/{asset}/price', 'Api\AssetsController@getPrice');
+});
+
+Route::get('/test/{id}', function ($id) {
+
+    $portfolio = \App\Portfolio::find($id);
+
+    $btc = 0.30651601122714;
+    $usd = 2165.3671551193;
+
+    dd($portfolio->getChangeFromTheFirstSnapshot($btc, $usd));
+
+});
+
+Route::get('/upgrade-1/{id}', function ($id = null) {
+
+    if (!$id) {
+        $snapshots = \App\Snapshot::all();
+    } else {
+        $snapshots = \App\Snapshot::where('id', '=', $id)->get();
+    }
+
+    foreach ($snapshots as $snapshot) {
+
+        $stat = $snapshot->stats;
+        $rates = $snapshot->rates;
+
+        $snapshot->btc = $stat['balance_btc'];
+        $snapshot->usd = $stat['balance_usd'];
+        $snapshot->rub = $stat['balance_rub'];
+
+        if (is_array($rates) && count($rates) > 0) {
+            $snapshot->btc_usd = $rates['btc_usd'];
+            $snapshot->btc_rub = $rates['btc_rub'];
+        }
+
+        $snapshot->save();
+
+    }
+
+    echo 'Done';
+
+});
+
+// update changes from the start
+Route::get('/upgrade-2/{id?}', function ($id = null) {
+
+    if (!$id) {
+        $snapshots = \App\Snapshot::all();
+    } else {
+        $snapshots = \App\Snapshot::where('id', '=', $id)->get();
+    }
+
+    foreach ($snapshots as $snapshot) {
+
+        $changeFromStart = $snapshot->portfolio->getChangeFromTheFirstSnapshot($snapshot->btc, $snapshot->usd);
+
+        $snapshot->btc_from_start = $changeFromStart['btc'];
+        $snapshot->usd_from_start = $changeFromStart['usd'];
+
+        $snapshot->save();
+
+    }
+
+    echo 'Done';
+
 });

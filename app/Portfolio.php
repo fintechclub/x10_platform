@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Portfolio extends Model
@@ -26,7 +27,7 @@ class Portfolio extends Model
      */
     public function assets()
     {
-        return $this->hasMany('App\PortfolioAsset')->with(['asset'])->orderBy('asset_id','asc');
+        return $this->hasMany('App\PortfolioAsset')->with(['asset'])->orderBy('asset_id', 'asc');
     }
 
 
@@ -289,16 +290,58 @@ class Portfolio extends Model
             'btc' => ''
         ];
 
-        // save to snapshot
+        // calc changes from the start
+        $changeFromStart = $this->getChangeFromTheFirstSnapshot($btc, $usd);
 
+        // save to snapshot
         $snapshot->portfolio_id = $this->id;
-        $snapshot->stats = $stats;
-        $snapshot->rates = $rates;
         $snapshot->profit = $profit;
+
+        // current balance
+        $snapshot->btc = $btc;
+        $snapshot->usd = $usd;
+        $snapshot->rub = $rub;
+        $snapshot->btc_usd = $rates['btc_usd'];
+        $snapshot->btc_rub = $rates['btc_rub'];
+
+        $snapshot->btc_from_start = $changeFromStart['btc'];
+        $snapshot->usd_from_start = $changeFromStart['usd'];
 
         $snapshot->save();
 
         return $snapshot;
+
+    }
+
+    /**
+     * Calc the changes from the first snapshot
+     */
+    public function getChangeFromTheFirstSnapshot($btc, $usd)
+    {
+
+        // get first snapshot
+        $snapshot = Snapshot::where('portfolio_id', '=', $this->id)
+            ->where('btc', '>', 0)
+            ->orderBy('created_at', 'asc')->first();
+
+        if ($snapshot) {
+
+            if ($btc > 0 && $usd > 0) {
+
+                return [
+                    'btc' => ($btc - $snapshot->btc) / $btc * 100,
+                    'usd' => ($usd - $snapshot->usd) / $usd * 100
+                ];
+
+            }
+
+        }
+
+        return [
+            'btc' => 0,
+            'usd' => 0
+        ];
+
 
     }
 
@@ -347,4 +390,115 @@ class Portfolio extends Model
 
     }
 
+    /**
+     * Get current balance
+     */
+    public function getBalance($currency = 'btc', $formatted = false)
+    {
+
+        $btc = $this->getTotalBtcBalance();
+
+        // current rate
+        $rub = ExchangeRate::where('title', '=', 'btc_rub')->first();
+        $usd = ExchangeRate::where('title', '=', 'btc_usd')->first();
+
+        if ($currency == 'rub') {
+
+            $res = $btc * $rub->price;
+
+            if ($formatted) {
+                return number_format($res, 2);
+            }
+
+            return $res;
+
+        }
+
+        if ($currency == 'usd') {
+
+            $res = $btc * $usd->price;
+
+            if ($formatted) {
+                return number_format($res, 2);
+            }
+
+            return $res;
+
+        }
+
+        if ($formatted) {
+            return number_format($btc, 5);
+        }
+
+        return $btc;
+
+    }
+
+
+    /**
+     * Get current balance
+     */
+    public function getTotalBtcBalance()
+    {
+
+        $btc = 0;
+
+        foreach ($this->assets as $item) {
+
+            $rate = $item->asset->getRate();
+
+            $btc += $item->amount * $rate->btc;
+        }
+
+        return $btc;
+
+    }
+
+    /**
+     * Get total growth
+     */
+    public function getTotalGrowth()
+    {
+        return 0;
+    }
+
+    /**
+     * Get total profit
+     */
+    public function getTotalProfit()
+    {
+        return 0;
+    }
+
+    /**
+     * Get life time
+     */
+    public function getLifeTime()
+    {
+
+        $now = Carbon::now();
+        return $this->created_at->diffInDays($now);
+
+    }
+
+    /**
+     * Get assets in bitcoins
+     */
+    public function getAssetsInBtc()
+    {
+
+        $totalBtc = $this->getTotalBtcBalance();
+        $assets = [];
+
+        /** @var Asset $a */
+        foreach ($this->assets as $a) {
+
+            $rate = $a->asset->getRate();
+            $assets[$a->asset->title] = number_format($a->amount * $rate->btc / $totalBtc * 100, 2);
+
+        }
+
+        return $assets;
+
+    }
 }

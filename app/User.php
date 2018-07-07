@@ -51,4 +51,35 @@ class User extends Authenticatable
         $this->save();
 
     }
+
+    /**
+     * Get total deposit
+     */
+    public function getTotalData()
+    {
+
+        $deposit = 0;
+        $profit = 0;
+        $growth = 0;
+
+        /** @var Portfolio $p */
+        foreach ($this->portfolios as $p) {
+
+            $deposit += $p->deposit;
+
+            // in btc
+            $profit += $p->getTotalProfit();
+
+            // in btc
+            $growth += $p->getTotalGrowth();
+
+        }
+
+        return [
+            'deposit' => $deposit,
+            'profit' => $profit,
+            'growth' => $growth
+        ];
+
+    }
 }
