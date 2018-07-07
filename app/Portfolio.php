@@ -468,7 +468,16 @@ class Portfolio extends Model
      */
     public function getTotalProfit()
     {
-        return 0;
+
+        $bn = $this->getInitialBalance();
+        $bt = $this->getBalance('btc');
+
+        if ($bn == 0) {
+            return -1;
+        }
+
+        $profit = ($bt / $bn - 1) * 100;
+        return number_format($profit, 2);
     }
 
     /**
@@ -500,6 +509,24 @@ class Portfolio extends Model
         }
 
         return $assets;
+
+    }
+
+    /**
+     * Get initial balance
+     */
+    public function getInitialBalance()
+    {
+
+        $snapshot = Snapshot::where('portfolio_id', '=', $this->id)
+            ->where('btc', '>', 0)
+            ->orderBy('created_at', 'asc')->first();
+
+        if ($snapshot) {
+            return $snapshot->btc;
+        }
+
+        return 0;
 
     }
 }
