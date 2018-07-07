@@ -10,7 +10,7 @@
                     <h5 class="card-header">Портфель #{{$p->id}}</h5>
                     <div class="card-body portfolio-item">
                         <span class="text-bigger">${{$p->getBalanceUsd()}}</span>
-                        <span class="text-bigger">{{$p->getLastChange()}}</span>
+                        <span class="text-bigger">{{$p->getTotalProfit()}} %</span>
 
                         <i class="icon icon-portfolio"></i>
                     </div>
