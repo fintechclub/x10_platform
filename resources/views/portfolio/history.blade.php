@@ -26,9 +26,9 @@
 
                 <tr v-for="(s,index) in snapshots">
                     <td>@{{ s.created_at | formatDate }}</td>
-                    <td class="text-right">@{{ s.stats.balance_usd| formatUsd }}</td>
-                    <td class="text-right">@{{ s.stats.balance_rub | formatUsd}}</td>
-                    <td class="text-right">@{{ s.stats.balance_btc| format5}}</td>
+                    <td class="text-right">@{{ s.usd| formatUsd }}</td>
+                    <td class="text-right">@{{ s.rub | formatUsd}}</td>
+                    <td class="text-right">@{{ s.btc| format5}}</td>
                     <td class="text-right">@{{ getDifference(s, index, 'balance_usd') | formatPercent}}%</td>
                     <td class="text-right" :class="{'text-danger': s.usd_from_start<0}">@{{ s.usd_from_start | formatPercent }}%</td>
                     <td class="text-right">@{{ getDifference(s, index, 'balance_btc')  | formatPercent}}%</td>

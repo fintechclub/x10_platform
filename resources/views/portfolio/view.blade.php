@@ -15,15 +15,15 @@
             </button>
 
             <span class="text-muted small"
-                  v-if="current.current_date">Показаны данные на @{{ current.current_date.date }}</span>
+                  v-if="current.current_date">Показаны данные на @{{ current.current_date.date | formatDate }}</span>
 
         </div>
 
         <div class="col-sm-2 d-none">
             <div class="card">
                 <h3 class="card-header">BTC</h3>
-                <div class="card-body" v-if="current.stats">
-                    @{{  current.stats.total_btc | formatBtc }}
+                <div class="card-body" v-if="current.btc">
+                    @{{  current.snapshot.btc | formatBtc }}
                 </div>
             </div>
         </div>
@@ -31,7 +31,7 @@
         <div class="col-sm-6">
             <div class="card">
                 <h3 class="card-header">Баланс</h3>
-                <div class="card-body" v-if="current.stats">
+                <div class="card-body">
                     <table class="table text-center">
                         <tr class="dark">
                             <td>BTC</td>
@@ -39,9 +39,9 @@
                             <td>RUB</td>
                         </tr>
                         <tr>
-                            <td>@{{  current.stats.balance_btc | format5 }}</td>
-                            <td>@{{ current.stats.balance_usd  | formatUsd}}</td>
-                            <td>@{{ current.stats.balance_rub  | formatUsd}}</td>
+                            <td>@{{  current.snapshot.btc | format5 }}</td>
+                            <td>@{{ current.snapshot.usd  | formatUsd}}</td>
+                            <td>@{{ current.snapshot.rub  | formatUsd}}</td>
                         </tr>
                     </table>
                 </div>
@@ -97,7 +97,7 @@
                                 </span>
                             </td>
                             <td class="text-right">
-                                @{{ item.amount * item.avg_buy_price_btc / current.stats.balance_btc * 100 | formatPercent }}
+                                @{{ item.amount * item.avg_buy_price_btc / current.btc * 100 | formatPercent }}
                                 %
                             </td>
                             <td class="text-right">@{{ item.amount * item.avg_buy_price_btc | format5 }}</td>
@@ -386,7 +386,7 @@
                     if (index < this.snapshots.length - 1) {
 
                         let prev = this.snapshots[index + 1];
-                        let diff = (s.stats[type] - prev.stats[type]) / s.stats[type] * 100;
+                        let diff = (s[type] - prev[type]) / s[type] * 100;
 
                         return diff;
 

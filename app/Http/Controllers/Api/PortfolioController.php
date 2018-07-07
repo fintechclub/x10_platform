@@ -37,11 +37,12 @@ class PortfolioController extends Controller
         return [
             'items' => $items,
             'stats' => $portfolio->getCurrentState()['stats'],
-            'current_date'=>$portfolio->getCurrentState()['current_date'],
+            'current_date' => $portfolio->getCurrentState()['current_date'],
             'rates' => [
-                'btc_usd' => ExchangeRate::where('title','=', 'btc_usd')->first()->price,
-                'btc_rub' => ExchangeRate::where('title','=', 'btc_rub')->first()->price
-            ]
+                'btc_usd' => ExchangeRate::where('title', '=', 'btc_usd')->first()->price,
+                'btc_rub' => ExchangeRate::where('title', '=', 'btc_rub')->first()->price
+            ],
+            'snapshot' => $portfolio->getCurrentState()['snapshot'],
         ];
 
     }

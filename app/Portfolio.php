@@ -363,7 +363,8 @@ class Portfolio extends Model
 
         return [
             'stats' => $snapshot->stats,
-            'current_date' => $snapshot->created_at
+            'current_date' => $snapshot->created_at,
+            'snapshot' => $snapshot
         ];
 
     }
