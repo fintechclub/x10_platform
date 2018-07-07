@@ -103,8 +103,8 @@ class PortfolioController extends Controller
         foreach ($snapshots as $s) {
 
             $labels[] = $s->created_at->format('Y-m-d');
-            $dataUsd[] = $s->stats['balance_usd'];
-            $dataBtc[] = $s->stats['balance_btc'];
+            $dataUsd[] = $s->usd;
+            $dataBtc[] = $s->btc;
 
         }
 
