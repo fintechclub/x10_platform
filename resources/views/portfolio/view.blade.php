@@ -19,19 +19,10 @@
 
         </div>
 
-        <div class="col-sm-2 d-none">
-            <div class="card">
-                <h3 class="card-header">BTC</h3>
-                <div class="card-body" v-if="current.btc">
-                    @{{  current.snapshot.btc | formatBtc }}
-                </div>
-            </div>
-        </div>
-
         <div class="col-sm-6">
             <div class="card">
                 <h3 class="card-header">Баланс</h3>
-                <div class="card-body">
+                <div class="card-body" v-if="current.snapshot">
                     <table class="table text-center">
                         <tr class="dark">
                             <td>BTC</td>
@@ -39,7 +30,7 @@
                             <td>RUB</td>
                         </tr>
                         <tr>
-                            <td>@{{  current.snapshot.btc | format5 }}</td>
+                            <td>@{{ current.snapshot.btc | format5 }}</td>
                             <td>@{{ current.snapshot.usd  | formatUsd}}</td>
                             <td>@{{ current.snapshot.rub  | formatUsd}}</td>
                         </tr>
