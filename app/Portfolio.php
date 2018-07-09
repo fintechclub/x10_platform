@@ -301,11 +301,11 @@ class Portfolio extends Model
         $snapshot->btc = $btc;
         $snapshot->usd = $usd;
         $snapshot->rub = $rub;
-        $snapshot->btc_usd = $rates['btc_usd'];
-        $snapshot->btc_rub = $rates['btc_rub'];
+        $snapshot->btc_usd = @$rates['btc_usd'];
+        $snapshot->btc_rub = @$rates['btc_rub'];
 
-        $snapshot->btc_from_start = $changeFromStart['btc'];
-        $snapshot->usd_from_start = $changeFromStart['usd'];
+        $snapshot->btc_from_start = @$changeFromStart['btc'];
+        $snapshot->usd_from_start = @$changeFromStart['usd'];
 
         $snapshot->save();
 
@@ -375,7 +375,7 @@ class Portfolio extends Model
     public function getBalanceUsd()
     {
 
-        $val = $this->getCurrentState()['stats']['balance_usd'];
+        $val = $this->getCurrentState()['snapshot']->usd;
 
         return number_format($val, 2);
 
@@ -518,13 +518,15 @@ class Portfolio extends Model
     public function getInitialBalance()
     {
 
-        $snapshot = Snapshot::where('portfolio_id', '=', $this->id)
+        return $this->deposit;
+
+/*        $snapshot = Snapshot::where('portfolio_id', '=', $this->id)
             ->where('btc', '>', 0)
             ->orderBy('created_at', 'asc')->first();
 
         if ($snapshot) {
             return $snapshot->btc;
-        }
+        }*/
 
         return 0;
 
