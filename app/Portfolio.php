@@ -448,7 +448,14 @@ class Portfolio extends Model
 
             $rate = $item->asset->getRate();
 
-            $btc += $item->amount * $rate->btc;
+            if ($rate) {
+                $btc += $item->amount * $rate->btc;
+            } else {
+
+                // throw notification to admin
+
+            }
+
         }
 
         return $btc;
@@ -520,13 +527,13 @@ class Portfolio extends Model
 
         return $this->deposit;
 
-/*        $snapshot = Snapshot::where('portfolio_id', '=', $this->id)
-            ->where('btc', '>', 0)
-            ->orderBy('created_at', 'asc')->first();
+        /*        $snapshot = Snapshot::where('portfolio_id', '=', $this->id)
+                    ->where('btc', '>', 0)
+                    ->orderBy('created_at', 'asc')->first();
 
-        if ($snapshot) {
-            return $snapshot->btc;
-        }*/
+                if ($snapshot) {
+                    return $snapshot->btc;
+                }*/
 
         return 0;
 
