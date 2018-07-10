@@ -10,7 +10,7 @@
                     <strong>
                         {{number_format($p->deposit,2)}} Р.
                     </strong>
-                    <i class="icon-flat icon-wallet"></i>
+                    <i class="icon icon-profit"></i>
                 </div>
             </div>
         </div>
@@ -22,7 +22,7 @@
                     <strong>
                         {{$p->getBalance('rub',true)}} Р.
                     </strong>
-                    <i class="icon-flat icon-case"></i>
+                    <i class="icon icon-portfolio-white"></i>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
                     <strong>
                         {{$p->getTotalProfit()}} %
                     </strong>
-                    <i class="icon-flat icon-increase"></i>
+                    <i class="icon icon-growth"></i>
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
                     <strong>
                         {{$p->getLifeTime()}}
                     </strong>
-                    <i class="icon-flat icon-clock"></i>
+                    <i class="icon icon-clock-small"></i>
                 </div>
             </div>
         </div>
@@ -80,6 +80,9 @@
                     </table>
 
                 </div>
+                <div class="card-footer">
+                    <a href="/portfolio/{{$item->id}}">Перейти в портфель</a>
+                </div>
             </div>
 
         </div>
@@ -87,7 +90,7 @@
         <div class="col-sm-6">
 
             <div class="card">
-                <h5 class="card-header">Pie Chart</h5>
+                <h5 class="card-header">График распределения по долям</h5>
                 <div class="card-body">
 
                     <canvas id="piechart" width="400" height="400"></canvas>

@@ -156,6 +156,10 @@ body {
   font-size: 13px;
 }
 
+.card-footer{
+  font-size: 13px;
+}
+
 .btn {
   &.btn-sm {
     &.busy {
@@ -426,6 +430,13 @@ dd {
   .text-bigger {
     font-size: 24px;
     display: block;
+    font-weight: 100;
+    &.red{
+      color: #EB5757
+    }
+    &.green{
+      color: #27AE60;
+    }
   }
 }
 
@@ -452,8 +463,15 @@ dd {
       }
       strong {
         display: block;
-        font-size: 18px;
+        font-size: 22px;
         color: #4F4F4F;
+        font-weight: 100;
+        &.red{
+          color: #EB5757
+        }
+        &.green{
+          color: #27AE60;
+        }
       }
     }
     td:first-child {
@@ -499,8 +517,8 @@ dd {
 
   strong {
     display: block;
-    font-weight: normal;
-    font-size: 18px;
+    font-weight: 100;
+    font-size: 22px;
   }
   &.act {
     background: #9676E0;
@@ -549,6 +567,14 @@ dd {
   width: 48px;
   height: 43px;
   background-image: url(/img/growth.png);
+  background-size: 70%;
+  background-repeat: no-repeat;
+}
+
+.icon-clock-small {
+  width: 46px;
+  height: 46px;
+  background-image: url(/img/clock.png);
   background-size: 70%;
   background-repeat: no-repeat;
 }

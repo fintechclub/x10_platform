@@ -477,7 +477,7 @@ class Portfolio extends Model
     {
 
         $bn = $this->getInitialBalance();
-        $bt = $this->getBalance('btc');
+        $bt = $this->getBalance('rub');
 
         if ($bn == 0) {
             return -1;

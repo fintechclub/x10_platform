@@ -41,6 +41,13 @@ class PortfolioController extends Controller
 
         $data['portfolios'] = $user->portfolios;
 
+        if (count($data['portfolios']) == 1) {
+
+            // redirect to portfolio item
+            return redirect('/portfolio/' . $user->portfolios[0]->id);
+
+        }
+
         return view('portfolio.index', $data);
 
     }
