@@ -81,7 +81,7 @@
 
                 </div>
                 <div class="card-footer">
-                    <a href="/portfolio/{{$item->id}}">Перейти в портфель</a>
+                    <a href="/portfolio/{{$p->id}}">Перейти в портфель</a>
                 </div>
             </div>
 
