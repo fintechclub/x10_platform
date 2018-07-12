@@ -62,11 +62,11 @@
                             <tr>
                                 <td>
                                     <small>Депозит</small>
-                                    <strong>{{number_format($p->deposit,2)}} Р.</strong>
+                                    <strong>{{number_format($p->deposit,2)}} ₽</strong>
                                 </td>
                                 <td>
                                     <small>Текущая оценка портфеля</small>
-                                    <strong>{{$p->getBalance('rub',true)}} Р.</strong>
+                                    <strong>{{$p->getBalance('rub',true)}} ₽</strong>
                                 </td>
                             </tr>
                             <tr>

@@ -8,7 +8,7 @@
                 <h3>Депозит</h3>
                 <div class="card-body">
                     <strong>
-                        {{number_format($p->deposit,2)}} Р.
+                        {{number_format($p->deposit,2)}} ₽
                     </strong>
                     <i class="icon icon-profit"></i>
                 </div>
@@ -20,7 +20,7 @@
                 <h3>Текущая оценка портфеля</h3>
                 <div class="card-body">
                     <strong>
-                        {{$p->getBalance('rub',true)}} Р.
+                        {{$p->getBalance('rub',true)}} ₽
                     </strong>
                     <i class="icon icon-portfolio-white"></i>
                 </div>
