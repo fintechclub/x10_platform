@@ -118,7 +118,9 @@ class PortfolioAsset extends Model
             return 0;
         }
 
-        return $this->amount * $this->avg_buy_price_btc / $current['snapshot']->btc * 100;
+        $share = $this->amount * $this->avg_buy_price_btc / $current['snapshot']->btc * 100;
+
+        return $share;
 
     }
 

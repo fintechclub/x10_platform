@@ -72,7 +72,7 @@
                                 <tr>
                                     <td>{{$item->asset->title}}</td>
                                     <td>{{number_format($item->amount,5)}}</td>
-                                    <td>{{$item->getShare()}} %</td>
+                                    <td>{{number_format($item->getShare(),2)}} %</td>
                                 </tr>
                             @endif
                         @endforeach
