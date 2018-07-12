@@ -126,10 +126,15 @@ class Asset extends Model
 
         $rate = AssetRate::where('asset_id', '=', $this->id)->orderBy('created_at', 'desc')->first();
 
+
         if (!$rate) {
 
             //update it
-            return $this->reloadRate();
+            //return $this->reloadRate();
+            $rate = new AssetRate();
+            $rate->btc = 0;
+
+            return $rate;
 
         }
 

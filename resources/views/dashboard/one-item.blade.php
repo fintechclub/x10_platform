@@ -71,8 +71,8 @@
                             @if($item->amount>env('min_amount', 0.000001))
                                 <tr>
                                     <td>{{$item->asset->title}}</td>
-                                    <td>{{number_format($item->amount,5)}}</td>
-                                    <td>{{number_format($item->getShare(),2)}} %</td>
+                                    <td class="text-right">{{number_format($item->amount,5)}}</td>
+                                    <td class="text-right">{{number_format($item->getShare(),2)}} %</td>
                                 </tr>
                             @endif
                         @endforeach
