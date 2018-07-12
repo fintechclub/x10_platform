@@ -62,6 +62,8 @@ class DashboardController extends Controller
 
         $data['p'] = $p = $portfolio;
 
+        $this->seo()->setTitle('Dashboard #' . $p->id);
+
         $assetsInBtc = $p->getAssetsInBtc();
 
         $data['labels'] = array_keys($assetsInBtc);
