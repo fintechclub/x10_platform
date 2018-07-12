@@ -114,6 +114,10 @@ class PortfolioAsset extends Model
 
         $current = $this->portfolio->getCurrentState();
 
+        if ($current['snapshot']->btc == 0) {
+            return 0;
+        }
+
         return $this->amount * $this->avg_buy_price_btc / $current['snapshot']->btc * 100;
 
     }
