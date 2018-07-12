@@ -8,9 +8,7 @@
             <i class="icon-presentation"></i>
             <p class="lead">
                 Пока у Вас нет инвестиционных портфелей. <br/>
-                Cвяжитесь с представителями X10.fund
-                <a href="mailto:x10fund@gmail.com">x10fund@gmail.com</a> <br/>
-                и мы составим для Вас оптимальный инвестиционный портфель.
+                Cвяжитесь с нами  <a href="mailto: info@x10.fund">info@x10.fund</a> <br/> и мы поможем Вам составить оптимальный инвестиционный портфель.
             </p>
         </div>
 

@@ -136,4 +136,7 @@ class Asset extends Model
         return $rate;
 
     }
+
+
+
 }

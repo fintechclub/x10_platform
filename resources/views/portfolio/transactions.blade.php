@@ -57,3 +57,17 @@
         </div>
     </div>
 </div>
+
+<div class="col-sm-6 mt-4">
+    <div class="card">
+        <h5 class="card-header">Депозит портфеля</h5>
+        <div class="card-body">
+            <div class="form-inline">
+                <label for="inlineFormInputName2">Депозит, Руб.</label>
+                <input type="text" class="form-control mb-2 ml-2 mr-2" id="inlineFormInputName2"
+                       placeholder="500000" v-model="portfolio.deposit">
+                <button type="button" class="btn btn-primary mb-2" @click="updateDeposit()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>

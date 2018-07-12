@@ -116,4 +116,16 @@ class PortfolioController extends Controller
 
     }
 
+    /**
+     * Save portfolio data
+     */
+    public function postSave(Request $request)
+    {
+
+        $p = Portfolio::find($request->id);
+        $p->updateDeposit($request->deposit);
+
+        return response()->json($p);
+
+    }
 }

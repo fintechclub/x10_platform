@@ -105,4 +105,17 @@ class PortfolioAsset extends Model
 
     }
 
+
+    /**
+     * Get share for this asset in all BTC balance
+     */
+    public function getShare()
+    {
+
+        $current = $this->portfolio->getCurrentState();
+
+        return $this->amount * $this->avg_buy_price_btc / $current['snapshot']->btc * 100;
+
+    }
+
 }

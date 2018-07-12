@@ -64,7 +64,7 @@
                         <tr class="dark">
                             <td>Наименование</td>
                             <td>Баланс</td>
-                            <td>Изменение цены</td>
+                            <td>Доля актива</td>
                         </tr>
 
                         @foreach($p->assets as $item)
@@ -72,7 +72,7 @@
                                 <tr>
                                     <td>{{$item->asset->title}}</td>
                                     <td>{{number_format($item->amount,5)}}</td>
-                                    <td></td>
+                                    <td>{{$item->getShare()}} %</td>
                                 </tr>
                             @endif
                         @endforeach

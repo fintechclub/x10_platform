@@ -88,7 +88,7 @@
                                 </span>
                             </td>
                             <td class="text-right">
-                                @{{ item.amount * item.avg_buy_price_btc / current.btc * 100 | formatPercent }}
+                                @{{ item.amount * item.avg_buy_price_btc / current.snapshot.btc * 100 | formatPercent }}
                                 %
                             </td>
                             <td class="text-right">@{{ item.amount * item.avg_buy_price_btc | format5 }}</td>
@@ -125,7 +125,7 @@
 
     <script>
 
-        Vue.filter('formatDate', function(value) {
+        Vue.filter('formatDate', function (value) {
             if (value) {
                 return moment(String(value)).format('DD-MM-YYYY')
             }
@@ -157,7 +157,8 @@
             portfolio_id: '{{$portfolio->id}}',
             asset_id: '',
             deduct_btc: '',
-            source_id: ''
+            source_id: '',
+
         }
 
         Vue.component('line-chart-usd', {
@@ -391,6 +392,11 @@
                 },
                 sortByParam(arrays, param, type) {
                     return _.orderBy(arrays, param, type);
+                },
+                updateDeposit(){
+                    axios.post('/api/portfolio/save', this.portfolio).then(response => {
+                        this.portfolio = response.data;
+                    });
                 }
             },
             computed: {}

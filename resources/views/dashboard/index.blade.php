@@ -55,7 +55,7 @@
     <div class="row">
         @foreach($portfolios as $p)
             <div class="col-sm-6">
-                <div class="card p-item cursor-pointer" onclick="location.href='/portfolio/{{$p->id}}'">
+                <div class="card p-item cursor-pointer" onclick="location.href='/dashboard/{{$p->id}}'">
                     <h3 class="card-header">Портфель {{$p->id}}</h3>
                     <div class="card-body">
                         <table class="table">

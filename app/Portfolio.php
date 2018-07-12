@@ -538,4 +538,16 @@ class Portfolio extends Model
         return 0;
 
     }
+
+    /**
+     * Update portfolio deposit
+     */
+    public function updateDeposit($deposit)
+    {
+
+        $this->deposit = $deposit;
+        $this->save();
+
+    }
+
 }

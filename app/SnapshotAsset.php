@@ -18,4 +18,15 @@ class SnapshotAsset extends Model
 
     }
 
+    /**
+     * Portfolio
+     */
+    public function snapshot()
+    {
+
+        return $this->belongsTo('App\Portfolio');
+
+    }
+
+
 }

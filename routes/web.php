@@ -54,6 +54,7 @@ Route::get('/mailable', function () {
 Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/dashboard', 'DashboardController@getIndex');
+    Route::get('/dashboard/{portfolio}', 'DashboardController@getView');
 
     /* User */
     Route::get('/user/settings', 'UserController@getSettings');
@@ -97,6 +98,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/api/portfolio/update/{portfolio}', 'Api\PortfolioController@getUpdate');
     Route::get('/api/portfolio/snapshots/{portfolio}', 'Api\PortfolioController@getSnapshots');
     Route::get('/api/portfolio/charts/{portfolio}/{type}', 'Api\PortfolioController@getCharts');
+
+    // save  portfolio data
+    Route::post('/api/portfolio/save', 'Api\PortfolioController@postSave');
 
     /* Asset */
     Route::get('/api/assets/{asset}/price', 'Api\AssetsController@getPrice');

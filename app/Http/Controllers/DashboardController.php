@@ -54,4 +54,20 @@ class DashboardController extends Controller
 
     }
 
+    /**
+     * Show portoflio dashboar
+     */
+    public function getView(Portfolio $portfolio)
+    {
+
+        $data['p'] = $p = $portfolio;
+
+        $assetsInBtc = $p->getAssetsInBtc();
+
+        $data['labels'] = array_keys($assetsInBtc);
+        $data['chartData'] = array_values($assetsInBtc);
+
+        return view('dashboard.one-item', $data);
+
+    }
 }
