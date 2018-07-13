@@ -509,6 +509,11 @@ class Portfolio extends Model
         foreach ($this->assets as $a) {
 
             $rate = $a->asset->getRate();
+
+            if (!$rate) {
+                continue;
+            }
+
             $share = number_format($a->amount * $rate->btc / $totalBtc * 100, 2);
 
             if ($share > env('min_amount', 0.000001)) {
