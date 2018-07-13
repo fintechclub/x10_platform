@@ -109,6 +109,12 @@
     <script>
         $(function () {
             new Chart(document.getElementById("piechart"), {
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'left',
+                    }
+                },
                 "type": "doughnut",
                 "data": {
                     "labels": {!! json_encode($labels) !!},
