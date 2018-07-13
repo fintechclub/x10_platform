@@ -33,7 +33,7 @@
         </a>
 
         <ul class="list-unstyled menu">
-            <li class="{{Request::is('dashboard') ? 'active' : ''}}">
+            <li class="{{Request::is('dashboard') || Request::is('dashboard/*') ? 'active' : ''}}">
                 <a href="/dashboard"><i class="fas fa-home"></i> <span class="t-hide">Dashboard</span></a>
             </li>
             <li class="{{Request::is('portfolio') || Request::is('portfolio/*') ? 'active' : ''}}">
