@@ -6,6 +6,7 @@ use App\ExchangeRate;
 use App\Http\Controllers\Controller;
 use App\Portfolio;
 use App\Snapshot;
+use App\SystemEvent;
 use App\Transaction;
 use App\User;
 use Illuminate\Http\Request;
@@ -34,15 +35,15 @@ class PortfolioController extends Controller
 
         $items = $portfolio->assets;
 
+        // get rates
+        $rates = [
+            'btc_usd' => ExchangeRate::where('title', '=', 'btc_usd')->orderBy('created_at', 'desc')->first()->price,
+            'btc_rub' => ExchangeRate::where('title', '=', 'btc_rub')->orderBy('created_at', 'desc')->first()->price,
+        ];
+
         return [
             'items' => $items,
-            'stats' => $portfolio->getCurrentState()['stats'],
-            'current_date' => $portfolio->getCurrentState()['current_date'],
-            'rates' => [
-                'btc_usd' => ExchangeRate::where('title', '=', 'btc_usd')->first()->price,
-                'btc_rub' => ExchangeRate::where('title', '=', 'btc_rub')->first()->price
-            ],
-            'snapshot' => $portfolio->getCurrentState()['snapshot'],
+            'rates' => $rates
         ];
 
     }
@@ -53,30 +54,23 @@ class PortfolioController extends Controller
     public function getUpdate(Portfolio $portfolio)
     {
 
-        // reload rates for usd,btc, rub
-        $url = 'https://api.coingecko.com/api/v3/exchange_rates';
-        $data = json_decode(file_get_contents($url));
+        if (env('APP_DEBUG') == true) {
 
-        $usd = ExchangeRate::where('title', '=', 'btc_usd')->first();
-        $usd->price = $data->rates->usd->value;
-        $usd->save();
+            // save to log what's going on
+            $log = new SystemEvent();
+            $log->title = 'Update request for portfolio #' . $portfolio->id;
+            $log->save();
 
-        $rub = ExchangeRate::where('title', '=', 'btc_rub')->first();
-        $rub->price = $data->rates->rub->value;
-        $rub->save();
+        }
 
-        // update rates for portfolio
-        $rates = [
-            'btc_usd' => ExchangeRate::where('title', '=', 'btc_usd')->first()->price,
-            'btc_rub' => ExchangeRate::where('title', '=', 'btc_rub')->first()->price
-        ];
+        // update data and save snapshot
+        $portfolio->recountIndexes();
 
-        // create snapshot
-        $portfolio->generateSnapshot($rates);
+        // and save snapshot
+        $portfolio->createSnapshot();
 
         // return new current state
         return $portfolio->snapshots;
-
 
     }
 

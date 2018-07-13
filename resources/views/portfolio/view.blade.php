@@ -22,7 +22,7 @@
         <div class="col-sm-6">
             <div class="card">
                 <h3 class="card-header">Баланс</h3>
-                <div class="card-body" v-if="current.snapshot">
+                <div class="card-body" v-if="portfolio.balance">
                     <table class="table text-center">
                         <tr class="dark">
                             <td>BTC</td>
@@ -30,9 +30,9 @@
                             <td>RUB</td>
                         </tr>
                         <tr>
-                            <td>@{{ current.snapshot.btc | format5 }}</td>
-                            <td>@{{ current.snapshot.usd  | formatUsd}}</td>
-                            <td>@{{ current.snapshot.rub  | formatUsd}}</td>
+                            <td>@{{ portfolio.balance.btc | format5 }}</td>
+                            <td>@{{ portfolio.balance.usd  | formatUsd}}</td>
+                            <td>@{{ portfolio.balance.rub  | formatUsd}}</td>
                         </tr>
                     </table>
                 </div>
@@ -88,7 +88,7 @@
                                 </span>
                             </td>
                             <td class="text-right">
-                                @{{ item.amount * item.avg_buy_price_btc / current.snapshot.btc * 100 | formatPercent }}
+                                @{{ item.amount * item.avg_buy_price_btc / portfolio.balance.btc * 100 | formatPercent }}
                                 %
                             </td>
                             <td class="text-right">@{{ item.amount * item.avg_buy_price_btc | format5 }}</td>

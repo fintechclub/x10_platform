@@ -66,17 +66,17 @@
                                 </td>
                                 <td>
                                     <small>Текущая оценка портфеля</small>
-                                    <strong>{{$p->getBalance('rub',true)}} ₽</strong>
+                                    <strong>{{number_format($p->balance['rub'], 2)}} ₽</strong>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
                                     <small>Доходность портфеля, %</small>
-                                    <strong class="{{$p->getTotalProfit()>0 ? 'green': 'red'}}">{{$p->getTotalProfit()}}</strong>
+                                    <strong class="{{$p->profit>0 ? 'green': 'red'}}">{{$p->profit}}</strong>
                                 </td>
                                 <td>
                                     <small>Баланс, BTC</small>
-                                    <strong>{{$p->getBalance('',true)}}</strong>
+                                    <strong>{{number_format($p->balance['btc'], 5)}}</strong>
                                 </td>
                             </tr>
                         </table>

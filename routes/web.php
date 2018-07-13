@@ -174,3 +174,37 @@ Route::get('/upgrade-2/{id?}', function ($id = null) {
     echo 'Done';
 
 });
+
+Route::get('/upgrade-3/{id?}', function ($id = null) {
+
+    if (!$id) {
+        $portfolios = \App\Portfolio::all();
+    } else {
+        $portfolios = \App\Portfolio::where('id', '=', $id)->get();
+    }
+
+    foreach ($portfolios as $p) {
+
+        $p->recountIndexes();
+
+    }
+
+    echo 'Done';
+
+});
+
+Route::get('/update-currencies', function () {
+
+    \App\SystemEvent::updateCurrencies();
+
+    echo 'Updated';
+
+});
+
+// update coin prices
+Route::get('/update-coin-prices', function () {
+
+    $code = Artisan::call('update_coin_prices');
+    echo 'Done';
+
+});

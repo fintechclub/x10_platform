@@ -60,6 +60,8 @@ class PortfolioController extends Controller
 
         /** @todo: check the rights for access */
 
+        $portfolio->fresh(['assets']);
+
         $data['portfolio'] = $portfolio;
         $data['user'] = $user;
 

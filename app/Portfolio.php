@@ -252,8 +252,14 @@ class Portfolio extends Model
      * this function called by Command each day
      *
      */
-    public function generateSnapshot($rates = [])
+    public function generateSnapshot2()
     {
+
+        // get rates
+        $rates = [
+            'btc_usd' => ExchangeRate::where('title', '=', 'btc_usd')->orderBy('created_at', 'desc')->first()->price,
+            'btc_rub' => ExchangeRate::where('title', '=', 'btc_rub')->orderBy('created_at', 'desc')->first()->price,
+        ];
 
         $snapshot = new Snapshot();
 
@@ -262,52 +268,44 @@ class Portfolio extends Model
         $usd = 0;
         $rub = 0;
 
-        // update exchange rates and generate new snapshot
-
+        // calc the total
         foreach ($this->assets as $item) {
 
             $rate = $item->asset->getRate();
 
             if ($rate) {
 
-                $btc += $item->amount * $rate->btc;
-                $usd += $item->amount * $rate->usd;
-                $rub += $item->amount * $rate->rub;
+                $btc += $item->amount * @$rate->btc;
+                $usd += $item->amount * @$rate->usd;
+                $rub += $item->amount * @$rate->rub;
 
             }
 
         }
-
-        $stats = [
-            'balance_btc' => $btc,
-            'balance_usd' => $usd,
-            'balance_rub' => $rub
-        ];
-
-        // calc the profit
-        $profit = [
-            'usd' => '',
-            'btc' => ''
-        ];
 
         // calc changes from the start
         $changeFromStart = $this->getChangeFromTheFirstSnapshot($btc, $usd);
 
         // save to snapshot
         $snapshot->portfolio_id = $this->id;
-        $snapshot->profit = $profit;
 
         // current balance
         $snapshot->btc = $btc;
         $snapshot->usd = $usd;
         $snapshot->rub = $rub;
+
+        // save currencies
         $snapshot->btc_usd = @$rates['btc_usd'];
         $snapshot->btc_rub = @$rates['btc_rub'];
 
+        // calc the changes from the start
         $snapshot->btc_from_start = @$changeFromStart['btc'];
         $snapshot->usd_from_start = @$changeFromStart['usd'];
 
         $snapshot->save();
+
+        // recount current state
+        $this->recountIndexes();
 
         return $snapshot;
 
@@ -400,8 +398,8 @@ class Portfolio extends Model
         $btc = $this->getTotalBtcBalance();
 
         // current rate
-        $rub = ExchangeRate::where('title', '=', 'btc_rub')->first();
-        $usd = ExchangeRate::where('title', '=', 'btc_usd')->first();
+        $rub = ExchangeRate::where('title', '=', 'btc_rub')->orderBy('created_at', 'desc')->first();
+        $usd = ExchangeRate::where('title', '=', 'btc_usd')->orderBy('created_at', 'desc')->first();
 
         if ($currency == 'rub') {
 
@@ -524,19 +522,7 @@ class Portfolio extends Model
      */
     public function getInitialBalance()
     {
-
         return $this->deposit;
-
-        /*        $snapshot = Snapshot::where('portfolio_id', '=', $this->id)
-                    ->where('btc', '>', 0)
-                    ->orderBy('created_at', 'asc')->first();
-
-                if ($snapshot) {
-                    return $snapshot->btc;
-                }*/
-
-        return 0;
-
     }
 
     /**
@@ -549,5 +535,101 @@ class Portfolio extends Model
         $this->save();
 
     }
+
+    /**
+     * Recount total balance, growth, etc for current portfolio
+     */
+    public function recountIndexes()
+    {
+
+        // total profit
+        $profit = 0;
+
+        $bn = $this->getInitialBalance();
+        $bt = $this->getBalance('rub');
+
+        if ($bn == 0) {
+            $profit = 0;
+        } else {
+            $profit = ($bt / $bn - 1) * 100;
+        }
+
+        $this->profit = $profit;
+
+
+        // total growth
+        $growth = 0;
+
+        $this->growth = $growth;
+
+        // update balance
+        $this->balance = [
+            'rub' => $this->getBalance('rub'),
+            'usd' => $this->getBalance('usd'),
+            'btc' => $this->getBalance(),
+        ];
+
+
+        $this->save();
+
+    }
+
+    /**
+     * Save snapshot for current state
+     */
+    public function createSnapshot()
+    {
+
+        // get rates
+        $rates = [
+            'btc_usd' => ExchangeRate::where('title', '=', 'btc_usd')->orderBy('created_at', 'desc')->first()->price,
+            'btc_rub' => ExchangeRate::where('title', '=', 'btc_rub')->orderBy('created_at', 'desc')->first()->price,
+        ];
+
+        $snapshot = new Snapshot();
+
+        $btc = $this->balance['btc'];
+        $usd = $this->balance['usd'];
+        $rub = $this->balance['rub'];
+
+        // calc changes from the start
+        $changeFromStart = $this->getChangeFromTheFirstSnapshot($btc, $usd);
+
+        // save to snapshot
+        $snapshot->portfolio_id = $this->id;
+
+        // current balance
+        $snapshot->btc = $btc;
+        $snapshot->usd = $usd;
+        $snapshot->rub = $rub;
+
+        // save currencies
+        $snapshot->btc_usd = @$rates['btc_usd'];
+        $snapshot->btc_rub = @$rates['btc_rub'];
+
+        // calc the changes from the start
+        $snapshot->btc_from_start = @$changeFromStart['btc'];
+        $snapshot->usd_from_start = @$changeFromStart['usd'];
+
+        $snapshot->save();
+
+        // save snapshot assets history data
+        foreach ($this->assets as $asset) {
+
+            $snapshotAsset = new SnapshotAsset();
+            $snapshotAsset->snapshot_id = $snapshot->id;
+            $snapshotAsset->asset_id = $asset->id;
+            $snapshotAsset->amount = $asset->amount;
+            $snapshotAsset->rate = $asset->asset->getRate();
+
+            $snapshotAsset->save();
+
+        }
+
+
+        return $snapshot;
+
+    }
+
 
 }

@@ -46,6 +46,8 @@ class DashboardController extends Controller
 
         }
 
+        $data = [];
+
         $data['total'] = $total;
         $data['portfolios'] = \Auth::user()->portfolios;
         $data['userData'] = Auth::user()->getTotalData();

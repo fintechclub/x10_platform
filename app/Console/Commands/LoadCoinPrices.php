@@ -42,6 +42,8 @@ class LoadCoinPrices extends Command
 
         $total = 0;
 
+        $bar = $this->output->createProgressBar(10);
+
         for ($j = 0; $j < 10; $j++) {
 
             $url = 'https://api.coingecko.com/api/v3/coins?order=gecko_desc%20&per_page=500&page=' . $j;
@@ -59,8 +61,6 @@ class LoadCoinPrices extends Command
                     // create new asset price row
                     $rate = new AssetRate();
 
-                    echo $asset->id . PHP_EOL;
-
                     $rate->asset_id = $asset->id;
                     $rate->btc = @$coin->market_data->current_price->btc;
                     $rate->usd = @$coin->market_data->current_price->usd;
@@ -74,8 +74,11 @@ class LoadCoinPrices extends Command
 
             }
 
+            $bar->advance();
+
         }
 
+        $bar->finish();
         echo 'Done ' . $total . PHP_EOL;
 
     }

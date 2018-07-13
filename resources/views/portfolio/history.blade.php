@@ -24,7 +24,7 @@
                     <td>Изменения за период, %</td>--}}
                 </tr>
 
-                <tr v-for="(s,index) in snapshots">
+                <tr v-for="(s,index) in snapshots" v-if="s.btc>0">
                     <td>@{{ s.created_at | formatDate }}</td>
                     <td class="text-right">@{{ s.usd| formatUsd }}</td>
                     <td class="text-right">@{{ s.rub | formatUsd}}</td>

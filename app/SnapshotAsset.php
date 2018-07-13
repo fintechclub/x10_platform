@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class SnapshotAsset extends Model
 {
 
+    protected $casts = [
+        'rate' => 'array',
+    ];
+
 
     /**
      * Asset
@@ -24,7 +28,7 @@ class SnapshotAsset extends Model
     public function snapshot()
     {
 
-        return $this->belongsTo('App\Portfolio');
+        return $this->belongsTo('App\Snapshot');
 
     }
 

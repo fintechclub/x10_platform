@@ -67,11 +67,11 @@ class User extends Authenticatable
 
             $deposit += $p->deposit;
 
-            // in btc
-            $profit += $p->getTotalProfit();
+            // profit
+            $profit += $p->profit;
 
-            // in btc
-            $growth += $p->getTotalGrowth();
+            // growth
+            $growth += $p->growth;
 
         }
 
