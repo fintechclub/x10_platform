@@ -502,14 +502,18 @@ class Portfolio extends Model
     public function getAssetsInBtc()
     {
 
-        $totalBtc = $this->getTotalBtcBalance();
+        $totalBtc = $this->balance['btc'];
         $assets = [];
 
         /** @var Asset $a */
         foreach ($this->assets as $a) {
 
             $rate = $a->asset->getRate();
-            $assets[$a->asset->title] = number_format($a->amount * $rate->btc / $totalBtc * 100, 2);
+            $share = number_format($a->amount * $rate->btc / $totalBtc * 100, 2);
+
+            if ($share > env('min_amount', 0.000001)) {
+                $assets[$a->asset->title] = $share;
+            }
 
         }
 

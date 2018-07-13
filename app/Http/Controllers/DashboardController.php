@@ -38,7 +38,6 @@ class DashboardController extends Controller
 
             $assetsInBtc = $p->getAssetsInBtc();
 
-
             $data['labels'] = array_keys($assetsInBtc);
             $data['chartData'] = array_values($assetsInBtc);
 

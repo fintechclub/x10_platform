@@ -72,7 +72,7 @@
                             <tr>
                                 <td>
                                     <small>Доходность портфеля, %</small>
-                                    <strong class="{{$p->profit>0 ? 'green': 'red'}}">{{$p->profit}}</strong>
+                                    <strong class="{{$p->profit>0 ? 'green': 'red'}}">{{number_format($p->profit,2)}}</strong>
                                 </td>
                                 <td>
                                     <small>Баланс, BTC</small>

@@ -20,7 +20,7 @@
                 <h3>Текущая оценка портфеля</h3>
                 <div class="card-body">
                     <strong>
-                        {{$p->getBalance('rub',true)}} ₽
+                        {{number_format($p->balance['rub'], 2)}} ₽
                     </strong>
                     <i class="icon icon-portfolio-white"></i>
                 </div>
@@ -32,7 +32,7 @@
                 <h3>Доходность портфеля</h3>
                 <div class="card-body">
                     <strong>
-                        {{$p->getTotalProfit()}} %
+                        {{$p->profit}} %
                     </strong>
                     <i class="icon icon-growth"></i>
                 </div>
@@ -105,7 +105,7 @@
 
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-    <script src="https://codepen.io/anon/pen/aWapBE.js"></script>
+    <script src="/js/aWapBE.js"></script>
     <script>
         $(function () {
             new Chart(document.getElementById("piechart"), {
@@ -115,7 +115,7 @@
                     "datasets": [{
                         "label": "",
                         "data": {!! json_encode($chartData) !!},
-                        "backgroundColor": palette('tol', {{count($chartData)}}).map(function (hex) {
+                        "backgroundColor": palette('qualitative', {{count($chartData)}}).map(function (hex) {
                             return '#' + hex;
                         })
                     }],

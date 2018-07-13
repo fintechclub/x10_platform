@@ -112,13 +112,11 @@ class PortfolioAsset extends Model
     public function getShare()
     {
 
-        $current = $this->portfolio->getCurrentState();
-
-        if ($current['snapshot']->btc == 0) {
+        if ($this->portfolio->balance['btc'] == 0) {
             return 0;
         }
 
-        $share = $this->amount * $this->avg_buy_price_btc / $current['snapshot']->btc * 100;
+        $share = $this->amount * $this->avg_buy_price_btc / $this->portfolio->balance['btc'] * 100;
 
         return $share;
 
