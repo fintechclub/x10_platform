@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Asset;
 use App\Http\Controllers\Controller;
 use App\Portfolio;
+use App\Snapshot;
 use App\Transaction;
 use App\User;
 use Artesaos\SEOTools\Traits\SEOTools;
@@ -44,53 +45,93 @@ class UsersController extends Controller
         $file = $request->file('file');
         $portfolio = Portfolio::find($request->portfolio_id);
 
-        $path = $file->getRealPath();
-        $data = array_map('str_getcsv', file($path));
+        if ($file) {
 
-        foreach ($data as $key => $row) {
+            $path = $file->getRealPath();
+            $data = array_map('str_getcsv', file($path));
 
-            // pass first line
-            if ($key == 0) continue;
+            foreach ($data as $key => $row) {
 
-            // parse data and add transaction
-            $tr = new Transaction();
+                // pass first line
+                if ($key == 0) continue;
 
-            $date = \DateTime::createFromFormat('d-m-Y', $row['0']);
+                // parse data and add transaction
+                $tr = new Transaction();
 
-            $tr->when = $date;
+                $date = \DateTime::createFromFormat('d-m-Y', $row['0']);
 
-            // find asset
-            $asset = Asset::where('ticker', '=', $row[1])->first();
-            if ($asset) {
-                $tr->asset_id = $asset->id;
-            } else {
+                $tr->when = $date;
 
-                $tr->asset_id = '';
-                // throw error that such coin doesn't exist
-                echo 'ERROR: Such ticker ' . $row[1] . ' not found in system';
-                die;
+                // find asset
+                $asset = Asset::where('ticker', '=', $row[1])->first();
+                if ($asset) {
+                    $tr->asset_id = $asset->id;
+                } else {
+
+                    $tr->asset_id = '';
+                    // throw error that such coin doesn't exist
+                    echo 'ERROR: Such ticker ' . $row[1] . ' not found in system';
+                    die;
+                }
+
+                $tr->amount = doubleval(str_replace('-', '', $row['3']));
+                $tr->price_btc = doubleval($row['4']);
+                $tr->price_usd = $row['5'] ? doubleval($row[5]) : 0;
+                $tr->type = strtolower($row['6']);
+                $tr->comment = $row[8];
+
+                $tr->portfolio_id = $portfolio->id;
+                $tr->save();
+
+                // handle transaction with Portfolio
+
+                $portfolio->processTransaction($tr);
+
             }
 
-            $tr->amount = doubleval(str_replace('-', '', $row['3']));
-            $tr->price_btc = doubleval($row['4']);
-            $tr->price_usd = $row['5'] ? doubleval($row[5]) : 0;
-            $tr->type = strtolower($row['6']);
-            $tr->comment = $row[8];
+        }
 
-            $tr->portfolio_id = $portfolio->id;
-            $tr->save();
+        // import dynamic data
+        $fileDynamic = $request->file('file_dynamic');
 
-            // handle transaction with Portfolio
+        if ($fileDynamic) {
+            $portfolio = Portfolio::find($request->portfolio_id);
 
-            $portfolio->processTransaction($tr);
+            $path = $fileDynamic->getRealPath();
+            $data = array_map('str_getcsv', file($path));
+
+            foreach ($data as $key => $row) {
+
+                // pass headers
+                if ($key == 0 || $key == 1) continue;
+
+                // parse data and add transaction
+                $s = new Snapshot();
+
+                $date = \DateTime::createFromFormat('d-m-Y', $row['0']);
+
+                $s->usd = doubleval(str_replace('$', '', $row[1]));
+                $s->btc = $row[2];
+                $s->rub = 0;
+                $s->btc_rub = 0;
+                $s->btc_usd = 0;
+                $s->btc_from_start = doubleval(str_replace('%', '', $row[6]));
+                $s->usd_from_start = doubleval(str_replace('%', '', $row[4]));
+
+                $s->portfolio_id = $portfolio->id;
+                $s->created_at = $date;
+
+                $s->save();
+
+            }
 
         }
+
 
         // update indexes
         $portfolio->recountIndexes();
 
         return back();
-
 
     }
 

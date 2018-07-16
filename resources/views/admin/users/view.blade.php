@@ -56,19 +56,29 @@
                                                 <input type="file" name="file" class="custom-file-input"
                                                        id="inputGroupFile04">
                                                 <label class="custom-file-label" for="inputGroupFile04">Выбрать
-                                                    CSV</label>
-                                            </div>
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-secondary" type="submit">Импортировать
-                                                </button>
+                                                    CSV транзакции</label>
                                             </div>
                                         </div>
+
+                                        <div class="input-group mt-2">
+                                            <div class="custom-file">
+                                                <input type="file" name="file_dynamic" class="custom-file-input"
+                                                       id="inputGroupFile04">
+                                                <label class="custom-file-label" for="inputGroupFile04">Выбрать
+                                                    CSV динамика</label>
+                                            </div>
+                                        </div>
+
+                                        <button class="btn btn-primary mt-2" type="submit">Импортировать
+                                        </button>
 
                                         <input type="hidden" name="user_id" value="{{$user->id}}"/>
                                         <input type="hidden" name="portfolio_id" value="{{$p->id}}"/>
 
                                         {{csrf_field()}}
                                     </form>
+
+
                                 </td>
                             </tr>
 
