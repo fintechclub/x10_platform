@@ -640,5 +640,23 @@ class Portfolio extends Model
 
     }
 
+    /*
+     * Clear portfolio
+     */
+    public function clear()
+    {
+
+        $this->transactions()->forceDelete();
+        $this->assets()->forceDelete();
+        $this->snapshots()->forceDelete();
+
+        // clear stat
+        $this->profit = 0;
+        $this->growth = 0;
+        $this->balance = [];
+
+        $this->save();
+
+    }
 
 }

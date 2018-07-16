@@ -80,6 +80,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin/', 'Admin\IndexController@getIndex');
     Route::get('/admin/users/{user}', 'Admin\UsersController@getView');
 
+    Route::post('/admin/users/import-portfolio', 'Admin\UsersController@postImportPortfolio');
+    Route::get('/admin/users/clear-portfolio/{portfolio}', 'Admin\UsersController@getClearPortfolio');
+    Route::post('/admin/users/create', 'Admin\UsersController@postCreateUser');
+
 });
 
 Route::group(['middleware' => ['auth']], function () {
