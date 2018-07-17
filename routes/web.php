@@ -75,7 +75,7 @@ Route::group(['middleware' => ['auth']], function () {
 /**
  * Admin page
  */
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth', 'admin']], function () {
 
     Route::get('/admin/', 'Admin\IndexController@getIndex');
     Route::get('/admin/users/{user}', 'Admin\UsersController@getView');
