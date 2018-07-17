@@ -12,7 +12,9 @@
                     <td>Стоимость, BTC</td>
                     <td>Операция</td>
                     <td>Комментарий</td>
-                    <td></td>
+                    @can('admin')
+                        <td></td>
+                    @endcan
                 </tr>
 
                 <tr v-for="t in sortByParam(transactions,'when', 'desc')" :class="{trashed: t.deleted_at}">
@@ -44,30 +46,34 @@
                                 </span>
                     </td>
                     <td>@{{ t.comment }}</td>
-                    <td class="text-center text-nowrap">
-                        <button class="btn btn-sm btn-light" @click="editTransaction(t)">
-                            <i class="far fa-edit"></i>
-                        </button>
-                        <button class="btn btn-sm btn-light" @click="removeTransaction(t)">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </td>
+                    @can('admin')
+                        <td class="text-center text-nowrap">
+                            <button class="btn btn-sm btn-light" @click="editTransaction(t)">
+                                <i class="far fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-light" @click="removeTransaction(t)">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </td>
+                    @endcan
                 </tr>
             </table>
         </div>
     </div>
 </div>
 
-<div class="col-sm-6 mt-4">
-    <div class="card">
-        <h5 class="card-header">Депозит портфеля</h5>
-        <div class="card-body">
-            <div class="form-inline">
-                <label for="inlineFormInputName2">Депозит, Руб.</label>
-                <input type="text" class="form-control mb-2 ml-2 mr-2" id="inlineFormInputName2"
-                       placeholder="500000" v-model="portfolio.deposit">
-                <button type="button" class="btn btn-primary mb-2" @click="updateDeposit()">Сохранить</button>
+@can('admin')
+    <div class="col-sm-6 mt-4">
+        <div class="card">
+            <h5 class="card-header">Депозит портфеля</h5>
+            <div class="card-body">
+                <div class="form-inline">
+                    <label for="inlineFormInputName2">Депозит, Руб.</label>
+                    <input type="text" class="form-control mb-2 ml-2 mr-2" id="inlineFormInputName2"
+                           placeholder="500000" v-model="portfolio.deposit">
+                    <button type="button" class="btn btn-primary mb-2" @click="updateDeposit()">Сохранить</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+@endcan

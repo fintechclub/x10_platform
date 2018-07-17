@@ -4,20 +4,22 @@
     <div class="row" id="portfolio" v-cloak>
 
 
-        <div class="col-sm-12 mb-4">
+        @can('admin')
+            <div class="col-sm-12 mb-4">
 
-            <button class="btn btn-success btn-sm" @click="openTransactionDialog()">
-                <i class="fas fa-plus"></i>
-            </button>
+                <button class="btn btn-success btn-sm" @click="openTransactionDialog()">
+                    <i class="fas fa-plus"></i>
+                </button>
 
-            <button class="btn btn-primary btn-sm" :class="{busy: busy}" @click="updatePortfolio()">
-                Обновить
-            </button>
+                <button class="btn btn-primary btn-sm" :class="{busy: busy}" @click="updatePortfolio()">
+                    Обновить
+                </button>
 
-            <span class="text-muted small"
-                  v-if="current.current_date">Показаны данные на @{{ current.current_date.date | formatDate }}</span>
+                <span class="text-muted small"
+                      v-if="current.current_date">Показаны данные на @{{ current.current_date.date | formatDate }}</span>
 
-        </div>
+            </div>
+        @endcan
 
         <div class="col-sm-6">
             <div class="card">
