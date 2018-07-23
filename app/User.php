@@ -77,7 +77,10 @@ class User extends Authenticatable
 
         }
 
-        $profit = ($totalBalance / $deposit - 1) * 100;
+        if ($deposit != 0) {
+            $profit = ($totalBalance / $deposit - 1) * 100;
+        }
+
         $growth = ($totalBalance - $deposit);
 
         return [
