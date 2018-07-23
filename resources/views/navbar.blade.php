@@ -43,7 +43,9 @@
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="/user/settings">Настройки</a>
-                <a class="dropdown-item" href="/admin">Admin</a>
+                @can('admin')
+                    <a class="dropdown-item" href="/admin">Admin</a>
+                @endcan
                 <a class="dropdown-item" href="/auth/logout">Выйти</a>
             </div>
 

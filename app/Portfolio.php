@@ -491,8 +491,14 @@ class Portfolio extends Model
     public function getLifeTime()
     {
 
-        $now = Carbon::now();
-        return $this->created_at->diffInDays($now);
+        $first = Snapshot::where('portfolio_id', '=', $this->id)->orderBy('created_at', 'desc')->first();
+        $last = Snapshot::where('portfolio_id', '=', $this->id)->orderBy('created_at', 'asc')->first();
+
+        if (!$first || !$last) {
+            return 0;
+        }
+
+        return $first->created_at->diffInDays($last->created_at);
 
     }
 

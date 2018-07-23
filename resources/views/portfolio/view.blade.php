@@ -46,7 +46,13 @@
                 <h3 class="card-header">Курс</h3>
 
                 <div class="card-body">
+
                     <table class="table text-center">
+                        <tr>
+                            <td colspan="2" class="text-muted text-right" style="background: none">
+                                Дата обновления @{{ portfolio.updated_at | formatDate }}
+                            </td>
+                        </tr>
                         <tr class="dark">
                             <td>BTC/USD</td>
                             <td>BTC/RUB</td>
@@ -67,20 +73,20 @@
 
                     <table class="table table-bordered">
                         <tr class="dark">
-                            <td>Символ</td>
-                            <td>Наименование</td>
+                            <td>Актив</td>
                             <td>Баланс</td>
                             <td>Средняя цена покупки, BTC</td>
                             <td>Средняя цена покупки, USD</td>
                             <td>Средняя цена продажи, BTC</td>
                             <td>Доля актива в портфеле %</td>
+                            <td>Цена, BTC</td>
                             <td>Стоимость, BTC</td>
+                            <td>Цена, USD</td>
                             <td>Стоимость, USD</td>
                         </tr>
 
                         <tr v-for="item in sortArrays(current.items)" v-if="item.amount>min_amount">
-                            <td>@{{ item.asset.ticker }}</td>
-                            <td>@{{ item.asset.title }}</td>
+                            <td>@{{ item.asset.ticker }} (@{{ item.asset.title }})</td>
                             <td class="text-right">@{{ item.amount | format5 }}</td>
                             <td class="text-right">@{{ item.avg_buy_price_btc |  format5}}</td>
                             <td class="text-right">@{{ item.avg_buy_price_usd | format5}}</td>
@@ -93,8 +99,10 @@
                                 @{{ item.amount * item.avg_buy_price_btc / portfolio.balance.btc * 100 | formatPercent }}
                                 %
                             </td>
-                            <td class="text-right">@{{ item.amount * item.avg_buy_price_btc | format5 }}</td>
-                            <td class="text-right">@{{ item.amount * item.avg_buy_price_usd | format5}}</td>
+                            <td class="text-right">@{{ item.price_btc | format5  }}</td>
+                            <td class="text-right">@{{ item.amount * item.price_btc | format5 }}</td>
+                            <td class="text-right">@{{ item.price_usd | format5  }}</td>
+                            <td class="text-right">@{{ item.amount * item.price_usd | format5}}</td>
                         </tr>
 
                     </table>
@@ -340,7 +348,7 @@
                         //copy transaction
                         this.tr = Object.assign({}, t);
                         // format input date
-                        this.tr.when =  moment(String(this.tr.when)).format('YYYY-MM-DD')
+                        this.tr.when = moment(String(this.tr.when)).format('YYYY-MM-DD')
 
                         $(this.$refs.transactionDialog).modal('show');
                     });
@@ -383,7 +391,7 @@
                     if (index < this.snapshots.length - 1) {
 
                         let prev = this.snapshots[index + 1];
-                        let diff = (s[type] - prev[type]) / s[type] * 100;
+                        let diff = ((s[type] / prev[type]) - 1) * 100;
 
                         return diff;
 

@@ -147,7 +147,7 @@
             <div class="card">
                 <h5 class="card-header">Смена темы</h5>
                 <div class="card-body">
-
+                    <small class="text-muted">Функция в разработке</small>
                 </div>
             </div>
         </div>
@@ -155,7 +155,7 @@
             <div class="card">
                 <h5 class="card-header">Аватар</h5>
                 <div class="card-body">
-
+                    <small class="text-muted">Функция в разработке</small>
                 </div>
             </div>
         </div>

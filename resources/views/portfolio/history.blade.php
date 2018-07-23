@@ -6,7 +6,7 @@
 
             <table class="table table-bordered">
                 <tr class="dark">
-                    <td colspan="4">Баланс портфеля</td>
+                    <td colspan="3">Баланс портфеля</td>
                     <td colspan="2">Изменение USD %</td>
                     <td colspan="2">Изменение BTC %</td>
                     {{--<td colspan="2">Цена BTC</td>--}}
@@ -14,7 +14,6 @@
                 <tr class="light">
                     <td>Дата</td>
                     <td>USD</td>
-                    <td>RUB</td>
                     <td>BTC</td>
                     <td>С прошлой записи</td>
                     <td>С начала создания</td>
@@ -27,11 +26,14 @@
                 <tr v-for="(s,index) in snapshots" v-if="s.btc>0">
                     <td>@{{ s.created_at | formatDate }}</td>
                     <td class="text-right">@{{ s.usd| formatUsd }}</td>
-                    <td class="text-right">@{{ s.rub | formatUsd}}</td>
                     <td class="text-right">@{{ s.btc| format5}}</td>
-                    <td class="text-right">@{{ getDifference(s, index, 'usd') | formatPercent}}%</td>
+                    <td class="text-right" :class="[getDifference(s, index, 'usd')<0 ? 'text-danger' : 'text-success']">
+                        @{{ getDifference(s, index, 'usd') | formatPercent}}%
+                    </td>
                     <td class="text-right" :class="{'text-danger': s.usd_from_start<0}">@{{ s.usd_from_start | formatPercent }}%</td>
-                    <td class="text-right">@{{ getDifference(s, index, 'btc')  | formatPercent}}%</td>
+                    <td class="text-right" :class="[getDifference(s, index, 'btc')<0 ? 'text-danger' : 'text-success']">
+                        @{{ getDifference(s, index, 'btc')  | formatPercent}}%
+                    </td>
                     <td class="text-right" :class="{'text-danger': s.btc_from_start<0}">@{{ s.btc_from_start | formatPercent }}%</td>
                 </tr>
 

@@ -32,7 +32,7 @@
                 <h3>Доходность портфеля</h3>
                 <div class="card-body">
                     <strong>
-                        {{$p->profit}} %
+                        {{number_format($p->profit, 2)}} %
                     </strong>
                     <i class="icon icon-growth"></i>
                 </div>
@@ -60,7 +60,7 @@
                 <h5 class="card-header">Состав портфеля</h5>
                 <div class="card-body">
 
-                    <table class="table table-bordered darken-table table-striped">
+                    <table class="table table-bordered darken-table">
                         <tr class="dark">
                             <td>Наименование</td>
                             <td>Баланс</td>
@@ -70,7 +70,10 @@
                         @foreach($p->assets as $item)
                             @if($item->amount>env('min_amount', 0.000001))
                                 <tr>
-                                    <td>{{$item->asset->title}}</td>
+                                    <td>
+                                        {{$item->asset->ticker}}
+                                        ({{$item->asset->title}})
+                                    </td>
                                     <td class="text-right">{{number_format($item->amount,5)}}</td>
                                     <td class="text-right">{{number_format($item->getShare(),2)}} %</td>
                                 </tr>
