@@ -20,6 +20,9 @@
 
             </div>
         @endcan
+        <div class="col-sm-12 mb-4">
+            Дата обновления данных портфеля: @{{ portfolio.updated_at | formatDate }}
+        </div>
 
         <div class="col-sm-6">
             <div class="card">
@@ -48,11 +51,6 @@
                 <div class="card-body">
 
                     <table class="table text-center">
-                        <tr>
-                            <td colspan="2" class="text-muted text-right" style="background: none">
-                                Дата обновления @{{ portfolio.updated_at | formatDate }}
-                            </td>
-                        </tr>
                         <tr class="dark">
                             <td>BTC/USD</td>
                             <td>BTC/RUB</td>
@@ -101,8 +99,8 @@
                             </td>
                             <td class="text-right">@{{ item.price_btc | format5  }}</td>
                             <td class="text-right">@{{ item.amount * item.price_btc | format5 }}</td>
-                            <td class="text-right">@{{ item.price_usd | format5  }}</td>
-                            <td class="text-right">@{{ item.amount * item.price_usd | format5}}</td>
+                            <td class="text-right">@{{ item.price_usd | formatUsd  }}</td>
+                            <td class="text-right">@{{ item.amount * item.price_usd | formatUsd}}</td>
                         </tr>
 
                     </table>

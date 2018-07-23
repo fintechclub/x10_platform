@@ -20,7 +20,7 @@
                 <h3>Суммарный депозит</h3>
                 <div class="card-body">
                     <strong>
-                        {{number_format($userData['deposit'], 2)}}
+                        {{number_format($userData['deposit'], 2)}} ₽
                     </strong>
                     <i class="icon icon-deposit"></i>
                 </div>
@@ -44,7 +44,7 @@
                 <h3>Прирост по портфелям</h3>
                 <div class="card-body">
                     <strong>
-                        {{$userData['growth']}} %
+                        {{number_format($userData['growth'],2)}} ₽
                     </strong>
                     <i class="icon icon-growth"></i>
                 </div>

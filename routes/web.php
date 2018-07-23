@@ -197,6 +197,25 @@ Route::get('/upgrade-3/{id?}', function ($id = null) {
 
 });
 
+Route::get('/upgrade-4/{id?}', function ($id = null) {
+
+    if (!$id) {
+        $portfolios = \App\Portfolio::all();
+    } else {
+        $portfolios = \App\Portfolio::where('id', '=', $id)->get();
+    }
+
+    foreach ($portfolios as $p) {
+
+        // generate new snapshot
+        $p->createSnapshot();
+
+    }
+
+    echo 'Done';
+
+});
+
 Route::get('/update-currencies', function () {
 
     \App\SystemEvent::updateCurrencies();

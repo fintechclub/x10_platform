@@ -356,7 +356,7 @@ class Portfolio extends Model
             ->first();
 
         if (!$snapshot) {
-            $snapshot = $this->generateSnapshot();
+            $snapshot = $this->createSnapshot();
         }
 
         return [
@@ -629,7 +629,7 @@ class Portfolio extends Model
         $snapshot->save();
 
         // save snapshot assets history data
-        foreach ($this->assets as $asset) {
+        foreach ($this->assets as &$asset) {
 
             $snapshotAsset = new SnapshotAsset();
             $snapshotAsset->snapshot_id = $snapshot->id;
@@ -638,6 +638,11 @@ class Portfolio extends Model
             $snapshotAsset->rate = $asset->asset->getRate();
 
             $snapshotAsset->save();
+
+            // update asset prices
+            $asset->price_btc = $snapshotAsset->rate['btc'];
+            $asset->price_usd = $snapshotAsset->rate['usd'];
+            $asset->save();
 
         }
 

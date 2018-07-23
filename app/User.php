@@ -62,18 +62,23 @@ class User extends Authenticatable
         $profit = 0;
         $growth = 0;
 
+        $totalBalance = 0;
+
         /** @var Portfolio $p */
         foreach ($this->portfolios as $p) {
 
             $deposit += $p->deposit;
 
             // profit
-            $profit += $p->profit;
+            $totalBalance += $p->balance['rub'];
 
             // growth
             $growth += $p->growth;
 
         }
+
+        $profit = ($totalBalance / $deposit - 1) * 100;
+        $growth = ($totalBalance - $deposit);
 
         return [
             'deposit' => $deposit,
