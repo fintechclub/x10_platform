@@ -83,7 +83,7 @@ class UsersController extends Controller
                 $tr->price_usd = $row['5'] ? doubleval($row[5]) : 0;
                 $tr->type = strtolower($row['6']);
                 $tr->comment = $row[8];
-                $tr->deduct_btc = $row[9];
+                $tr->deduct_btc = @$row[9];
 
                 $tr->portfolio_id = $portfolio->id;
                 $tr->save();
