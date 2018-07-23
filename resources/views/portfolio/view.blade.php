@@ -339,6 +339,9 @@
                         this.sources = response.data;
                         //copy transaction
                         this.tr = Object.assign({}, t);
+                        // format input date
+                        this.tr.when =  moment(String(this.tr.when)).format('YYYY-MM-DD')
+
                         $(this.$refs.transactionDialog).modal('show');
                     });
 
