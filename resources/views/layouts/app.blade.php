@@ -39,8 +39,9 @@
             <li class="{{Request::is('portfolio') || Request::is('portfolio/*') ? 'active' : ''}}">
                 <a href="/portfolio"><i class="fas fa-chart-bar"></i> <span class="t-hide">Portfolio</span></a>
             </li>
-            <li>
-                <a href="/faq"><i class="fas fa-question"></i> <span class="t-hide">FAQ</span></a>
+            <li class="{{Request::is('faq') || Request::is('faq/*') ? 'active' : ''}}">
+                <a href="/faq">
+                    <i class="fas fa-question"></i> <span class="t-hide">FAQ</span></a>
             </li>
         </ul>
     </div>

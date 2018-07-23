@@ -67,6 +67,9 @@ Route::group(['middleware' => ['auth']], function () {
     /* Portfolio */
     Route::get('/portfolio/{portfolio?}', 'PortfolioController@getIndex');
 
+    /* Faq*/
+    Route::get('/faq', 'FaqController@index');
+
     /**/
     Route::get('/users/{user}/portfolio/{portfolio}', 'PortfolioController@getView');
 
