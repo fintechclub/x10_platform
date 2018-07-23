@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Asset;
 use App\Http\Controllers\Controller;
+use App\Jobs\RecountPortfolioIndexes;
 use App\Portfolio;
 use App\Snapshot;
 use App\Transaction;
@@ -40,7 +41,10 @@ class UsersController extends Controller
     public function postImportPortfolio(Request $request)
     {
 
+        set_time_limit(0);
         $user = User::find($request->user_id);
+
+        //import file with transactions
 
         $file = $request->file('file');
         $portfolio = Portfolio::find($request->portfolio_id);
@@ -79,6 +83,7 @@ class UsersController extends Controller
                 $tr->price_usd = $row['5'] ? doubleval($row[5]) : 0;
                 $tr->type = strtolower($row['6']);
                 $tr->comment = $row[8];
+                $tr->deduct_btc = $row[9];
 
                 $tr->portfolio_id = $portfolio->id;
                 $tr->save();
@@ -127,11 +132,10 @@ class UsersController extends Controller
 
         }
 
-
-        // update indexes
+        //RecountPortfolioIndexes::dispatch($portfolio);
         $portfolio->recountIndexes();
 
-        return back();
+        return redirect('/admin/users/'.$user->id);
 
     }
 
