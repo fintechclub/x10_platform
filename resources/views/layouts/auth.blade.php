@@ -11,6 +11,12 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&amp;subset=cyrillic"
           rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/auth.css?v={{env('APP_VER',time())}}"/>
+
+    <link rel="icon" href="/cropped-favicon-32x32.jpg" sizes="32x32" />
+    <link rel="icon" href="/cropped-favicon-192x192.jpg" sizes="192x192" />
+    <link rel="apple-touch-icon-precomposed" href="/cropped-favicon-180x180.jpg" />
+    <meta name="msapplication-TileImage" content="/cropped-favicon-270x270.jpg" />
+
     <title>x10.fund</title>
 </head>
 <body>
