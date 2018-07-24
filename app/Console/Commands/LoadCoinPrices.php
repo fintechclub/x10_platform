@@ -62,7 +62,12 @@ class LoadCoinPrices extends Command
                     $rate = new AssetRate();
 
                     $rate->asset_id = $asset->id;
-                    $rate->btc = @$coin->market_data->current_price->btc;
+                    if ($asset->ticker == 'BTC') {
+                        $rate->btc = 1;
+                    } else {
+                        $rate->btc = @$coin->market_data->current_price->btc;
+                    }
+
                     $rate->usd = @$coin->market_data->current_price->usd;
                     $rate->rub = @$coin->market_data->current_price->rub;
 
