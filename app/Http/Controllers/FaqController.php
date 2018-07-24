@@ -32,5 +32,5 @@ class FaqController extends Controller
         return view('faq.index');
 
     }
-    
+
 }
