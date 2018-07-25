@@ -53,6 +53,22 @@ return [
             'strict' => true,
             'engine' => null,
         ],
+        
+        'mysql_prod' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_DATABASE', 'u3163067_x10fund'),
+            'username' => env('DB_USERNAME', 'x10user'),
+            'password' => env('DB_PASSWORD', 'otlehjoq543680'),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
 
         'pgsql' => [
             'driver' => 'pgsql',
