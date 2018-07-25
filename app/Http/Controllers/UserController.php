@@ -61,6 +61,7 @@ class UserController extends Controller
         $user = \Auth::user();
 
         $user->password = \Hash::make($request->password);
+        $user->tmp_pwd = '';
 
         return response()->json([
             'status' => $user->save() ? 'success' : 'fail'

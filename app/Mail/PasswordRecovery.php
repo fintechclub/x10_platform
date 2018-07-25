@@ -33,8 +33,9 @@ class PasswordRecovery extends Mailable
     {
 
         $data['url'] = env('APP_URL') . '/auth/activate/' . $this->user->id . '/' . $this->user->token;
+        $data['name'] = $this->user->name;
 
-        return $this->markdown('emails.user.password_recovery', $data);
+        return $this->markdown('emails.user.password_recovery', $data)->subject('Восстановление пароля для X10.Fund');
 
     }
 
