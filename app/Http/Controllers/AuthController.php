@@ -189,6 +189,7 @@ class AuthController extends Controller
         if ($user) {
 
             $user->password = \Hash::make($password);
+            $user->tmp_pwd = '';
             $user->token = '';
             $user->save();
 

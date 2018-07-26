@@ -37,7 +37,7 @@
                                         @foreach($user->portfolios as $p)
                                             <li>
                                                 <a href="/users/{{$user->id}}/portfolio/{{$p->id}}">
-                                                    Портфель #{{$p->id}}
+                                                    {{$p->getTitle()}}
                                                 </a>
                                             </li>
                                         @endforeach
