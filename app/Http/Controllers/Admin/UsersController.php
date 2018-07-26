@@ -27,7 +27,7 @@ class UsersController extends Controller
     public function getView(User $user)
     {
 
-        $this->seo()->setTitle('Пользователи и портфели');
+        $this->seo()->setTitle(title_case($user->name) . ' - Пользователи и портфели');
 
         $data['user'] = $user;
 
@@ -135,7 +135,7 @@ class UsersController extends Controller
         //RecountPortfolioIndexes::dispatch($portfolio);
         $portfolio->recountIndexes();
 
-        return redirect('/admin/users/'.$user->id);
+        return redirect('/admin/users/' . $user->id);
 
     }
 
@@ -169,6 +169,19 @@ class UsersController extends Controller
         $user->tmp_pwd = $pwd;
 
         $user->save();
+
+        return back();
+
+    }
+
+    /**
+     * Update portfolio title
+     */
+    public function postUpdatePortfolio(Portfolio $p, Request $request)
+    {
+
+        $p->title = $request->title;
+        $p->save();
 
         return back();
 

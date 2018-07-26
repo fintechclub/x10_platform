@@ -30,6 +30,7 @@
                     <table class="table table-bordered table-striped">
                         <tr>
                             <th>id</th>
+                            <th>Название</th>
                             <th>Депозит</th>
                             <th colspan="2"></th>
                         </tr>
@@ -38,6 +39,15 @@
                                 <td>
                                     <a href="/users/{{$user->id}}/portfolio/{{$p->id}}"
                                        class="btn btn-light btn-sm">#{{$p->id}} <i class="fas fa-eye"></i></a>
+                                </td>
+                                <td>
+                                    <form method="post" action="/admin/users/update-portfolio/{{$p->id}}">
+                                        {{csrf_field()}}
+                                        <div class="form-group">
+                                            <input type="text" name="title" class="form-control" value="{{$p->title}}"/>
+                                        </div>
+                                        <button type="submit" class="btn btn-sm btn-primary">Сохранить</button>
+                                    </form>
                                 </td>
                                 <td>{{number_format($p->deposit,2)}} ₽</td>
                                 <td>

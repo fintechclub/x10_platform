@@ -86,6 +86,7 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::post('/admin/users/import-portfolio', 'Admin\UsersController@postImportPortfolio');
     Route::get('/admin/users/clear-portfolio/{portfolio}', 'Admin\UsersController@getClearPortfolio');
     Route::post('/admin/users/create', 'Admin\UsersController@postCreateUser');
+    Route::post('/admin/users/update-portfolio/{p}', 'Admin\UsersController@postUpdatePortfolio');
 
 });
 

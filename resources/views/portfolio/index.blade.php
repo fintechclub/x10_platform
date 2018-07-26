@@ -19,7 +19,7 @@
             <div class="col-sm-4 mb-4">
 
                 <div class="card cursor-pointer" onclick="location.href='/portfolio/{{$p->id}}'">
-                    <h5 class="card-header">Портфель #{{$p->id}}</h5>
+                    <h5 class="card-header">{{$p->getTitle()}}</h5>
                     <div class="card-body portfolio-item">
                         <span class="text-bigger">{{number_format($p->balance['rub'], 2)}} ₽</span>
                         <span class="text-bigger {{$p->profit>0 ? 'green': 'red'}}">{{number_format($p->profit,2)}} %</span>

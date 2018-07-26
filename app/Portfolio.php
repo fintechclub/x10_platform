@@ -670,4 +670,18 @@ class Portfolio extends Model
 
     }
 
+    /**
+     * Get portfolio title
+     */
+    public function getTitle()
+    {
+
+        if ($this->title) {
+            return $this->title;
+        }
+
+        return 'Портфель #' . $this->id;
+
+    }
+
 }

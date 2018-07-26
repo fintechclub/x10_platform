@@ -29,7 +29,7 @@ class PortfolioController extends Controller
         // if portfolio is here, show portfolio details
         if ($portfolio->id) {
 
-            $this->seo()->setTitle('Просмотр портфеля');
+            $this->seo()->setTitle($portfolio->getTitle());
 
             $data['portfolio'] = $portfolio;
             $data['user'] = $user;
