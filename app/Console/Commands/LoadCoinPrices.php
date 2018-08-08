@@ -45,7 +45,6 @@ class LoadCoinPrices extends Command
         $bar = $this->output->createProgressBar(10);
 
         for ($j = 0; $j < 10; $j++) {
-
             $url = 'https://api.coingecko.com/api/v3/coins?order=gecko_desc%20&per_page=500&page=' . $j;
 
             $data = file_get_contents($url);
@@ -53,11 +52,9 @@ class LoadCoinPrices extends Command
 
             // save to assets
             foreach ($json as $coin) {
-
-                $asset = Asset::where('ticker', '=', strtoupper($coin->symbol))->first();
+                $asset = Asset::where('coingecko_id', '=', $coin->id)->first();
 
                 if ($asset) {
-
                     // create new asset price row
                     $rate = new AssetRate();
 
@@ -74,18 +71,13 @@ class LoadCoinPrices extends Command
                     $rate->save();
 
                     $total++;
-
                 }
-
             }
 
             $bar->advance();
-
         }
 
         $bar->finish();
         echo 'Done ' . $total . PHP_EOL;
-
     }
-
 }
