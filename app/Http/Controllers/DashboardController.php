@@ -70,12 +70,10 @@ class DashboardController extends Controller
         $data['labels'] = array_keys($assetsInBtc);
         $data['chartData'] = array_values($assetsInBtc);
 
-        $data['chartData2'] = []
+        $data['chartData2'] = [];
             
-        foreach ($assetsInBtc as $key => $value)
-        {
+        foreach($assetsInBtc as $key => $value) {
             array_push($data['chartData2'], ["asset" => $key, "value" => $value]);
-            
         }
         
         return view('dashboard.one-item', $data);
