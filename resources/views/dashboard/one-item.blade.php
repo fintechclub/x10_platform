@@ -122,7 +122,7 @@
 
 
     <script>
-        $(function () {
+        
             var chart = AmCharts.makeChart( "chartdiv", {
                           "type": "pie",
                           "theme": "light",
@@ -160,6 +160,6 @@
                 }
             });*/
 
-        });
+        
     </script>
 @endsection
