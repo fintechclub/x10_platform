@@ -75,11 +75,11 @@
                                         ({{$item->asset->title}})
                                     </td>
                                     <td class="text-right">
-                                        <span v-if="{{$item->amount}} % 1 == 0">
-                                            {{number_format($item->amount, 5)}}
+                                        <span v-if="{{floor($item->amount)}} == {{$item->amount}}">
+                                            {{number_format($item->amount, 1)}}
                                         </span>
                                         <span v-else>
-                                            {{number_format($item->amount, 1)}}
+                                            {{number_format($item->amount, 5)}}
                                         </span>
                                     </td>
                                     <td class="text-right">{{number_format($item->getShare(),2)}} %</td>
