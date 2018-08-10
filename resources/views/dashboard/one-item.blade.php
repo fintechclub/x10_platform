@@ -100,8 +100,11 @@
                     <canvas id="chartdiv" width="400px" height="400px"></canvas>
 
                 </div>
+<<<<<<< HEAD
                 
                 
+=======
+>>>>>>> parent of e700acd... -
             </div>
 
         </div>
@@ -111,6 +114,7 @@
 
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<<<<<<< HEAD
     <script src="/js/aWapBE.js"></script> 
     
     <!--<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
@@ -145,5 +149,31 @@
                     }
                 });
        }     
+=======
+    <script src="/js/aWapBE.js"></script>
+    <script>
+        $(function () {
+            new Chart(document.getElementById("piechart"), {
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'left',
+                    }
+                },
+                "type": "doughnut",
+                "data": {
+                    "labels": {!! json_encode($labels) !!},
+                    "datasets": [{
+                        "label": "",
+                        "data": {!! json_encode($chartData) !!},
+                        "backgroundColor": palette('qualitative', {{count($chartData)}}).map(function (hex) {
+                            return '#' + hex;
+                        })
+                    }],
+                }
+            });
+
+        });
+>>>>>>> parent of e700acd... -
     </script>
 @endsection
