@@ -116,7 +116,7 @@ class PortfolioAsset extends Model
             return 0;
         }
 
-        $share = $this->amount * $this->avg_buy_price_btc / $this->portfolio->balance['btc'] * 100;
+        $share = $this->amount * $this->price_btc / $this->portfolio->balance['btc'] * 100;
 
         return $share;
 
