@@ -99,6 +99,10 @@
                     <canvas id="piechart" width="400" height="400"></canvas>
 
                 </div>
+                
+                <div>
+                    {!! echo( json_encode($chartData) ); !!}
+                </div>
             </div>
 
         </div>
@@ -107,11 +111,38 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-    <script src="/js/aWapBE.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script src="/js/aWapBE.js"></script> -->
+    
+    <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+    <script src="https://www.amcharts.com/lib/3/pie.js"></script>
+    <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+    <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+
+
+
     <script>
         $(function () {
-            new Chart(document.getElementById("piechart"), {
+            
+            var chart = AmCharts.makeChart( "piechart", {
+                          "type": "pie",
+                          "theme": "light",
+                          "dataProvider": [ {!! json_encode($chartData) !!} ],
+                          "valueField": "value",
+                          "titleField": "country",
+                          "outlineAlpha": 0.4,
+                          "depth3D": 15,
+                          "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                          "angle": 30,
+                          "export": {
+                            "enabled": true
+                          }
+                        } );
+            
+            
+            
+            /*new Chart(document.getElementById("piechart"), {
                 options: {
                     responsive: true,
                     legend: {
@@ -129,7 +160,7 @@
                         })
                     }],
                 }
-            });
+            });*/
 
         });
     </script>
