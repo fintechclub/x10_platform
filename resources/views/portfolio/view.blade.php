@@ -149,7 +149,7 @@
         });
 
         Vue.filter("formatPercent", function (value) {
-            return numeral(value).format("0,0.0");
+            return numeral(value).format("0,0.00");
         });
 
         Vue.filter("formatBtc", function (value) {
