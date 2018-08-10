@@ -101,9 +101,7 @@
 
                 </div>
                 
-                <div>
-                    {!! json_encode($chartData2) !!}
-                </div>
+                
             </div>
 
         </div>
@@ -125,7 +123,6 @@
 
     <script>
         $(function () {
-            alert(1);
             var chart = AmCharts.makeChart( "chartdiv", {
                           "type": "pie",
                           "theme": "light",
@@ -134,10 +131,10 @@
                           "titleField": "asset",
                           "outlineAlpha": 0.4,
                           "depth3D": 15,
-                          "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                          "balloonText": "[[title]]<br><span style='font-size:10px'><b>[[value]]%</b></span>",
                           "angle": 30,
                           "export": {
-                            "enabled": true
+                            "enabled": false
                           }
                         } );
             
