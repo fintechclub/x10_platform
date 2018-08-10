@@ -36,7 +36,7 @@
                         </tr>
                         <tr>
                             <td>@{{ portfolio.balance.btc | format5 }}</td>
-                            <td>@{{ portfolio.balance.usd  | formatUsd}}</td>
+                            <td>$@{{ portfolio.balance.usd  | formatUsd}}</td>
                             <td>@{{ portfolio.balance.rub  | formatUsd}}</td>
                         </tr>
                     </table>
@@ -56,7 +56,7 @@
                             <td>BTC/RUB</td>
                         </tr>
                         <tr>
-                            <td><span v-if="rates.btc_usd">@{{ rates.btc_usd  | formatUsd}}</span></td>
+                            <td><span v-if="rates.btc_usd">$@{{ rates.btc_usd  | formatUsd}}</span></td>
                             <td><span v-if="rates.btc_rub">@{{ rates.btc_rub  | formatUsd}}</span></td>
                         </tr>
                     </table>
@@ -86,11 +86,11 @@
                         <tr v-for="item in sortArrays(current.items)" v-if="item.amount>min_amount">
                             <td>@{{ item.asset.ticker }} (@{{ item.asset.title }})</td>
                             <td class="text-right">@{{ item.amount | format5 }}</td>
-                            <td class="text-right">@{{ item.avg_buy_price_btc | format5}}</td>
-                            <td class="text-right">@{{ item.avg_buy_price_usd | format5}}</td>
+                            <td class="text-right">@{{ item.avg_buy_price_btc | formatBtc}}</td>
+                            <td class="text-right">$@{{ item.avg_buy_price_usd | formatUsd}}</td>
                             <td class="text-right">
                                 <span v-if="item.avg_sell_price_btc>0">
-                                @{{item.avg_sell_price_btc | format5}}
+                                @{{item.avg_sell_price_btc | formatBtc}}
                                 </span>
                             </td>
                             <td class="text-right">
@@ -98,8 +98,8 @@
                             </td>
                             <td class="text-right">@{{ item.price_btc | formatBtc  }}</td>
                             <td class="text-right">@{{ item.amount * item.price_btc | format5 }}</td>
-                            <td class="text-right">@{{ item.price_usd | formatUsd  }}</td>
-                            <td class="text-right">@{{ item.amount * item.price_usd | formatUsd}}</td>
+                            <td class="text-right">$@{{ item.price_usd | formatUsd  }}</td>
+                            <td class="text-right">$@{{ item.amount * item.price_usd | formatUsd}}</td>
                         </tr>
 
                     </table>
