@@ -101,7 +101,7 @@
                 </div>
                 
                 <div>
-                    {!! json_encode($chartData) !!}
+                    {!! json_encode($chartData2) !!}
                 </div>
             </div>
 
@@ -128,7 +128,7 @@
             var chart = AmCharts.makeChart( "piechart", {
                           "type": "pie",
                           "theme": "light",
-                          "dataProvider": [ {!! json_encode($chartData) !!} ],
+                          "dataProvider": [ {!! json_encode($chartData2) !!} ],
                           "valueField": "value",
                           "titleField": "country",
                           "outlineAlpha": 0.4,
