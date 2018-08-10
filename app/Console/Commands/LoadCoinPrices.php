@@ -43,9 +43,27 @@ class LoadCoinPrices extends Command
         $total = 0;
 
         $bar = $this->output->createProgressBar(10);
-
-        for ($j = 0; $j < 10; $j++) {
-            $url = 'https://api.coingecko.com/api/v3/coins?order=gecko_desc%20&per_page=500&page=' . $j;
+        
+        AssetRate::truncate();
+        
+        $assets_table = Asset::all();
+        
+        $assets_ref = [];
+            
+        foreach ($assets_table as $asset) {
+            $assets_ref[$asset->coingecko_id] = ["id" => $asset->id, "ticker"=> $asset->ticker, "updated" => 0];
+        }
+        
+        print_r($assets_ref);
+        echo("----------------------------------------------------------");
+        print_r($assets_ref["tron"]);
+        echo("----------------------------------------------------------");
+        echo($assets_ref["tron"]["ticker"]);
+        
+        return;
+            
+        for ($j = 1; $j <= 10; $j++) {
+            $url = 'https://api.coingecko.com/api/v3/coins?order=gecko_desc&per_page=500&page=' . $j;
 
             $data = file_get_contents($url);
             $json = json_decode($data);
