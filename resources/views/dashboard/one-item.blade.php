@@ -96,7 +96,8 @@
                 <h5 class="card-header">График распределения по долям</h5>
                 <div class="card-body">
 
-                    <canvas id="piechart" width="400" height="400"></canvas>
+                    
+                    <div id="chartdiv" width="400" height="400"></div>
 
                 </div>
                 
@@ -124,11 +125,11 @@
 
     <script>
         $(function () {
-            
-            var chart = AmCharts.makeChart( "piechart", {
+            alert(1);
+            var chart = AmCharts.makeChart( "chartdiv", {
                           "type": "pie",
                           "theme": "light",
-                          "dataProvider": [ {!! json_encode($chartData2) !!} ],
+                          "dataProvider": {!! json_encode($chartData2) !!},
                           "valueField": "value",
                           "titleField": "asset",
                           "outlineAlpha": 0.4,
