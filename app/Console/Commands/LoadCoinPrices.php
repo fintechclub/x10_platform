@@ -92,6 +92,6 @@ class LoadCoinPrices extends Command
         }
 
         $bar->finish();
-        echo 'Done ' . $total . ' / ' . $all_asset_count . ' assets updated in ' . (microtime(true) - $startTime) . ' sec.' . PHP_EOL;
+        echo 'Done ' . $total . ' / ' . $all_asset_count . ' assets updated in ' . round(microtime(true) - $startTime, 2) . ' sec.' . PHP_EOL;
     }
 }
