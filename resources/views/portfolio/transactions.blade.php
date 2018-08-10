@@ -17,8 +17,8 @@
                     @endcan
                 </tr>
 
-                <tr v-for="t in sortByParam(transactions,'when', 'desc')" :class="{trashed: t.deleted_at}">
-                    <td>@{{ t.when | formatDate }}</td>
+                <tr v-for="t in sortByParam(transactions, 'when', 'desc')" :class="{trashed: t.deleted_at}">
+                    <td nowrap>@{{ t.when | formatDate }}</td>
                     <td>
                         @{{ t.asset.ticker }}
                     </td>
