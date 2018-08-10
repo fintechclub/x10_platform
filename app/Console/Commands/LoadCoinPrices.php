@@ -62,7 +62,10 @@ class LoadCoinPrices extends Command
             // save to assets
             foreach ($json as $coin) {
                 
-                $asset = $assets_ref[$coin->id];
+                $asset = null;
+                    
+                if (isset($assets_ref[$coin->id]))
+                    $asset = $assets_ref[$coin->id];
                     //Asset::where('coingecko_id', '=', $coin->id)->first();
 
                 if ($asset && !$asset["updated"]) {
