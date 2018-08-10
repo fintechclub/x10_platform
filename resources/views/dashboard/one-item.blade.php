@@ -75,7 +75,7 @@
                                         ({{$item->asset->title}})
                                     </td>
                                     <td class="text-right">
-                                        <span v-if="{{floor($item->amount)}} == {{$item->amount}}">
+                                        <span v-if="floor($item->amount) == $item->amount">
                                             {{number_format($item->amount, 1)}}
                                         </span>
                                         <span v-else>
