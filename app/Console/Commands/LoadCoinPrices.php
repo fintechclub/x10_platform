@@ -39,9 +39,8 @@ class LoadCoinPrices extends Command
      */
     public function handle()
     {
-
+        $startTime = microtime(true);
         $total = 0;
-
         $bar = $this->output->createProgressBar(10);
         
         AssetRate::truncate();
@@ -93,6 +92,6 @@ class LoadCoinPrices extends Command
         }
 
         $bar->finish();
-        echo 'Done ' . $total . ' / ' . $all_asset_count . ' assets updated.' . PHP_EOL;
+        echo 'Done ' . $total . ' / ' . $all_asset_count . ' assets updated in ' . (microtime(true) - $startTime) . ' sec.' . PHP_EOL;
     }
 }
