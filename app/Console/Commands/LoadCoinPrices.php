@@ -47,21 +47,12 @@ class LoadCoinPrices extends Command
         AssetRate::truncate();
         
         $assets_table = Asset::all();
-        
         $assets_ref = [];
             
         foreach ($assets_table as $asset) {
             $assets_ref[$asset->coingecko_id] = ["id" => $asset->id, "ticker"=> $asset->ticker, "updated" => 0];
         }
-        
-        print_r($assets_ref);
-        echo("----------------------------------------------------------");
-        print_r($assets_ref["tron"]);
-        echo("----------------------------------------------------------");
-        echo($assets_ref["tron"]["ticker"]);
-        
-        return;
-            
+                
         for ($j = 1; $j <= 10; $j++) {
             $url = 'https://api.coingecko.com/api/v3/coins?order=gecko_desc&per_page=500&page=' . $j;
 
@@ -70,14 +61,17 @@ class LoadCoinPrices extends Command
 
             // save to assets
             foreach ($json as $coin) {
-                $asset = Asset::where('coingecko_id', '=', $coin->id)->first();
+                
+                $asset = $assets_ref[$coin->id]
+                    //Asset::where('coingecko_id', '=', $coin->id)->first();
 
-                if ($asset) {
+                if ($asset && !$asset["updated"]) {
+                    $asset["updated"] = 1
                     // create new asset price row
                     $rate = new AssetRate();
 
-                    $rate->asset_id = $asset->id;
-                    if ($asset->ticker == 'BTC') {
+                    $rate->asset_id = $asset["id"];
+                    if ($asset["ticker"] == 'BTC') {
                         $rate->btc = 1;
                     } else {
                         $rate->btc = @$coin->market_data->current_price->btc;
