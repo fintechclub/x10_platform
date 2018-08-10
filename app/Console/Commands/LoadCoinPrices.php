@@ -62,11 +62,11 @@ class LoadCoinPrices extends Command
             // save to assets
             foreach ($json as $coin) {
                 
-                $asset = $assets_ref[$coin->id]
+                $asset = $assets_ref[$coin->id];
                     //Asset::where('coingecko_id', '=', $coin->id)->first();
 
                 if ($asset && !$asset["updated"]) {
-                    $asset["updated"] = 1
+                    $asset["updated"] = 1;
                     // create new asset price row
                     $rate = new AssetRate();
 
