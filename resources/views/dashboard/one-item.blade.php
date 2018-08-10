@@ -101,7 +101,7 @@
                 </div>
                 
                 <div>
-                    {!! echo( json_encode($chartData) ); !!}
+                    {!! json_encode($chartData) !!}
                 </div>
             </div>
 
