@@ -130,7 +130,7 @@
                           "theme": "light",
                           "dataProvider": [ {!! json_encode($chartData2) !!} ],
                           "valueField": "value",
-                          "titleField": "country",
+                          "titleField": "asset",
                           "outlineAlpha": 0.4,
                           "depth3D": 15,
                           "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
