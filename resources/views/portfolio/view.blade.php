@@ -147,9 +147,6 @@
             return numeral(value).format("0,0.00000");
         });
         
-        Vue.filter("format4", function (value) {
-            return numeral(value).format("0,0.0000");
-        });
         
         Vue.filter("formatUsd", function (value) {
             return numeral(value).format("0,0.00");
