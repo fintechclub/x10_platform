@@ -48,7 +48,7 @@ class LoadCoinPrices extends Command
         
         $assets_table = Asset::all();
         $assets_ref = [];
-            
+        $all_asset_count = Asset::count();    
         foreach ($assets_table as $asset) {
             $assets_ref[$asset->coingecko_id] = ["id" => $asset->id, "ticker"=> $asset->ticker, "updated" => 0];
         }
@@ -82,7 +82,7 @@ class LoadCoinPrices extends Command
 
                     $rate->usd = @$coin->market_data->current_price->usd;
                     $rate->rub = @$coin->market_data->current_price->rub;
-
+                    $rate->source = "coingecko";
                     $rate->save();
 
                     $total++;
@@ -93,6 +93,6 @@ class LoadCoinPrices extends Command
         }
 
         $bar->finish();
-        echo 'Done ' . $total . PHP_EOL;
+        echo 'Done ' . $total . ' / ' . $all_asset_count . ' assets updated.' . PHP_EOL;
     }
 }
