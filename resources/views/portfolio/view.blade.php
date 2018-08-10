@@ -86,7 +86,7 @@
                         <tr v-for="item in sortArrays(current.items)" v-if="item.amount>min_amount">
                             <td>@{{ item.asset.ticker }} (@{{ item.asset.title }})</td>
                             <td class="text-right">@{{ item.amount | format5 }}</td>
-                            <td class="text-right">@{{ item.avg_buy_price_btc |  format5}}</td>
+                            <td class="text-right">@{{ item.avg_buy_price_btc | format5}}</td>
                             <td class="text-right">@{{ item.avg_buy_price_usd | format5}}</td>
                             <td class="text-right">
                                 <span v-if="item.avg_sell_price_btc>0">
@@ -94,10 +94,9 @@
                                 </span>
                             </td>
                             <td class="text-right">
-                                @{{ item.amount * item.avg_buy_price_btc / portfolio.balance.btc * 100 | formatPercent }}
-                                %
+                                @{{ item.amount * item.price_btc / portfolio.balance.btc * 100 | formatPercent }}%
                             </td>
-                            <td class="text-right">@{{ item.price_btc | format5  }}</td>
+                            <td class="text-right">@{{ item.price_btc | formatBtc  }}</td>
                             <td class="text-right">@{{ item.amount * item.price_btc | format5 }}</td>
                             <td class="text-right">@{{ item.price_usd | formatUsd  }}</td>
                             <td class="text-right">@{{ item.amount * item.price_usd | formatUsd}}</td>
@@ -143,11 +142,8 @@
         Vue.filter("format5", function (value) {
             return numeral(value).format("0,0.00000");
         });
-
-        Vue.filter("formatNumber", function (value) {
-            return numeral(value).format("0,0.00000000");
-        });
-
+        
+        
         Vue.filter("formatUsd", function (value) {
             return numeral(value).format("0,0.00");
         });
