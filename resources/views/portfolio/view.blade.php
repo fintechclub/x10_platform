@@ -87,10 +87,14 @@
                             <td>@{{ item.asset.ticker }} (@{{ item.asset.title }})</td>
                             <td class="text-right">@{{ item.amount | format5 }}</td>
                             <td class="text-right">@{{ item.avg_buy_price_btc | formatBtc}}</td>
-                            <td class="text-right">$@{{ item.avg_buy_price_usd | formatUsd}}</td>
                             <td class="text-right">
-                                <span v-if="item.avg_sell_price_btc>0">
-                                @{{item.avg_sell_price_btc | formatBtc}}
+                                <span v-if="item.avg_buy_price_usd > 0">
+                                    $@{{ item.avg_buy_price_usd | formatUsd}}
+                                </span>
+                            </td>    
+                            <td class="text-right">
+                                <span v-if="item.avg_sell_price_btc > 0">
+                                    @{{item.avg_sell_price_btc | formatBtc}}
                                 </span>
                             </td>
                             <td class="text-right">
