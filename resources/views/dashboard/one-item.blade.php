@@ -74,7 +74,14 @@
                                         {{$item->asset->ticker}}
                                         ({{$item->asset->title}})
                                     </td>
-                                    <td class="text-right">{{number_format($item->amount, 5)}}</td>
+                                    <td class="text-right">
+                                        <span v-if="1==1">
+                                            {{number_format($item->amount, 1)}}
+                                        </span>
+                                        <span v-else>
+                                            {{number_format($item->amount, 5)}}
+                                        </span>
+                                    </td>
                                     <td class="text-right">{{number_format($item->getShare(),2)}} %</td>
                                 </tr>
                             @endif
