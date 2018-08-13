@@ -140,6 +140,5 @@
             });
 
         });
->>>>>>> parent of e700acd... -
     </script>
 @endsection
