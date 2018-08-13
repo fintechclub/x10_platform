@@ -103,7 +103,7 @@
                 <h5 class="card-header">График распределения по долям</h5>
                 <div class="card-body">
  
-                    <div id="chartdiv" width="600px" height="600px"></div>
+                    
                     
                     <!--canvas id="piechart" width="400px" height="400px"></canvas-->
 
@@ -112,7 +112,7 @@
 
         </div>
     </div>
-
+    <div id="chartdiv" width="600px" height="600px"></div>
 @endsection
 
 @section('scripts')
