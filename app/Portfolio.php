@@ -327,8 +327,8 @@ class Portfolio extends Model
             if ($btc > 0 && $usd > 0) {
 
                 return [
-                    'btc' => ($btc - $snapshot->btc) / $btc * 100,
-                    'usd' => ($usd - $snapshot->usd) / $usd * 100
+                    'btc' => (($btc / $snapshot->btc) - 1 ) * 100,
+                    'usd' => (($usd / $snapshot->usd) - 1 ) * 100
                 ];
 
             }
