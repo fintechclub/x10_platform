@@ -41,7 +41,7 @@
 
         <div class="col-sm-3">
             <div class="colored-card grow">
-                <h3>Срок жизни портфеля, дн</h3>
+                <h3>Срок действия портфеля, дн</h3>
                 <div class="card-body">
                     <strong>
                         {{$p->getLifeTime()}}
@@ -74,14 +74,7 @@
                                         {{$item->asset->ticker}}
                                         ({{$item->asset->title}})
                                     </td>
-                                    <td class="text-right">
-                                        <span v-if="1==1">
-                                            {{number_format($item->amount, 1)}}
-                                        </span>
-                                        <span v-else>
-                                            {{number_format($item->amount, 5)}}
-                                        </span>
-                                    </td>
+                                    <td class="text-right">{{number_format($item->amount, 5)}}</td>
                                     <td class="text-right">{{number_format($item->getShare(),2)}} %</td>
                                 </tr>
                             @endif
@@ -100,7 +93,7 @@
         <div class="col-sm-6">
 
             <div class="card">
-                <h5 class="card-header">График распределения по долям</h5>
+                <h5 class="card-header">Распределение по долям</h5>
                 <div class="card-body">
                     <canvas id="piechart" width="400px" height="400px"></canvas>
                 </div>
@@ -113,13 +106,6 @@
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
     <script src="/js/aWapBE.js"></script>
-    
-    <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-    <script src="https://www.amcharts.com/lib/3/pie.js"></script>
-    <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
-    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
-    <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
-
 
     <script>
         $(function () {
