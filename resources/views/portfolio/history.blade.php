@@ -24,7 +24,7 @@
                 </tr>
 
                 <tr v-for="(s,index) in snapshots" v-if="s.btc>0">
-                    <td>@{{ s.created_at | formatDate }}</td>
+                    <td nowrap>@{{ s.created_at | formatDate }}</td>
                     <td class="text-right">@{{ s.usd| formatUsd }}</td>
                     <td class="text-right">@{{ s.btc| format5}}</td>
                     <td class="text-right" :class="[getDifference(s, index, 'usd')<0 ? 'text-danger' : 'text-success']">
