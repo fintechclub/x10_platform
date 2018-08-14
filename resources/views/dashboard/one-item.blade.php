@@ -95,7 +95,7 @@
             <div class="card">
                 <h5 class="card-header">Распределение по долям</h5>
                 <div class="card-body">
-                    <canvas id="piechart" width="400px" height="600px"></canvas>
+                    <canvas id="piechart" width="400px" height="500px"></canvas>
                 </div>
             </div>
 
